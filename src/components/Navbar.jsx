@@ -15,7 +15,7 @@ import { FaSearch } from "react-icons/fa";
       // => @media (min-width: 1280px) { ... }
 
 const StyledDiv = styled.div`
-  width: 100%;
+  width: 100vw;
   height: 70px;
   background-color: #0B132B;
   color: #ffff;

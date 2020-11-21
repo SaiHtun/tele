@@ -11,6 +11,7 @@ const Hero = styled.div`
   max-width: 1430px;
   margin: 0 auto;
   height: 60vh;
+  /* overflow-x: hidden; */
 
   @media only screen and (max-width: 600px) {
     height: 100vh;
@@ -24,9 +25,6 @@ const Img = styled.img`
   width: 100%;
   object-fit: contain;
   margin-bottom: -150px;
-  -webkit-mask-image: linear-gradient(to top, transparent 10%, black 50%);
-  mask-image: linear-gradient(to top, transparent 10%, black 50%);
-  z-index: -10;
   
   @media only screen and (max-width: 1000px) {
     object-fit: cover;
@@ -36,7 +34,12 @@ const Img = styled.img`
   @media only screen and (max-width: 600px) {
     object-fit: cover;
     height: 70vh;
-    margin-bottom: -10px;
+    margin-bottom: -70px;
+  }
+  @media only screen and (max-width: 400px) {
+    object-fit: cover;
+    height: 70vh;
+    margin-bottom: -150px;
   }
  
 `;
@@ -75,7 +78,7 @@ const Showcase = styled.div`
     }
   }
  
-  @media only screen and (max-width: 400px) {
+  @media only screen and (max-width: 500px) {
     margin: 0 0;
     :hover {
      overflow-x: hidden;
@@ -121,10 +124,7 @@ const ShowcaseItem = styled.div`
 
 // ###################################### Ads ######################################
 const Ads = styled.img`
-  width: 1400px;
-  margin: 0;
-  padding: 0;
-
+  width: 100%;
   @media only screen and (max-width: 800px) {
    
   }
