@@ -2,10 +2,13 @@ import React from 'react';
 import styled, { css } from 'styled-components';
 import TeleImg from '../assets/telesky.JPG';
 import sps from '../assets/sps.JPG';
+import ads from '../assets/ads.JPG';
 
+
+// ###################################### Hero ######################################
 const Hero = styled.div`
   width: 100vw;
-  max-width: 1360px;
+  max-width: 1430px;
   margin: 0 auto;
   height: 60vh;
 
@@ -16,20 +19,24 @@ const Hero = styled.div`
 
 `;
 
+// ###################################### Img ######################################
 const Img = styled.img`
   width: 100%;
   object-fit: contain;
+  margin-bottom: -150px;
   -webkit-mask-image: linear-gradient(to top, transparent 10%, black 50%);
   mask-image: linear-gradient(to top, transparent 10%, black 50%);
   z-index: -10;
   
-  @media only screen and (max-width: 900px) {
+  @media only screen and (max-width: 1000px) {
     object-fit: cover;
     height: 60vh;
+    margin-bottom: -60px;
   }
   @media only screen and (max-width: 600px) {
     object-fit: cover;
     height: 70vh;
+    margin-bottom: -10px;
   }
  
 `;
@@ -38,10 +45,11 @@ Img.defaultProps = {
   src: TeleImg
 }
 
+
+// ###################################### Showcase ######################################
 const Showcase = styled.div`
   margin: 0 30px;
   height: 450px;
-  transform: translateY(-250px);
   display: flex;
   align-items: flex-start;
   justify-content: center;
@@ -53,31 +61,38 @@ const Showcase = styled.div`
     justify-content: flex-start;
    
     :hover {
-    overflow-x: scroll; 
+      overflow-x: scroll; 
     }
   }
-  @media only screen and (max-width: 1000px) {
-    transform: translateY(-120px);
-
+  @media only screen and (max-width: 900px) {
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    height: auto;
+    margin-bottom: 10px;
     :hover {
-     overflow-x: scroll;
+     overflow-x: hidden;
     }
   }
  
-  @media only screen and (max-width: 600px) {
-    transform: translateY(-150px);
-    gap: 50px;
+  @media only screen and (max-width: 400px) {
+    margin: 0 0;
+    :hover {
+     overflow-x: hidden;
+    }
   }
 `;
 
+// ###################################### ShowcaseItem ######################################
 const ShowcaseItem = styled.div`
   min-width: 270px;
   width: 350px;
   height: 420px;
   padding: 15px;
-  margin-right: 20px;
+  margin-right: 10px;
   background-color: white;
   box-shadow: 0 0.5em 1em -0.125em rgba(10,10,10,.10), 0 0 0 1px rgba(10,10,10,.02);
+  height: max-content;
 
   .showcaseGrid {
     display: grid;
@@ -96,8 +111,29 @@ const ShowcaseItem = styled.div`
   @media only screen and (max-width: 1000px) {
     min-width: 280px;
   }
+  @media only screen and (max-width: 900px) {
+    min-width: 280px;
+    margin-bottom: 20px;
+
+  }
  
 `;
+
+// ###################################### Ads ######################################
+const Ads = styled.img`
+  width: 1400px;
+  margin: 0;
+  padding: 0;
+
+  @media only screen and (max-width: 800px) {
+   
+  }
+`;
+
+Ads.defaultProps = {
+  src: ads
+};
+
 
 const info = {
   title: "Smart phone and watch",
@@ -125,6 +161,7 @@ function Home() {
           )
         })}
       </Showcase>
+      <Ads></Ads>
       <div style={{ height: '1000px'}}>
 
       </div>
