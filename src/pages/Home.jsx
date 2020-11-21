@@ -5,6 +5,8 @@ import sps from '../assets/sps.JPG';
 
 const Hero = styled.div`
   width: 100vw;
+  max-width: 1360px;
+  margin: 0 auto;
   height: 60vh;
 
   @media only screen and (max-width: 600px) {
@@ -25,6 +27,10 @@ const Img = styled.img`
     object-fit: cover;
     height: 60vh;
   }
+  @media only screen and (max-width: 600px) {
+    object-fit: cover;
+    height: 70vh;
+  }
  
 `;
 
@@ -39,7 +45,6 @@ const Showcase = styled.div`
   display: flex;
   align-items: flex-start;
   justify-content: center;
-  gap: 20px;
   overflow-x: hidden;
   overflow-y: hidden;
   z-index: 10;
@@ -58,10 +63,9 @@ const Showcase = styled.div`
      overflow-x: scroll;
     }
   }
-  @media only screen and (max-width: 800px) {
-    gap: 30px;
-  }
+ 
   @media only screen and (max-width: 600px) {
+    transform: translateY(-150px);
     gap: 50px;
   }
 `;
@@ -71,6 +75,7 @@ const ShowcaseItem = styled.div`
   width: 350px;
   height: 420px;
   padding: 15px;
+  margin-right: 20px;
   background-color: white;
   box-shadow: 0 0.5em 1em -0.125em rgba(10,10,10,.10), 0 0 0 1px rgba(10,10,10,.02);
 
