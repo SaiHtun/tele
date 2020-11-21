@@ -45,12 +45,12 @@ const Brand = styled.h2`
   }
   @media only screen  and (max-width: 780px) {
     text-align: center;
-    flex: 3;
+    flex: 4;
   };
-  @media only screen  and (max-width: 600px) {
+  /* @media only screen  and (max-width: 600px) {
     text-align: center;
-    flex: 5;
-  };
+    flex: 6;
+  }; */
 `
 
 const Search = styled.div`
