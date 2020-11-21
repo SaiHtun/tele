@@ -1,2 +1,3 @@
-let arr = new Array(4).fill('haha');
-console.log(arr);
+const str = "Lorem ipsum dolor sit amet consectetur adipisicing elit.m!Lorem ipsum dolor sit amet consectetur adipisicing elit.m!"
+
+console.log(str.substring(0, 10));
