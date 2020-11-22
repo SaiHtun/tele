@@ -159,10 +159,14 @@ Ads.defaultProps = {
 const Row = styled.div`
   margin: 0px 30px;
   height: 380px;
-  padding: 15px 20px;
+  padding: 20px;
   background-color: #fff;
   
+  @media only screen and (max-width: 500px) {
+     margin: 0px;
+  }
 
+  
 
   .rowContainer {
     display: flex;
@@ -170,6 +174,8 @@ const Row = styled.div`
     align-items: center;
     overflow-x: hidden;
     overflow-y: hidden;
+
+    
 
     ::-webkit-scrollbar {
       height: 5px;
@@ -201,6 +207,34 @@ const Row = styled.div`
     justify-content: space-between;
     align-items: center;
 
+    
+    h3 {
+      position: relative; 
+
+      ::after {
+        position: absolute;
+        content: '';
+        height: 3px;
+        bottom: -6px; 
+        margin: 0 auto;
+        left: 0;
+        right: 0;
+        width: 50%;
+        background: #1698BA;
+		  -o-transition:.5s;
+  		  -ms-transition:.5s;
+        -moz-transition:.5s;
+        -webkit-transition:.5s;
+        transition:.5s;
+      }
+
+      :hover::after {
+        width: 100%;
+        background: teal;
+      }
+    }
+    
+
   }
 
   .rowItem {
@@ -224,6 +258,8 @@ const Row = styled.div`
 
       .itemTitle {
         font-weight: bold;
+
+       
       }
 
       .itemDes {
