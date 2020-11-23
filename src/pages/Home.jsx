@@ -4,14 +4,11 @@ import TeleImg from '../assets/telesky.JPG';
 import sps from '../assets/sps.JPG';
 import ads from '../assets/ads.JPG';
 import { AiFillAlipayCircle, AiFillAndroid, AiFillCloud, AiFillGooglePlusSquare} from 'react-icons/ai';
-import Slider from "react-slick";
-// import Settings from '../constants/carousel';
-
+import { color, fontSize } from '../constants/variables';
 // Variables
-const lightBlue = "#1698BA";
+const {lightBlue, darkBlue} = color;
+const { cardTitleText, bodyText, linkText, desText } = fontSize;
 // eslint-disable-next-line
-const darkBlue = "#0B132B"
-
 
 // ###################################### Hero ######################################
 const Hero = styled.div`
@@ -52,12 +49,12 @@ const Img = styled.img`
   @media only screen and (max-width: 600px) {
     object-fit: cover;
     height: 70vh;
-    margin-bottom: -70px;
+    margin-bottom: -150px;
   }
   @media only screen and (max-width: 400px) {
     object-fit: cover;
     height: 70vh;
-    margin-bottom: -150px;
+    margin-bottom: -200px;
   }
  
 `;
@@ -70,7 +67,7 @@ Img.defaultProps = {
 // ###################################### Showcase ######################################
 const Showcase = styled.div`
   margin: 0 30px;
-  height: 430px;
+  height: 410px;
   display: flex;
   align-items: flex-start;
   justify-content: center;
@@ -124,19 +121,19 @@ const ShowcaseItem = styled.div`
   min-width: 270px;
   width: 350px;
   height: 420px;
-  margin: 15px;
+  margin: 10px;
   padding: 15px;
   background-color: white;
   box-shadow: 0 0.5em 1em -0.125em rgba(10,10,10,.10), 0 0 0 1px rgba(10,10,10,.02);
   height: max-content;
 
   h3 {
-    font-size: 18px;
+    font-size: ${cardTitleText};
     font-weight: 500;
   }
 
   a {
-    font-size: 15px !important;
+    font-size: ${linkText} !important;
     color: ${lightBlue};
   }
 
@@ -144,7 +141,7 @@ const ShowcaseItem = styled.div`
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     grid-template-rows: repeat(2, 1fr);
-    gap: 15px;
+    gap: 10px;
     margin: 30px 0;
 
     img {
@@ -165,8 +162,11 @@ const ShowcaseItem = styled.div`
   }
   @media only screen and (max-width: 900px) {
     min-width: 280px;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
 
+  }
+  @media only screen and (max-width: 600px) {
+      margin-bottom: 5px;
   }
  
 `;
@@ -174,10 +174,11 @@ const ShowcaseItem = styled.div`
 // ###################################### Ads ######################################
 const Ads = styled.img`
   width: 100%;
-  margin-top: 25px;
+  margin-top: 20px;
   margin-bottom: 30px;
+
   @media only screen and (max-width: 800px) {
-   
+    margin: 10px 0px;
   }
 `;
 
@@ -188,14 +189,15 @@ Ads.defaultProps = {
 // ###################################### row ######################################
 const Row = styled.div`
   margin: 0px 30px;
-  height: 390px;
+  min-height: 450px;
+  height: max-content;
   padding: 30px 10px 10px 30px;
   background-color: #fff;
-
   
-  
-  @media only screen and (max-width: 500px) {
+ 
+  @media only screen and (max-width: 800px) {
      margin: 0px;
+     margin-bottom: 5px;
   }
 
   
@@ -207,6 +209,7 @@ const Row = styled.div`
     overflow-x: hidden;
     overflow-y: hidden;
     transition: all .3s;
+    margin-top: 15px;
 
     ::-webkit-scrollbar {
       height: 5px;
@@ -254,7 +257,7 @@ const Row = styled.div`
         content: '';
         height: 3px;
         bottom: -6px; 
-        margin: 0 auto;
+        margin: 0;
         left: 0;
         right: 0;
         width: 50%;
@@ -275,19 +278,29 @@ const Row = styled.div`
   }
 
   .rowItem {
-    width: 260px;
+    min-width: 230px;
     height: 80%;
     text-align: center;
-    padding: 15px 5px;
-    margin: 20px;
+    margin: 10px;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
 
-    img {
-      width: 170px;
-      object-fit: contain;
+    @media only screen and (max-width: 500px) {
+      margin: 5px;
+      text-align: left;
+
+    }
+
+    .imgContainer {
+      width: 100%;
+      height: 240px;
+
+      img {
+        width: 100%;
+        height: 100%;
+      }
     }
 
     .itemInfo {
@@ -301,7 +314,7 @@ const Row = styled.div`
       }
 
       .itemDes {
-        font-size: 14px;
+        font-size: ${desText};
         color: #676767;
       }
     }
@@ -334,18 +347,23 @@ const Features = styled.div`
       font-size: 14px !important;
     }
   }
+
+  @media only screen and (max-width: 800px) {
+    display: none;
+  }
 `;
 
 const features = [{ icon: <AiFillAlipayCircle/>, blog: "lorem asdf awrshyg qwtr hswre awet"}, { icon: <AiFillAndroid/>, blog: "lorem asdf awrshyg qwtr hswre awet"},
 { icon: <AiFillCloud/>, blog: "lorem asdf awrshyg qwtr hswre awet"},{ icon: <AiFillGooglePlusSquare/>, blog: "lorem asdf awrshyg qwtr hswre awet"} ];
 
 const info = {
+  name: "Samsung",
   title: "Smart phone and watch",
   img: [sps, sps, sps, sps],
 };
 
 const items = {
-  title: "Samsung",
+  name: "Samsung",
   des: "Lorem ipsum dolor sit amet consectetur adipisicing elit.m!Lorem ipsum dolor sit amet consectetur adipisicing elit.m!",
   price: "$350",
   img: sps
@@ -360,41 +378,7 @@ const stringCutter = (str) => {
 
 
 function Home() {
-  const settings = {
-    dots: true,
-    infinite: false,
-    speed: 500,
-    slidesToShow: 4,
-    slidesToScroll: 4,
-    initialSlide: 0,
-    responsive: [
-      {
-        breakpoint: 1024,
-        settings: {
-          slidesToShow: 3,
-          slidesToScroll: 3,
-          infinite: true,
-          dots: true
-        }
-      },
-      {
-        breakpoint: 600,
-        settings: {
-          slidesToShow: 2,
-          slidesToScroll: 2,
-          initialSlide: 2
-        }
-      },
-      {
-        breakpoint: 480,
-        settings: {
-          slidesToShow: 1,
-          slidesToScroll: 1
-        }
-      }
-    ]
-  }
-
+  
 
 
 
@@ -407,7 +391,7 @@ function Home() {
       <Img ></Img>
       {/* showcase */}
       <Showcase>
-        { new Array(4).fill(info).map((info, i) => {
+        { new Array(3).fill(info).map((info, i) => {
           return (
             <ShowcaseItem key={i}>
               <h3>{ info.title }</h3>
@@ -435,9 +419,11 @@ function Home() {
             { new Array(5).fill(items).map((item, i) => {
               return (
                 <div className="rowItem" key={i}>
-                  <img src={item.img} alt="#"/>
+                  <div className="imgContainer">
+                    <img src={item.img} alt={item.name}/>
+                  </div>
                   <div className="itemInfo">
-                    <p className="itemTitle">{ item.title }</p>
+                    <p className="itemTitle">{ item.name }</p>
                     <p className="itemDes">{ stringCutter(item.des) }</p>
                     <small>{ item.price }</small>
                   </div>
@@ -469,9 +455,11 @@ function Home() {
           { new Array(5).fill(items).map((item, i) => {
             return (
               <div className="rowItem" key={i}>
-                <img src={item.img} alt="#"/>
+                <div className="imgContainer">
+                  <img src={item.img} alt={item.name}/>
+                </div>
                 <div className="itemInfo">
-                  <p className="itemTitle">{ item.title }</p>
+                  <p className="itemTitle">{ item.name }</p>
                   <p className="itemDes">{ stringCutter(item.des) }</p>
                   <small>{ item.price }</small>
                 </div>

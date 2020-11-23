@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { FaSearch } from "react-icons/fa";
+import { color } from '../constants/variables';
+
+const { lightBlue, darkBlue } = color;
 
 // 'sm': '640px',
       // => @media (min-width: 640px) { ... }
@@ -14,11 +17,13 @@ import { FaSearch } from "react-icons/fa";
       // 'xl': '1280px',
       // => @media (min-width: 1280px) { ... }
 
-const StyledDiv = styled.div`
+const Nav = styled.div`
   width: 100vw;
   height: 70px;
-  background-color: #0B132B;
+  background-color:${darkBlue};
   color: #ffff;
+
+
 
 `
 
@@ -35,11 +40,16 @@ const Container = styled.div`
     justify-content: space-between;
   };
 
+  @media only screen  and (max-width: 500px) {
+    width: 90vw;
+    justify-content: space-between;
+  };
+
 `
 
 const Brand = styled.h2`
   span {
-    color:  #1698BA;
+    color: ${lightBlue};
     font-size: 1.2em;
     font-weight: bold;
   }
@@ -47,10 +57,9 @@ const Brand = styled.h2`
     text-align: center;
     flex: 4;
   };
-  /* @media only screen  and (max-width: 600px) {
-    text-align: center;
-    flex: 6;
-  }; */
+  @media only screen  and (max-width: 500px) {
+    margin-right: 10px;
+  };
 `
 
 const Search = styled.div`
@@ -67,7 +76,7 @@ const Search = styled.div`
 
     :focus {
       outline: none !important;
-      border: 2px solid #1698BA;
+      border: 2px solid ${lightBlue};
     }
   }
   .form {
@@ -78,7 +87,7 @@ const Search = styled.div`
     position: absolute;
     top: 23px;
     right: 15px;
-    color:  #0B132B;
+    color:  ${darkBlue};
     cursor: pointer;
   }
 
@@ -138,7 +147,7 @@ function Navbar() {
 
 
   return (
-    <StyledDiv>
+    <Nav>
       <Container>
         <Humberger>
           <div className="stick one"></div>
@@ -160,7 +169,7 @@ function Navbar() {
           </ul>
         </Menu>
       </Container>
-    </StyledDiv>
+    </Nav>
   )
 }
 
