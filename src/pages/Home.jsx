@@ -3,6 +3,14 @@ import styled, { css } from 'styled-components';
 import TeleImg from '../assets/telesky.JPG';
 import sps from '../assets/sps.JPG';
 import ads from '../assets/ads.JPG';
+import { AiFillAlipayCircle, AiFillAndroid, AiFillCloud, AiFillGooglePlusSquare} from 'react-icons/ai';
+import Slider from "react-slick";
+// import Settings from '../constants/carousel';
+
+// Variables
+const lightBlue = "#1698BA";
+// eslint-disable-next-line
+const darkBlue = "#0B132B"
 
 
 // ###################################### Hero ######################################
@@ -11,6 +19,12 @@ const Hero = styled.div`
   max-width: 1450px;
   margin: 0 auto;
   height: 60vh;
+  font-family: 'Roboto', sans-serif;
+
+  a {
+    color: ${lightBlue}
+  }
+
   ::-webkit-scrollbar {
     background-color: red;
   }
@@ -74,7 +88,7 @@ const Showcase = styled.div`
   }
 
   ::-webkit-scrollbar-thumb {
-    background-color: #1698BA;
+    background-color: ${lightBlue};
 
   }
 
@@ -116,6 +130,16 @@ const ShowcaseItem = styled.div`
   box-shadow: 0 0.5em 1em -0.125em rgba(10,10,10,.10), 0 0 0 1px rgba(10,10,10,.02);
   height: max-content;
 
+  h3 {
+    font-size: 18px;
+    font-weight: 500;
+  }
+
+  a {
+    font-size: 15px !important;
+    color: ${lightBlue};
+  }
+
   .showcaseGrid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -125,8 +149,14 @@ const ShowcaseItem = styled.div`
 
     img {
       width: 100%;
-      
+      transition: transform .3s ease-out;
     }
+
+    img:hover {
+      transform: scale(1.1)
+    }
+
+    
 
   }
 
@@ -158,9 +188,11 @@ Ads.defaultProps = {
 // ###################################### row ######################################
 const Row = styled.div`
   margin: 0px 30px;
-  height: 380px;
-  padding: 20px;
+  height: 390px;
+  padding: 30px 10px 10px 30px;
   background-color: #fff;
+
+  
   
   @media only screen and (max-width: 500px) {
      margin: 0px;
@@ -174,8 +206,7 @@ const Row = styled.div`
     align-items: center;
     overflow-x: hidden;
     overflow-y: hidden;
-
-    
+    transition: all .3s;
 
     ::-webkit-scrollbar {
       height: 5px;
@@ -191,15 +222,22 @@ const Row = styled.div`
 
     }
 
+   
 
     @media only screen and (max-width: 1200px) {
       justify-content: flex-start;
+      transition: overflow-x 1.2s ease-out;
     
       :hover {
         overflow-x: scroll; 
       }
     }
+    @media only screen and (max-width: 500px) {
+      overflow-x: scroll;
+    }
   }
+
+ 
 
   .rowTitle {
     width: 300px;
@@ -220,7 +258,7 @@ const Row = styled.div`
         left: 0;
         right: 0;
         width: 50%;
-        background: #1698BA;
+        background: ${lightBlue};
 		  -o-transition:.5s;
   		  -ms-transition:.5s;
         -moz-transition:.5s;
@@ -230,7 +268,6 @@ const Row = styled.div`
 
       :hover::after {
         width: 100%;
-        background: teal;
       }
     }
     
@@ -238,10 +275,10 @@ const Row = styled.div`
   }
 
   .rowItem {
-    width: 250px;
+    width: 260px;
     height: 80%;
     text-align: center;
-    padding: 15px 10px;
+    padding: 15px 5px;
     margin: 20px;
     display: flex;
     flex-direction: column;
@@ -249,26 +286,58 @@ const Row = styled.div`
     justify-content: center;
 
     img {
-      width: 160px;
+      width: 170px;
       object-fit: contain;
     }
 
     .itemInfo {
       padding: 5px;
+      line-height: 20px;
 
       .itemTitle {
-        font-weight: bold;
+        font-weight: 500;
 
        
       }
 
       .itemDes {
-        font-size: 13px;
-        color: grey;
+        font-size: 14px;
+        color: #676767;
       }
     }
   }
 `;
+
+// ###################################### Features & News ######################################
+const Features = styled.div`
+  width: 70%;
+  height: 250px;
+  margin: 20px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .feature {
+    width: 200px;
+    height: 200px;
+    text-align: center;
+    font-size: 2em;
+    padding: 5px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    line-height: 20px;
+
+    a, p {
+      font-size: 14px !important;
+    }
+  }
+`;
+
+const features = [{ icon: <AiFillAlipayCircle/>, blog: "lorem asdf awrshyg qwtr hswre awet"}, { icon: <AiFillAndroid/>, blog: "lorem asdf awrshyg qwtr hswre awet"},
+{ icon: <AiFillCloud/>, blog: "lorem asdf awrshyg qwtr hswre awet"},{ icon: <AiFillGooglePlusSquare/>, blog: "lorem asdf awrshyg qwtr hswre awet"} ];
 
 const info = {
   title: "Smart phone and watch",
@@ -282,14 +351,56 @@ const items = {
   img: sps
 }
   
-const des = (str) => {
+const stringCutter = (str) => {
   if(str.length > 36) {
     return str.substr(0, 35) + "..."
   }
+  return str;
 }
 
 
 function Home() {
+  const settings = {
+    dots: true,
+    infinite: false,
+    speed: 500,
+    slidesToShow: 4,
+    slidesToScroll: 4,
+    initialSlide: 0,
+    responsive: [
+      {
+        breakpoint: 1024,
+        settings: {
+          slidesToShow: 3,
+          slidesToScroll: 3,
+          infinite: true,
+          dots: true
+        }
+      },
+      {
+        breakpoint: 600,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 2,
+          initialSlide: 2
+        }
+      },
+      {
+        breakpoint: 480,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1
+        }
+      }
+    ]
+  }
+
+
+
+
+
+
+
   return (
     <Hero>
       {/* hero img */}
@@ -307,17 +418,52 @@ function Home() {
                   )
                 })}
               </div>
-              <h3>Discover More</h3>
+              <a href="#">Discover More</a>
             </ShowcaseItem>
           )
         })}
       </Showcase>
       {/* ads */}
       <Ads></Ads>
-      {/* row */}
+      {/* row Smart phone & watch*/}
       <Row>
         <div className="rowTitle">
-          <h3>Smart phone and watch</h3> <span>See all</span>
+          <h3>Smart phone and watch</h3> <a href="#">See all</a>
+        </div>
+        <div className="rowContainer">
+
+            { new Array(5).fill(items).map((item, i) => {
+              return (
+                <div className="rowItem" key={i}>
+                  <img src={item.img} alt="#"/>
+                  <div className="itemInfo">
+                    <p className="itemTitle">{ item.title }</p>
+                    <p className="itemDes">{ stringCutter(item.des) }</p>
+                    <small>{ item.price }</small>
+                  </div>
+                </div>
+              )
+            })}
+
+        </div>
+       
+      </Row>
+      {/* New Tech News & Features */}
+      <Features>
+        { features.map((feature, i) => {
+          return (
+            <div className="feature" key={i}>
+              { feature.icon }
+              <p>{ stringCutter(feature.blog) }</p>
+              <a href="#">More</a>
+            </div>
+          )
+        })}
+      </Features>
+       {/* row Accessories */}
+       <Row>
+        <div className="rowTitle">
+          <h3>Accessories and Gadgets</h3> <a href="#">See all</a>
         </div>
         <div className="rowContainer">
           { new Array(5).fill(items).map((item, i) => {
@@ -326,7 +472,7 @@ function Home() {
                 <img src={item.img} alt="#"/>
                 <div className="itemInfo">
                   <p className="itemTitle">{ item.title }</p>
-                  <p className="itemDes">{ des(item.des) }</p>
+                  <p className="itemDes">{ stringCutter(item.des) }</p>
                   <small>{ item.price }</small>
                 </div>
               </div>
@@ -335,10 +481,6 @@ function Home() {
         </div>
        
       </Row>
-
-      <div style={{ height: '1000px'}}>
-
-      </div>
     </Hero>
   )
 }
