@@ -3,8 +3,16 @@ import styled, { css } from 'styled-components';
 import TeleImg from '../assets/telesky.JPG';
 import sps from '../assets/sps.JPG';
 import ads from '../assets/ads.JPG';
-import { AiFillAlipayCircle, AiFillAndroid, AiFillCloud, AiFillGooglePlusSquare} from 'react-icons/ai';
+import { AiFillAlipayCircle, AiFillAndroid, AiFillCloud, AiFillGooglePlusSquare } from 'react-icons/ai';
+import { BiUpArrow } from 'react-icons/bi';
 import { color, fontSize } from '../constants/variables';
+import { GET_ITEMS } from '../queries/query';
+import BackToTop from 'react-back-to-top-button';
+
+//  Graphql
+import { useQuery } from '@apollo/client';
+
+
 // Variables
 const {lightBlue, darkBlue} = color;
 const { cardTitleText, bodyText, linkText, desText } = fontSize;
@@ -193,7 +201,7 @@ const Row = styled.div`
   height: max-content;
   padding: 30px 10px 10px 30px;
   background-color: #fff;
-  
+  margin-bottom: 15px;
  
   @media only screen and (max-width: 800px) {
      margin: 0px;
@@ -204,7 +212,7 @@ const Row = styled.div`
 
   .rowContainer {
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
     overflow-x: hidden;
     overflow-y: hidden;
@@ -227,7 +235,7 @@ const Row = styled.div`
 
    
 
-    @media only screen and (max-width: 1200px) {
+    @media only screen and (max-width: 1500px) {
       justify-content: flex-start;
       transition: overflow-x 1.2s ease-out;
     
@@ -296,17 +304,23 @@ const Row = styled.div`
     .imgContainer {
       width: 100%;
       height: 240px;
+      transition: all 0.5s ease-out;
+
+      :hover {
+        transform: scale(1.1)
+      }
 
       img {
         width: 100%;
         height: 100%;
+        object-fit: cover;
       }
     }
 
     .itemInfo {
       padding: 5px;
       line-height: 20px;
-
+      z-index: 10;
       .itemTitle {
         font-weight: 500;
 
@@ -353,6 +367,96 @@ const Features = styled.div`
   }
 `;
 
+// ###################################### back to top ######################################
+const GoTop = styled.div`
+  width: 80vw;
+  margin: 0 auto;
+  height: 80px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10;
+
+ .circle {
+   width: 50px;
+   height: 50px;
+   border-radius: 50%;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   box-shadow: 2px 1px 2px 2px rgba(0,0,0,0.5);
+   z-index: 10;
+   /* box-shadow: 0 0.5em 1em -0.125em rgba(10,10,10,1.2), 0 0 0 1px rgba(10,10,10,.02); */
+  }
+  
+`;
+
+// ###################################### Footer ######################################
+const Footer = styled.div`
+  width: 100%;
+  height: 500px;
+  background: ${darkBlue};
+  color: white;
+  position: relative;
+
+  @media only screen and (max-width: 500px) {
+    font-size: 14px;
+  }
+
+  h3 {
+    width: 100%;
+    padding: 15px 0;
+    text-align: center;
+    font-size: 15px;
+    line-height: 15px;
+    font-weight: 300;
+
+    span {
+      font-weight: 500;
+    }
+  }
+
+  .locations {
+    width: 100%;
+    height: 400px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-wrap: wrap;
+    text-align: left;
+
+
+    .storeLocation {
+      width: 200px;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: flex-start;
+    }
+  }
+
+  .footerTitleOne {
+    border-bottom: 1px solid #515151;
+  }
+
+  .footerTitleTwo {
+    position: absolute;
+    font-style: italic;
+    bottom: 0px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    border-top: 1px solid ${lightBlue};
+
+    span {
+      font-weight: bold;
+    }
+  }
+
+  
+`;
+
 const features = [{ icon: <AiFillAlipayCircle/>, blog: "lorem asdf awrshyg qwtr hswre awet"}, { icon: <AiFillAndroid/>, blog: "lorem asdf awrshyg qwtr hswre awet"},
 { icon: <AiFillCloud/>, blog: "lorem asdf awrshyg qwtr hswre awet"},{ icon: <AiFillGooglePlusSquare/>, blog: "lorem asdf awrshyg qwtr hswre awet"} ];
 
@@ -362,16 +466,11 @@ const info = {
   img: [sps, sps, sps, sps],
 };
 
-const items = {
-  name: "Samsung",
-  des: "Lorem ipsum dolor sit amet consectetur adipisicing elit.m!Lorem ipsum dolor sit amet consectetur adipisicing elit.m!",
-  price: "$350",
-  img: sps
-}
+
   
 const stringCutter = (str) => {
-  if(str.length > 36) {
-    return str.substr(0, 35) + "..."
+  if(str.length > 60) {
+    return str.substr(0, 54) + "..."
   }
   return str;
 }
@@ -379,12 +478,11 @@ const stringCutter = (str) => {
 
 function Home() {
   
+  const { loading, error, data } = useQuery(GET_ITEMS);
 
-
-
-
-
-
+  if(loading) return <p>it's loading</p>;
+  if(error) return <p>Error !!!</p>
+  console.log(data)
   return (
     <Hero>
       {/* hero img */}
@@ -416,16 +514,20 @@ function Home() {
         </div>
         <div className="rowContainer">
 
-            { new Array(5).fill(items).map((item, i) => {
+            { data && data.smartphoneandwatch.items.map((item, i) => {
               return (
                 <div className="rowItem" key={i}>
                   <div className="imgContainer">
-                    <img src={item.img} alt={item.name}/>
+                    <img src={item.image.url} alt={item.name}/>
                   </div>
                   <div className="itemInfo">
                     <p className="itemTitle">{ item.name }</p>
-                    <p className="itemDes">{ stringCutter(item.des) }</p>
-                    <small>{ item.price }</small>
+                    <p className="itemDes">{ stringCutter(item.descriptions) }</p>
+                    { item.discount? (
+                      <p><small style={{ textDecoration: "line-through"}}>{ item.price }Kyats</small> <small>{ Math.floor(item.price - (item.price * (item.discount / 100)))}Kyats</small></p>
+                    ): (
+                      <small>{ item.price }Kyats</small>
+                    )}
                   </div>
                 </div>
               )
@@ -449,19 +551,23 @@ function Home() {
        {/* row Accessories */}
        <Row>
         <div className="rowTitle">
-          <h3>Accessories and Gadgets</h3> <a href="#">See all</a>
+          <h3>Accessories</h3> <a href="#">See all</a>
         </div>
         <div className="rowContainer">
-          { new Array(5).fill(items).map((item, i) => {
+          { data && data.accessories.items.map((item, i) => {
             return (
               <div className="rowItem" key={i}>
                 <div className="imgContainer">
-                  <img src={item.img} alt={item.name}/>
+                  <img src={item.image.url} alt={item.name}/>
                 </div>
                 <div className="itemInfo">
                   <p className="itemTitle">{ item.name }</p>
-                  <p className="itemDes">{ stringCutter(item.des) }</p>
-                  <small>{ item.price }</small>
+                  <p className="itemDes">{ stringCutter(item.descriptions) }</p>
+                  { item.discount? (
+                      <p><small style={{ textDecoration: "line-through"}}>{ item.price }Kyats</small> <small>{ Math.floor(item.price - (item.price * (item.discount / 100)))}Kyats</small></p>
+                    ): (
+                      <small>{ item.price }Kyats</small>
+                    )}
                 </div>
               </div>
             )
@@ -469,6 +575,100 @@ function Home() {
         </div>
        
       </Row>
+       {/* row Smart TV */}
+       <Row>
+        <div className="rowTitle">
+          <h3>Smart TV</h3> <a href="#">See all</a>
+        </div>
+        <div className="rowContainer">
+          { data && data.tv.items.map((item, i) => {
+            return (
+              <div className="rowItem" key={i}>
+                <div className="imgContainer">
+                  <img src={item.image.url} alt={item.name}/>
+                </div>
+                <div className="itemInfo">
+                  <p className="itemTitle">{ item.name }</p>
+                  <p className="itemDes">{ stringCutter(item.descriptions) }</p>
+                  { item.discount? (
+                      <p><small style={{ textDecoration: "line-through"}}>{ item.price }Kyats</small> <small>{ Math.floor(item.price - (item.price * (item.discount / 100)))}Kyats</small></p>
+                    ): (
+                      <small>{ item.price }Kyats</small>
+                    )}
+                </div>
+              </div>
+            )
+          })}
+        </div>
+       
+      </Row>
+       {/* row  Electronics */}
+       <Row>
+        <div className="rowTitle">
+          <h3>Electronics</h3> <a href="#">See all</a>
+        </div>
+        <div className="rowContainer">
+          { data && data.electronics.items.map((item, i) => {
+            return (
+              <div className="rowItem" key={i}>
+                <div className="imgContainer">
+                  <img src={item.image.url} alt={item.name}/>
+                </div>
+                <div className="itemInfo">
+                  <p className="itemTitle">{ item.name }</p>
+                  <p className="itemDes">{ stringCutter(item.descriptions) }</p>
+                  { item.discount? (
+                      <p><small style={{ textDecoration: "line-through"}}>{ item.price }Kyats</small> <small>{ Math.floor(item.price - (item.price * (item.discount / 100)))}Kyats</small></p>
+                    ): (
+                      <small>{ item.price }Kyats</small>
+                    )}
+                </div>
+              </div>
+            )
+          })}
+        </div>
+       
+      </Row>
+      {/* Back to Top */}
+      <GoTop>
+        <BackToTop
+           showOnScrollUp
+           showAt={100}
+           speed={1500}
+           easing="easeInOutQuint"
+           className="goTop"
+        >
+          <div className="circle">
+            <BiUpArrow style={{ color: lightBlue, fontSize: "30px"}}></BiUpArrow>
+          </div>
+        </BackToTop>
+      </GoTop>
+      {/* Footer */}
+      <Footer>
+        <h3 className="footerTitleOne"><span>Telemartmyanmar</span> is the subsidiaries of <span>SPS Business Group</span> </h3>
+        <div className="locations">
+          {/* address 1 */}
+          <div className="storeLocation">
+            <h4>Store Location</h4>
+            <p className="storeName">Shwe Pyi San Mobile</p>
+            <p className="sotreAddress">
+              1 Belmont Dr, Daly City,
+            </p>
+            <p>CA, 94015</p>
+          </div>
+          {/* address 2 */}
+          <div className="storeLocation">
+            <h4>Store Location</h4>
+            <p className="storeName">Shwe Pyi San Mobile</p>
+            <p className="sotreAddress">
+              1 Belmont Dr, Daly City, 
+            </p>
+            <p>CA, 94015</p>
+          </div>
+         
+        </div>
+        <h3 className="footerTitleTwo"><span> © 2020, Telemartmyanmar </span><span>Powered by VoilaSoft</span> </h3>
+      </Footer>
     </Hero>
   )
 }

@@ -1,17 +1,31 @@
 import Navbar from './components/Navbar.jsx';
 import { Switch, Route } from 'react-router-dom';
 import Home from './pages/Home';
+import { ApolloProvider, ApolloClient, InMemoryCache} from '@apollo/client';
+
+const { SPACEID, ATOKEN } = process.env;
+
+const client = new ApolloClient({
+  uri: `https://graphql.contentful.com/content/v1/spaces/4fhknrnoq500?access_token=sVA9Y3AJ8sCyQCgpXY7VNncjajIHlTWV1hN05ZK6yws`,
+  cache: new InMemoryCache()
+})
+
+
 
 function App() {
+
+
   return (
-    <div className="App">
-      <Navbar />
-      <Switch>
-        <Route exact path="/">
-          <Home></Home>
-        </Route>
-      </Switch>
-    </div>
+    <ApolloProvider client={client}>
+      <div className="App">
+        <Navbar />
+        <Switch>
+          <Route exact path="/">
+            <Home></Home>
+          </Route>
+        </Switch>
+      </div>
+    </ApolloProvider>
   );
 }
 
