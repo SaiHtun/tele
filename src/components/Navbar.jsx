@@ -42,7 +42,7 @@ const Container = styled.div`
 
   @media only screen  and (max-width: 500px) {
     width: 90vw;
-    justify-content: space-between;
+    justify-content: center;
   };
 
 `
@@ -57,9 +57,7 @@ const Brand = styled.h2`
     text-align: center;
     flex: 4;
   };
-  @media only screen  and (max-width: 500px) {
-    margin-right: 10px;
-  };
+ 
 `
 
 const Search = styled.div`
@@ -126,8 +124,13 @@ const Humberger = styled.div`
     width: 30px;
     height: 10px;
     display: inline-block;
-
-   
+  }
+  @media only screen  and (max-width: 500px) {
+    position: absolute;
+    left: 15px;
+    width: 30px;
+    height: 10px;
+    display: inline-block;
   }
 
   .stick {

@@ -1,7 +1,44 @@
 import { gql } from '@apollo/client';
 
+// const GET_All_FIELDS = gql`
+//   fragment getAllFields on itemsCollection {
+//       items {
+//         name
+//         colors
+//         category
+//         id
+//         size
+//         image {
+//           url
+//         }
+//         descriptions
+//         price
+//         discount
+//         betsseller
+//       }
+//   }
+
+// `;
+
+
 const GET_ITEMS = gql`
   query {
+    allItems: itemsCollection {
+      items {
+        name
+        colors
+        category
+        id
+        size
+        image {
+          url
+        }
+        descriptions
+        price
+        discount
+        bestseller
+      }
+    }
     smartphoneandwatch: itemsCollection (where: { category: "smartphoneandwatch"}) {
       items {
         name
@@ -15,7 +52,7 @@ const GET_ITEMS = gql`
         descriptions
         price
         discount
-        betsseller
+        bestseller
       }
     }
     tv: itemsCollection(where:{ category :"tv"}) {
@@ -31,7 +68,7 @@ const GET_ITEMS = gql`
         descriptions
         price
         discount
-        betsseller
+        bestseller
       }
     }
     accessories: itemsCollection(where:{ category :"accessories"}) {
@@ -47,7 +84,7 @@ const GET_ITEMS = gql`
         descriptions
         price
         discount
-        betsseller
+        bestseller
       }
     }
     electronics: itemsCollection(where:{ category :"electronics"}) {
@@ -63,12 +100,15 @@ const GET_ITEMS = gql`
         descriptions
         price
         discount
-        betsseller
+        bestseller
       }
     }
   }
-   
+
 `;
+
+
+
 
 export {
   GET_ITEMS

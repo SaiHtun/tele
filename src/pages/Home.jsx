@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import styled, { css } from 'styled-components';
 import TeleImg from '../assets/telesky.JPG';
 import sps from '../assets/sps.JPG';
@@ -8,14 +8,17 @@ import { BiUpArrow } from 'react-icons/bi';
 import { color, fontSize } from '../constants/variables';
 import { GET_ITEMS } from '../queries/query';
 import BackToTop from 'react-back-to-top-button';
+// Carousel
+import Carousel from "react-multi-carousel";
+import "react-multi-carousel/lib/styles.css";
+import responsiveSetting from '../constants/carousel';
 
-//  Graphql
 import { useQuery } from '@apollo/client';
 
 
 // Variables
 const {lightBlue, darkBlue} = color;
-const { cardTitleText, bodyText, linkText, desText } = fontSize;
+const { cardTitleText, linkText, desText } = fontSize;
 // eslint-disable-next-line
 
 // ###################################### Hero ######################################
@@ -48,11 +51,13 @@ const Img = styled.img`
   width: 100%;
   object-fit: contain;
   margin-bottom: -150px;
+  /* -webkit-mask-image: linear-gradient(to top, transparent 25%, black 60%);
+  mask-image: linear-gradient(to top, transparent 25%, black 60%); */
   
   @media only screen and (max-width: 1000px) {
     object-fit: cover;
     height: 60vh;
-    margin-bottom: -60px;
+    margin-bottom: -160px;
   }
   @media only screen and (max-width: 600px) {
     object-fit: cover;
@@ -62,7 +67,7 @@ const Img = styled.img`
   @media only screen and (max-width: 400px) {
     object-fit: cover;
     height: 70vh;
-    margin-bottom: -200px;
+    margin-bottom: -230px;
   }
  
 `;
@@ -75,7 +80,7 @@ Img.defaultProps = {
 // ###################################### Showcase ######################################
 const Showcase = styled.div`
   margin: 0 30px;
-  height: 410px;
+  height: 460px;
   display: flex;
   align-items: flex-start;
   justify-content: center;
@@ -148,13 +153,15 @@ const ShowcaseItem = styled.div`
   .showcaseGrid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    grid-template-rows: repeat(2, 1fr);
+    grid-template-rows: repeat(2, 150px);
     gap: 10px;
     margin: 30px 0;
 
     img {
       width: 100%;
+      height: 100%;
       transition: transform .3s ease-out;
+      object-fit: cover;
     }
 
     img:hover {
@@ -199,59 +206,49 @@ const Row = styled.div`
   margin: 0px 30px;
   min-height: 450px;
   height: max-content;
-  padding: 30px 10px 10px 30px;
+  padding: 30px 20px;
   background-color: #fff;
   margin-bottom: 15px;
+
+  .slider {
+    
+    ul {
+      margin-top: 30px;
+
+      li {
+        min-width: 200px !important;
+        max-width: 250px;
+        height: max-content;
+        margin: 0px 5px;
+
+        @media only screen and (max-width: 800px) {
+          margin: 0px 20px;
+        }
+        /* @media only screen and (max-width: 500px) {
+          margin-right: 20px;
+        } */
+
+
+
+      }
+    }
+  }
  
   @media only screen and (max-width: 800px) {
      margin: 0px;
      margin-bottom: 5px;
   }
+  @media only screen and (max-width: 500px) {
+     padding: 30px 15px;
+     margin-bottom: 5px;
+  }
 
   
-
-  .rowContainer {
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    overflow-x: hidden;
-    overflow-y: hidden;
-    transition: all .3s;
-    margin-top: 15px;
-
-    ::-webkit-scrollbar {
-      height: 5px;
-    }
-
-
-    &::-webkit-scrollbar-track {
-      background-color: #d4d3d3;
-    }
-
-    ::-webkit-scrollbar-thumb {
-      background-color: #1698BA;
-
-    }
-
-   
-
-    @media only screen and (max-width: 1500px) {
-      justify-content: flex-start;
-      transition: overflow-x 1.2s ease-out;
-    
-      :hover {
-        overflow-x: scroll; 
-      }
-    }
-    @media only screen and (max-width: 500px) {
-      overflow-x: scroll;
-    }
-  }
 
  
 
   .rowTitle {
-    width: 300px;
+    width: 100%;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -286,8 +283,8 @@ const Row = styled.div`
   }
 
   .rowItem {
-    min-width: 230px;
-    height: 80%;
+    min-width: 100%;
+    height: 100%;
     text-align: center;
     margin: 10px;
     display: flex;
@@ -321,6 +318,7 @@ const Row = styled.div`
       padding: 5px;
       line-height: 20px;
       z-index: 10;
+      margin-top: 5px;
       .itemTitle {
         font-weight: 500;
 
@@ -369,9 +367,9 @@ const Features = styled.div`
 
 // ###################################### back to top ######################################
 const GoTop = styled.div`
-  width: 80vw;
+  /* width: 80vw;
   margin: 0 auto;
-  height: 80px;
+  height: 80px; */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -398,6 +396,7 @@ const Footer = styled.div`
   background: ${darkBlue};
   color: white;
   position: relative;
+  z-index: -1;
 
   @media only screen and (max-width: 500px) {
     font-size: 14px;
@@ -407,7 +406,7 @@ const Footer = styled.div`
     width: 100%;
     padding: 15px 0;
     text-align: center;
-    font-size: 15px;
+    font-size: 13px;
     line-height: 15px;
     font-weight: 300;
 
@@ -427,8 +426,6 @@ const Footer = styled.div`
 
 
     .storeLocation {
-      width: 200px;
-      height: 100%;
       display: flex;
       flex-direction: column;
       justify-content: center;
@@ -443,15 +440,16 @@ const Footer = styled.div`
   .footerTitleTwo {
     position: absolute;
     font-style: italic;
-    bottom: 0px;
+    line-height: 15px;
+    left: 0;
+    bottom: 0;
     display: flex;
     justify-content: space-around;
     align-items: center;
     border-top: 1px solid ${lightBlue};
-
     span {
-      font-weight: bold;
-    }
+      font-weight: bold !important;
+    } 
   }
 
   
@@ -476,34 +474,74 @@ const stringCutter = (str) => {
 }
 
 
+
+
 function Home() {
   
   const { loading, error, data } = useQuery(GET_ITEMS);
 
+    // grid items
+  const gridItems =  (name) => {
+
+    let array = data?.allItems.items;
+
+
+    return [...array].sort(() => Math.random() - 0.5 ).filter((item) => {
+      if(item[name]) {
+        return item;
+      }
+    }).slice(0,4).map((e, i) => {
+      return (
+        <div key={i}>
+          <img src={e.image.url} alt="gg" />
+        </div>
+      )
+    })
+ 
+   
+  }
+
+
   if(loading) return <p>it's loading</p>;
-  if(error) return <p>Error !!!</p>
-  console.log(data)
+  if(error) console.log(error);
+  
   return (
     <Hero>
       {/* hero img */}
       <Img ></Img>
       {/* showcase */}
       <Showcase>
-        { new Array(3).fill(info).map((info, i) => {
-          return (
-            <ShowcaseItem key={i}>
-              <h3>{ info.title }</h3>
-              <div className="showcaseGrid">
-                { info.img.map((e, i) => {
-                  return (
-                    <img src={e} alt="gg" key={i}/>
-                  )
-                })}
-              </div>
-              <a href="#">Discover More</a>
-            </ShowcaseItem>
-          )
-        })}
+
+        {/* Deals */}
+        <ShowcaseItem >
+          <h3>Deals</h3>
+          <div className="showcaseGrid">
+            { data && gridItems("discount")}
+          </div>
+          <a href="#">Discover More</a>
+        </ShowcaseItem>
+
+        {/* best sellers */}
+        <ShowcaseItem >
+          <h3>Best Seller</h3>
+          <div className="showcaseGrid">
+            { data && gridItems("bestseller")}
+          </div>
+          <a href="#">Discover More</a>
+        </ShowcaseItem>
+
+        {/* gift items */}
+        <ShowcaseItem >
+          <h3>Gift items</h3>
+          <div className="showcaseGrid">
+            { info.img.map((e, i) => {
+              return (
+                <img src={e} alt="gg" key={i}/>
+              )
+            })}
+          </div>
+          <a href="#">Discover More</a>
+        </ShowcaseItem>
       </Showcase>
       {/* ads */}
       <Ads></Ads>
@@ -512,28 +550,32 @@ function Home() {
         <div className="rowTitle">
           <h3>Smart phone and watch</h3> <a href="#">See all</a>
         </div>
-        <div className="rowContainer">
-
-            { data && data.smartphoneandwatch.items.map((item, i) => {
-              return (
-                <div className="rowItem" key={i}>
-                  <div className="imgContainer">
-                    <img src={item.image.url} alt={item.name}/>
+        {/* <div className="rowContainer"> */}
+            <Carousel 
+            responsive={responsiveSetting}
+            className="slider"
+            >
+              { data && data.smartphoneandwatch.items.map((item, i) => {
+                return (
+                  <div className="rowItem" key={i}>
+                    <div className="imgContainer">
+                      <img src={item.image.url} alt={item.name}/>
+                    </div>
+                    <div className="itemInfo">
+                      <p className="itemTitle">{ item.name }</p>
+                      <p className="itemDes">{ stringCutter(item.descriptions) }</p>
+                      { item.discount? (
+                        <p><small style={{ textDecoration: "line-through"}}>{ item.price }Kyats</small> <small>{ Math.floor(item.price - (item.price * (item.discount / 100)))}Kyats</small></p>
+                      ): (
+                        <small>{ item.price }Kyats</small>
+                      )}
+                    </div>
                   </div>
-                  <div className="itemInfo">
-                    <p className="itemTitle">{ item.name }</p>
-                    <p className="itemDes">{ stringCutter(item.descriptions) }</p>
-                    { item.discount? (
-                      <p><small style={{ textDecoration: "line-through"}}>{ item.price }Kyats</small> <small>{ Math.floor(item.price - (item.price * (item.discount / 100)))}Kyats</small></p>
-                    ): (
-                      <small>{ item.price }Kyats</small>
-                    )}
-                  </div>
-                </div>
-              )
-            })}
+                )
+              })}
+            </Carousel>
 
-        </div>
+        {/* </div> */}
        
       </Row>
       {/* New Tech News & Features */}
@@ -553,7 +595,10 @@ function Home() {
         <div className="rowTitle">
           <h3>Accessories</h3> <a href="#">See all</a>
         </div>
-        <div className="rowContainer">
+        <Carousel 
+            responsive={responsiveSetting}
+            className="slider"
+            >
           { data && data.accessories.items.map((item, i) => {
             return (
               <div className="rowItem" key={i}>
@@ -572,7 +617,7 @@ function Home() {
               </div>
             )
           })}
-        </div>
+        </Carousel>
        
       </Row>
        {/* row Smart TV */}
@@ -580,7 +625,10 @@ function Home() {
         <div className="rowTitle">
           <h3>Smart TV</h3> <a href="#">See all</a>
         </div>
-        <div className="rowContainer">
+        <Carousel 
+            responsive={responsiveSetting}
+            className="slider"
+            >
           { data && data.tv.items.map((item, i) => {
             return (
               <div className="rowItem" key={i}>
@@ -599,15 +647,17 @@ function Home() {
               </div>
             )
           })}
-        </div>
-       
+        </Carousel>
       </Row>
        {/* row  Electronics */}
        <Row>
         <div className="rowTitle">
           <h3>Electronics</h3> <a href="#">See all</a>
         </div>
-        <div className="rowContainer">
+        <Carousel 
+            responsive={responsiveSetting}
+            className="slider"
+            >
           { data && data.electronics.items.map((item, i) => {
             return (
               <div className="rowItem" key={i}>
@@ -626,7 +676,7 @@ function Home() {
               </div>
             )
           })}
-        </div>
+        </Carousel>
        
       </Row>
       {/* Back to Top */}
