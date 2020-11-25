@@ -312,6 +312,15 @@ const Row = styled.div`
         height: 100%;
         object-fit: cover;
       }
+
+      @media only screen and (max-width: 500px) {
+        margin: 5px;
+        text-align: left;
+
+        :hover {
+          transform: none;
+        }
+      }
     }
 
     .itemInfo {

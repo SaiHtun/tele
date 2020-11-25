@@ -1,6 +1,11 @@
 @import url('https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100;0,200;0,300;0,400;0,500;1,100;1,200&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;1,100&display=swap');
 
-
+html, body {
+  width: auto !important;
+  overflow-x: hidden;
+  overflow-y: scroll; /* has to be scroll, not auto */
+  -webkit-overflow-scrolling: touch;
+}
 
 body {
   margin: 0;
@@ -10,8 +15,6 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background-color: #EAEDED;
-
-  
   overflow-x: hidden;
 
 }
@@ -25,9 +28,9 @@ code {
   padding: 0;
   margin: 0;
   box-sizing: border-box;
-  
 }
 
 a {
   text-decoration: none;
 }
+
