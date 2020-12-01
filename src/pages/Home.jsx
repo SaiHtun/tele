@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import styled, { css } from 'styled-components';
 import TeleImg from '../assets/telesky.JPG';
 import sps from '../assets/sps.JPG';
@@ -8,6 +8,8 @@ import { BiUpArrow } from 'react-icons/bi';
 import { color, fontSize } from '../constants/variables';
 import { GET_ITEMS } from '../queries/query';
 import BackToTop from 'react-back-to-top-button';
+import Menu from '../components/Menu';
+import { NavContext } from '../context/NavContext';
 // Carousel
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
@@ -28,6 +30,20 @@ const Hero = styled.div`
   margin: 0 auto;
   height: 60vh;
   font-family: 'Roboto', sans-serif;
+
+  
+
+  ${(props) => props.open && css `
+    overflow-y: hidden;
+
+    .overlay {
+      position: fixed;
+      width: 100vw;
+      height: 100vh;
+      background-color: black;
+      opacity: 0.5;
+    }
+  `}
 
   a {
     color: ${lightBlue}
@@ -212,24 +228,32 @@ const Row = styled.div`
 
   .slider {
     
+    
     ul {
       margin-top: 30px;
 
+     
+
       li {
-        min-width: 200px !important;
-        max-width: 250px;
+        min-width: 220px !important;
+        max-width: 240px; 
         height: max-content;
         margin: 0px 5px;
 
         @media only screen and (max-width: 800px) {
           margin: 0px 20px;
         }
-        /* @media only screen and (max-width: 500px) {
-          margin-right: 20px;
-        } */
+        @media only screen and (max-width: 500px) {
+          margin: 0px 10px;
 
+        }
 
+       
 
+      }
+
+      @media only screen and (max-width: 500) {
+        width: 260px;
       }
     }
   }
@@ -305,6 +329,12 @@ const Row = styled.div`
 
       :hover {
         transform: scale(1.1)
+      }
+
+      @media only screen and (max-width: 500px) {
+        :hover {
+          transform: none;
+        }
       }
 
       img {
@@ -479,11 +509,11 @@ const stringCutter = (str) => {
 function Home() {
   
   const { loading, error, data } = useQuery(GET_ITEMS);
-
+  const { openNav, setOpenNav } = useContext(NavContext)
     // grid items
   const gridItems =  (name) => {
 
-    let array = data?.allItems.items;
+    let array = data && [...data.allItems.items];
 
 
     return [...array].sort(() => Math.random() - 0.5 ).filter((item) => {
@@ -506,7 +536,10 @@ function Home() {
   if(error) console.log(error);
   
   return (
-    <Hero>
+    <Hero open={openNav}>
+      {/* Overlay */}
+      <div className="overlay" onClick={() => setOpenNav(false)}></div>
+      <Menu></Menu>
       {/* hero img */}
       <Img ></Img>
       {/* showcase */}
@@ -552,6 +585,7 @@ function Home() {
         </div>
         {/* <div className="rowContainer"> */}
             <Carousel 
+            partialVisible
             responsive={responsiveSetting}
             className="slider"
             >
@@ -573,6 +607,7 @@ function Home() {
                   </div>
                 )
               })}
+              <div className="extraLi"></div>
             </Carousel>
 
         {/* </div> */}
@@ -596,6 +631,8 @@ function Home() {
           <h3>Accessories</h3> <a href="#">See all</a>
         </div>
         <Carousel 
+            swipeable
+            partialVisible
             responsive={responsiveSetting}
             className="slider"
             >
@@ -617,6 +654,7 @@ function Home() {
               </div>
             )
           })}
+          <div> </div>
         </Carousel>
        
       </Row>
@@ -626,6 +664,8 @@ function Home() {
           <h3>Smart TV</h3> <a href="#">See all</a>
         </div>
         <Carousel 
+            swipeable
+            partialVisible
             responsive={responsiveSetting}
             className="slider"
             >
@@ -647,6 +687,7 @@ function Home() {
               </div>
             )
           })}
+          <div></div>
         </Carousel>
       </Row>
        {/* row  Electronics */}
@@ -655,6 +696,8 @@ function Home() {
           <h3>Electronics</h3> <a href="#">See all</a>
         </div>
         <Carousel 
+            swipeable
+            partialVisible
             responsive={responsiveSetting}
             className="slider"
             >
@@ -676,6 +719,7 @@ function Home() {
               </div>
             )
           })}
+          <div></div>
         </Carousel>
        
       </Row>

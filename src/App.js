@@ -2,6 +2,7 @@ import Navbar from './components/Navbar.jsx';
 import { Switch, Route } from 'react-router-dom';
 import Home from './pages/Home';
 import { ApolloProvider, ApolloClient, InMemoryCache} from '@apollo/client';
+import NavContextProvider from './context/NavContext.jsx';
 
 const { SPACEID, ATOKEN } = process.env;
 
@@ -17,14 +18,16 @@ function App() {
 
   return (
     <ApolloProvider client={client}>
-      <div className="App">
-        <Navbar />
-        <Switch>
-          <Route exact path="/">
-            <Home></Home>
-          </Route>
-        </Switch>
-      </div>
+      <NavContextProvider>
+        <div className="App">
+          <Navbar />
+          <Switch>
+            <Route exact path="/">
+              <Home></Home>
+            </Route>
+          </Switch>
+        </div>
+      </NavContextProvider>
     </ApolloProvider>
   );
 }
