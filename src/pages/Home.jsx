@@ -516,7 +516,7 @@ function Home() {
     let array = data && [...data.allItems.items];
 
 
-    return [...array].sort(() => Math.random() - 0.5 ).filter((item) => {
+    return array.sort(() => Math.random() - 0.5 ).filter((item) => {
       if(item[name]) {
         return item;
       }
@@ -527,10 +527,10 @@ function Home() {
         </div>
       )
     })
- 
    
   }
 
+  console.log(process.env.REACT_APP_MY_ENV)
 
   if(loading) return <p>it's loading</p>;
   if(error) console.log(error);
