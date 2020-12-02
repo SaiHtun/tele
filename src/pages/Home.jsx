@@ -530,7 +530,7 @@ function Home() {
    
   }
 
-  console.log(process.env.REACT_APP_MY_ENV)
+  console.log(process.env)
 
   if(loading) return <p>it's loading</p>;
   if(error) console.log(error);
