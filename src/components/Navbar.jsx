@@ -1,28 +1,18 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import styled from 'styled-components';
 import { FaSearch } from "react-icons/fa";
 import { color } from '../constants/variables';
+import { NavContext } from '../context/NavContext';
 
 const { lightBlue, darkBlue } = color;
 
-// 'sm': '640px',
-      // => @media (min-width: 640px) { ... }
-
-      // 'md': '768px',
-      // => @media (min-width: 768px) { ... }
-
-      // 'lg': '1024px',
-      // => @media (min-width: 1024px) { ... }
-
-      // 'xl': '1280px',
-      // => @media (min-width: 1280px) { ... }
 
 const Nav = styled.div`
   width: 100vw;
   height: 70px;
   background-color:${darkBlue};
   color: #ffff;
-
+  position: absolute;
 
 
 `
@@ -120,6 +110,7 @@ const Humberger = styled.div`
   justify-content: space-around;
   align-items: center;
   display: none;
+  z-index: 100;
   @media only screen  and (max-width: 780px) {
     width: 30px;
     height: 10px;
@@ -133,12 +124,12 @@ const Humberger = styled.div`
     display: inline-block;
   }
 
-  .stick {
+  .line {
     width: 100%;
     height: 3px;
     line-height: 3px;
     margin-bottom: 3px;
-    background-color: #fff;
+    background-color: white;
   }
 
  
@@ -147,15 +138,16 @@ const Humberger = styled.div`
 function Navbar() {
 
   const [ search, setSearch ] = useState("");
+  const { openNav, setOpenNav } = useContext(NavContext);
 
 
   return (
     <Nav>
       <Container>
-        <Humberger>
-          <div className="stick one"></div>
-          <div className="stick two"></div>
-          <div className="stick three"></div>
+        <Humberger onClick={() => setOpenNav(!openNav)}>
+          <div className="line one"></div>
+          <div className="line two"></div>
+          <div className="line three"></div>
         </Humberger>
         <Brand><span>T</span>elemart</Brand>
         <Search>
