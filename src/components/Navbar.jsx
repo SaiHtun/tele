@@ -25,7 +25,7 @@ const Container = styled.div`
   align-items: center;
   justify-content: space-around;
 
-  @media only screen  and (max-width: 780px) {
+  @media only screen  and (max-width: 820px) {
     width: 80vw;
     justify-content: space-between;
   };
@@ -95,7 +95,7 @@ const Menu = styled.div`
     font-size: 0.8em;
     letter-spacing: 1px;
   }
-  @media only screen  and (max-width: 780px) {
+  @media only screen  and (max-width: 820px) {
     display: none;
   }
 
@@ -111,7 +111,8 @@ const Humberger = styled.div`
   align-items: center;
   display: none;
   z-index: 100;
-  @media only screen  and (max-width: 780px) {
+  cursor: pointer;
+  @media only screen  and (max-width: 820px) {
     width: 30px;
     height: 10px;
     display: inline-block;

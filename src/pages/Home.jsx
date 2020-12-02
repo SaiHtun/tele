@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-import styled, { css } from 'styled-components';
+import styled, { css, keyframes } from 'styled-components';
 import TeleImg from '../assets/telesky.JPG';
 import sps from '../assets/sps.JPG';
 import ads from '../assets/ads.JPG';
@@ -24,16 +24,28 @@ const { cardTitleText, linkText, desText } = fontSize;
 // eslint-disable-next-line
 
 // ###################################### Hero ######################################
+const fade = keyframes`
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 0.5;
+  }
+`;
+
+
 const Hero = styled.div`
   width: 100vw;
   max-width: 1450px;
   margin: 0 auto;
   height: 60vh;
   font-family: 'Roboto', sans-serif;
-
+  z-index: -10;
   
 
   ${(props) => props.open && css `
+    height: 100vh;
     overflow-y: hidden;
 
     .overlay {
@@ -41,6 +53,7 @@ const Hero = styled.div`
       width: 100vw;
       height: 100vh;
       background-color: black;
+      animation: ${fade} 1s ease-in-out;
       opacity: 0.5;
     }
   `}
