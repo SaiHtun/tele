@@ -1,6 +1,10 @@
 import React, { useState, useEffect, useContext } from 'react';
 import styled, { css, keyframes } from 'styled-components';
 import TeleImg from '../assets/telesky.JPG';
+import a1 from '../assets/a1.jpg';
+import a2 from '../assets/a2.jpg';
+import a3 from '../assets/a3.png';
+import a4 from '../assets/a4.jpg';
 import sps from '../assets/sps.JPG';
 import ads from '../assets/ads.JPG';
 import { AiFillAlipayCircle, AiFillAndroid, AiFillCloud, AiFillGooglePlusSquare } from 'react-icons/ai';
@@ -13,10 +17,17 @@ import { NavContext } from '../context/NavContext';
 // Carousel
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
+// ads carousel
+import AwesomeSlider from 'react-awesome-slider';
+import 'react-awesome-slider/dist/styles.css';
+import withAutoplay from 'react-awesome-slider/dist/autoplay';
+
 import responsiveSetting from '../constants/carousel';
 
 import { useQuery } from '@apollo/client';
 
+//  autoplay slider
+const AutoplaySlider = withAutoplay(AwesomeSlider)
 
 // Variables
 const {lightBlue, darkBlue} = color;
@@ -42,6 +53,24 @@ const Hero = styled.div`
   height: 60vh;
   font-family: 'Roboto', sans-serif;
   z-index: -10;
+
+  .heroSlider {
+    height: 80vh;
+    margin-bottom: -150px;
+
+    .awssld__bullets {
+      position: absolute;
+      top: 30%;
+      z-index: 2;
+    }
+
+    .awssld__bullets button {
+      width: 10px;
+      height: 10px;
+      background-color: white;
+    }
+
+  }
   
 
   ${(props) => props.open && css `
@@ -55,6 +84,7 @@ const Hero = styled.div`
       background-color: black;
       animation: ${fade} 1s ease-in-out;
       opacity: 0.5;
+      z-index: 20;
     }
   `}
 
@@ -75,47 +105,16 @@ const Hero = styled.div`
 
 `;
 
-// ###################################### Img ######################################
-const Img = styled.img`
-  width: 100%;
-  object-fit: contain;
-  margin-bottom: -150px;
-  /* -webkit-mask-image: linear-gradient(to top, transparent 25%, black 60%);
-  mask-image: linear-gradient(to top, transparent 25%, black 60%); */
-  
-  @media only screen and (max-width: 1000px) {
-    object-fit: cover;
-    height: 60vh;
-    margin-bottom: -160px;
-  }
-  @media only screen and (max-width: 600px) {
-    object-fit: cover;
-    height: 70vh;
-    margin-bottom: -150px;
-  }
-  @media only screen and (max-width: 400px) {
-    object-fit: cover;
-    height: 70vh;
-    margin-bottom: -230px;
-  }
- 
-`;
-
-Img.defaultProps = {
-  src: TeleImg
-}
-
 
 // ###################################### Showcase ######################################
 const Showcase = styled.div`
-  margin: 0 30px;
+  margin: 0 20px;
   height: 460px;
   display: flex;
   align-items: flex-start;
   justify-content: center;
   overflow-x: hidden;
   overflow-y: hidden;
-  z-index: 10;
 
   ::-webkit-scrollbar {
       height: 5px;
@@ -134,17 +133,13 @@ const Showcase = styled.div`
 
   @media only screen and (max-width: 1200px) {
     justify-content: flex-start;
-   
-    :hover {
-      overflow-x: scroll; 
-    }
   }
   @media only screen and (max-width: 900px) {
     flex-wrap: wrap;
     align-items: center;
     justify-content: center;
     height: auto;
-    margin-bottom: 10px;
+    margin-bottom: 5px;
     :hover {
      overflow-x: hidden;
     }
@@ -168,6 +163,7 @@ const ShowcaseItem = styled.div`
   background-color: white;
   box-shadow: 0 0.5em 1em -0.125em rgba(10,10,10,.10), 0 0 0 1px rgba(10,10,10,.02);
   height: max-content;
+  z-index: 10;
 
   h3 {
     font-size: ${cardTitleText};
@@ -218,11 +214,13 @@ const ShowcaseItem = styled.div`
 // ###################################### Ads ######################################
 const Ads = styled.img`
   width: 100%;
-  margin-top: 20px;
-  margin-bottom: 30px;
+  margin: 10px 0;
 
   @media only screen and (max-width: 800px) {
     margin: 10px 0px;
+  }
+  @media only screen and (max-width: 500px) {
+    margin: 5px 0px;
   }
 `;
 
@@ -328,6 +326,23 @@ const Row = styled.div`
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    position: relative;
+
+    .discountItem {
+      position: absolute;
+      z-index: 10;
+      top: 15px;
+      right: 20px;
+      width: 35px;
+      height: 35px;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: #f0556f;
+      color: white;
+      font-size: 13px;
+    }
 
     @media only screen and (max-width: 500px) {
       margin: 5px;
@@ -364,13 +379,16 @@ const Row = styled.div`
       margin-top: 5px;
       .itemTitle {
         font-weight: 500;
-
-       
       }
 
       .itemDes {
         font-size: ${desText};
         color: #676767;
+      }
+
+      .itemDiscount {
+        text-decoration: line-through;
+        color: grey;
       }
     }
   }
@@ -477,6 +495,7 @@ const Footer = styled.div`
   }
 
   .footerTitleOne {
+    background-color: ${lightBlue};
     border-bottom: 1px solid #515151;
   }
 
@@ -554,7 +573,33 @@ function Home() {
       <div className="overlay" onClick={() => setOpenNav(false)}></div>
       <Menu></Menu>
       {/* hero img */}
-      <Img ></Img>
+      <AutoplaySlider
+          className="heroSlider"
+          play={true}
+          cancelOnInteraction={false}
+          interval={6000}
+          organicArrows={true}
+          bullets={true}
+          media={[
+            {
+              source: `${TeleImg}`,
+            },
+            {
+              source: `${a1}`,
+            },
+            {
+              source: `${a2}`,
+            },
+            {
+              source: `${a3}`,
+            },
+            {
+              source: `${a4}`,
+            },
+          ]}
+      >
+      
+      </AutoplaySlider>
       {/* showcase */}
       <Showcase>
 
@@ -605,6 +650,9 @@ function Home() {
               { data && data.smartphoneandwatch.items.map((item, i) => {
                 return (
                   <div className="rowItem" key={i}>
+                    { item.discount? (
+                      <div className="discountItem">-{ item.discount }%</div>
+                    ): (null)}
                     <div className="imgContainer">
                       <img src={item.image.url} alt={item.name}/>
                     </div>
@@ -612,15 +660,14 @@ function Home() {
                       <p className="itemTitle">{ item.name }</p>
                       <p className="itemDes">{ stringCutter(item.descriptions) }</p>
                       { item.discount? (
-                        <p><small style={{ textDecoration: "line-through"}}>{ item.price }Kyats</small> <small>{ Math.floor(item.price - (item.price * (item.discount / 100)))}Kyats</small></p>
+                        <p><small className="itemDiscount">{ item.price } Kyats</small> <small>{ Math.floor(item.price - (item.price * (item.discount / 100)))} Kyats</small></p>
                       ): (
-                        <small>{ item.price }Kyats</small>
+                        <small>{ item.price } Kyats</small>
                       )}
                     </div>
                   </div>
                 )
               })}
-              <div className="extraLi"></div>
             </Carousel>
 
         {/* </div> */}
@@ -652,6 +699,9 @@ function Home() {
           { data && data.accessories.items.map((item, i) => {
             return (
               <div className="rowItem" key={i}>
+                 { item.discount? (
+                      <div className="discountItem">-{ item.discount }%</div>
+                    ): (null)}
                 <div className="imgContainer">
                   <img src={item.image.url} alt={item.name}/>
                 </div>
@@ -659,15 +709,14 @@ function Home() {
                   <p className="itemTitle">{ item.name }</p>
                   <p className="itemDes">{ stringCutter(item.descriptions) }</p>
                   { item.discount? (
-                      <p><small style={{ textDecoration: "line-through"}}>{ item.price }Kyats</small> <small>{ Math.floor(item.price - (item.price * (item.discount / 100)))}Kyats</small></p>
+                      <p><small className="itemDiscount">{ item.price } Kyats</small> <small>{ Math.floor(item.price - (item.price * (item.discount / 100)))} Kyats</small></p>
                     ): (
-                      <small>{ item.price }Kyats</small>
+                      <small>{ item.price } Kyats</small>
                     )}
                 </div>
               </div>
             )
           })}
-          <div> </div>
         </Carousel>
        
       </Row>
@@ -685,6 +734,9 @@ function Home() {
           { data && data.tv.items.map((item, i) => {
             return (
               <div className="rowItem" key={i}>
+                 { item.discount? (
+                      <div className="discountItem">-{ item.discount }%</div>
+                    ): (null)}
                 <div className="imgContainer">
                   <img src={item.image.url} alt={item.name}/>
                 </div>
@@ -692,15 +744,14 @@ function Home() {
                   <p className="itemTitle">{ item.name }</p>
                   <p className="itemDes">{ stringCutter(item.descriptions) }</p>
                   { item.discount? (
-                      <p><small style={{ textDecoration: "line-through"}}>{ item.price }Kyats</small> <small>{ Math.floor(item.price - (item.price * (item.discount / 100)))}Kyats</small></p>
+                      <p><small className="itemDiscount">{ item.price } Kyats</small> <small>{ Math.floor(item.price - (item.price * (item.discount / 100)))} Kyats</small></p>
                     ): (
-                      <small>{ item.price }Kyats</small>
+                      <small>{ item.price } Kyats</small>
                     )}
                 </div>
               </div>
             )
           })}
-          <div></div>
         </Carousel>
       </Row>
        {/* row  Electronics */}
@@ -717,6 +768,9 @@ function Home() {
           { data && data.electronics.items.map((item, i) => {
             return (
               <div className="rowItem" key={i}>
+                { item.discount? (
+                      <div className="discountItem">-{ item.discount }%</div>
+                    ): (null)}
                 <div className="imgContainer">
                   <img src={item.image.url} alt={item.name}/>
                 </div>
@@ -724,15 +778,14 @@ function Home() {
                   <p className="itemTitle">{ item.name }</p>
                   <p className="itemDes">{ stringCutter(item.descriptions) }</p>
                   { item.discount? (
-                      <p><small style={{ textDecoration: "line-through"}}>{ item.price }Kyats</small> <small>{ Math.floor(item.price - (item.price * (item.discount / 100)))}Kyats</small></p>
+                      <p><small className="itemDiscount">{ item.price } Kyats</small> <small>{ Math.floor(item.price - (item.price * (item.discount / 100)))} Kyats</small></p>
                     ): (
-                      <small>{ item.price }Kyats</small>
+                      <small>{ item.price } Kyats</small>
                     )}
                 </div>
               </div>
             )
           })}
-          <div></div>
         </Carousel>
        
       </Row>

@@ -13,7 +13,7 @@ const Nav = styled.div`
   background-color:${darkBlue};
   color: #ffff;
   position: absolute;
-
+  z-index: 10;
 
 `
 
@@ -126,11 +126,21 @@ const Humberger = styled.div`
   }
 
   .line {
-    width: 100%;
-    height: 3px;
+    height: 2px;
     line-height: 3px;
     margin-bottom: 3px;
     background-color: white;
+
+    
+  }
+  .one {
+    width: 100%;
+  }
+  .two {
+    width: 80%;
+  }
+  .three {
+    width: 60%;
   }
 
  

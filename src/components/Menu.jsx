@@ -13,7 +13,7 @@ const MenuContainer = styled.div`
     justify-content: space-between;
     align-items: center;
     position: absolute;
-    z-index: 10;
+    z-index: 100;
     transform: translateX(-400px);
     transition: transform 0.5s ease-in;    
     
@@ -74,6 +74,8 @@ const MenuContainer = styled.div`
         ul {
             font-size: 13px;
         }
+
+        height: 80vh;
     }
 `;
 
