@@ -59,7 +59,7 @@ const Hero = styled.div`
   z-index: -10;
 
   .heroSlider {
-    height: 80vh;
+    height: 70vh;
     margin-bottom: -150px;
 
     .awssld__bullets {

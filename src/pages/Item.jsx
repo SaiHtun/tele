@@ -21,7 +21,6 @@ const ItemsContainer = styled.div`
         display: inline-block;
         position: relative;
         margin: 50px 0px;
-        /* margin-left: 40px; */
 
         .category {
             :hover {
@@ -37,8 +36,7 @@ const ItemsContainer = styled.div`
         
 
         @media only screen and (max-width: 500px) {
-            margin: 15px;
-            font-size: 16px;
+            font-size: 15px;
         }
     }
 
@@ -53,7 +51,7 @@ const ItemsContainer = styled.div`
         justify-content: center;
         align-items: center;
         flex-wrap: wrap;
-        margin: 100px 0px;
+        margin: 30px 0px;
 
         .itemImg {
             /* flex: 1; */
@@ -61,13 +59,14 @@ const ItemsContainer = styled.div`
             object-fit: contain;
 
             @media only screen and (max-width: 500px) {
+                margin: 15px 0;
                 width: 300px;
             }
         }
 
         .itemInfo {
             width: 500px;
-            padding: 5px 20px;
+            padding: 20px;
 
             .itemMoreInfo {
                 margin: 10px 0px;

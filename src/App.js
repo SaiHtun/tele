@@ -34,11 +34,11 @@ function App() {
             <Route exact path="/">
               <Home></Home>
             </Route>
-            <Route exact path="/:items">
-              <Items></Items>
-            </Route>
-            <Route exact path="/:category/:itemId">
+            <Route  path="/:category/:itemId">
               <Item></Item>
+            </Route>
+            <Route  path="/:items">
+              <Items></Items>
             </Route>
           </Switch>
         </div>

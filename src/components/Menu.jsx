@@ -14,6 +14,8 @@ const MenuContainer = styled.div`
     justify-content: space-between;
     align-items: center;
     position: absolute;
+    top: 0;
+    left: 0;
     z-index: 100;
     transform: translateX(-400px);
     transition: transform 0.5s ease-in;    
