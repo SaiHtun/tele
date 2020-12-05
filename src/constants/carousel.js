@@ -15,7 +15,7 @@ const responsive = {
     },
     items: 1,
     slidesToSlide: 1,
-    partialVisibilityGutter: 130
+    partialVisibilityGutter: 40
   },
   tablet: {
     breakpoint: {

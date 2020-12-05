@@ -1,14 +1,20 @@
 import Navbar from './components/Navbar.jsx';
 import { Switch, Route } from 'react-router-dom';
+// Routes
 import Home from './pages/Home';
+import Items from './pages/Items';
+import Item from './pages/Item';
+// components
+import Menu from './components/Menu';
+import Overlay from './components/Overlay';
 import { ApolloProvider, ApolloClient, InMemoryCache} from '@apollo/client';
 import NavContextProvider from './context/NavContext.jsx';
 
 
-console.log( process.env)
+const { REACT_APP_SPACEID : SPACEID, REACT_APP_ATOKEN : ATOKEN } = process.env;
 
 const client = new ApolloClient({
-  uri: `https://graphql.contentful.com/content/v1/spaces/4fhknrnoq500?access_token=sVA9Y3AJ8sCyQCgpXY7VNncjajIHlTWV1hN05ZK6yws`,
+  uri: `https://graphql.contentful.com/content/v1/spaces/${SPACEID}?access_token=${ATOKEN}`,
   cache: new InMemoryCache()
 })
 
@@ -22,9 +28,17 @@ function App() {
       <NavContextProvider>
         <div className="App">
           <Navbar />
+          <Menu />
+          <Overlay />
           <Switch>
             <Route exact path="/">
               <Home></Home>
+            </Route>
+            <Route exact path="/:items">
+              <Items></Items>
+            </Route>
+            <Route exact path="/:category/:itemId">
+              <Item></Item>
             </Route>
           </Switch>
         </div>

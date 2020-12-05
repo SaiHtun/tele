@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { FaSearch } from "react-icons/fa";
 import { color } from '../constants/variables';
 import { NavContext } from '../context/NavContext';
+import { useHistory } from 'react-router-dom';
 
 const { lightBlue, darkBlue } = color;
 
@@ -12,7 +13,7 @@ const Nav = styled.div`
   height: 70px;
   background-color:${darkBlue};
   color: #ffff;
-  position: absolute;
+  position: relative;
   z-index: 10;
 
 `
@@ -38,6 +39,8 @@ const Container = styled.div`
 `
 
 const Brand = styled.h2`
+  cursor: pointer;
+
   span {
     color: ${lightBlue};
     font-size: 1.2em;
@@ -150,7 +153,7 @@ function Navbar() {
 
   const [ search, setSearch ] = useState("");
   const { openNav, setOpenNav } = useContext(NavContext);
-
+  const history = useHistory();
 
   return (
     <Nav>
@@ -160,7 +163,7 @@ function Navbar() {
           <div className="line two"></div>
           <div className="line three"></div>
         </Humberger>
-        <Brand><span>T</span>elemart</Brand>
+        <Brand onClick={() => history.push("/")}><span>T</span>elemart</Brand>
         <Search>
           <form className="form">
             <input type="text" placeholder="Search here" onChange={(e) => { setSearch(e.value)}} value={search} />

@@ -1,5 +1,8 @@
-import React, { useState, useEffect, useContext } from 'react';
-import styled, { css, keyframes } from 'styled-components';
+import React, { useContext } from 'react';
+import styled from 'styled-components';
+// components
+import Item from "../components/Item";
+// assets
 import TeleImg from '../assets/telesky.JPG';
 import a1 from '../assets/a1.jpg';
 import a2 from '../assets/a2.jpg';
@@ -12,8 +15,9 @@ import { BiUpArrow } from 'react-icons/bi';
 import { color, fontSize } from '../constants/variables';
 import { GET_ITEMS } from '../queries/query';
 import BackToTop from 'react-back-to-top-button';
-import Menu from '../components/Menu';
 import { NavContext } from '../context/NavContext';
+// functions
+import { stringCutter } from '../utility/functions';
 // Carousel
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
@@ -21,7 +25,7 @@ import "react-multi-carousel/lib/styles.css";
 import AwesomeSlider from 'react-awesome-slider';
 import 'react-awesome-slider/dist/styles.css';
 import withAutoplay from 'react-awesome-slider/dist/autoplay';
-
+// carousel setting
 import responsiveSetting from '../constants/carousel';
 
 import { useQuery } from '@apollo/client';
@@ -35,15 +39,15 @@ const { cardTitleText, linkText, desText } = fontSize;
 // eslint-disable-next-line
 
 // ###################################### Hero ######################################
-const fade = keyframes`
-  from {
-    opacity: 0;
-  }
+// const fade = keyframes`
+//   from {
+//     opacity: 0;
+//   }
 
-  to {
-    opacity: 0.5;
-  }
-`;
+//   to {
+//     opacity: 0.5;
+//   }
+// `;
 
 
 const Hero = styled.div`
@@ -71,22 +75,6 @@ const Hero = styled.div`
     }
 
   }
-  
-
-  ${(props) => props.open && css `
-    height: 100vh;
-    overflow-y: hidden;
-
-    .overlay {
-      position: fixed;
-      width: 100vw;
-      height: 100vh;
-      background-color: black;
-      animation: ${fade} 1s ease-in-out;
-      opacity: 0.5;
-      z-index: 20;
-    }
-  `}
 
   a {
     color: ${lightBlue}
@@ -246,8 +234,8 @@ const Row = styled.div`
      
 
       li {
-        min-width: 220px !important;
-        max-width: 240px; 
+        min-width: 250px !important;
+        max-width: 280px; 
         height: max-content;
         margin: 0px 5px;
 
@@ -258,14 +246,10 @@ const Row = styled.div`
           margin: 0px 10px;
 
         }
-
        
 
       }
-
-      @media only screen and (max-width: 500) {
-        width: 260px;
-      }
+     
     }
   }
  
@@ -528,20 +512,28 @@ const info = {
 
 
   
-const stringCutter = (str) => {
-  if(str.length > 60) {
-    return str.substr(0, 54) + "..."
-  }
-  return str;
-}
+
 
 
 
 
 function Home() {
-  
-  const { loading, error, data } = useQuery(GET_ITEMS);
-  const { openNav, setOpenNav } = useContext(NavContext)
+
+  // query with async cancellation.
+  const abortController = new AbortController();
+  const { loading, error, data } = useQuery(GET_ITEMS, 
+     { context: {
+        fetchOptions: {
+          signal: abortController.singal
+        }
+      }
+     }
+  );
+  abortController.abort();
+
+
+  const { openNav, setOpenNav } = useContext(NavContext);
+
     // grid items
   const gridItems =  (name) => {
 
@@ -562,16 +554,13 @@ function Home() {
    
   }
 
-  console.log(process.env.REACT_APP_MY_ENV)
-
   if(loading) return <p>it's loading</p>;
   if(error) console.log(error);
   
   return (
     <Hero open={openNav}>
       {/* Overlay */}
-      <div className="overlay" onClick={() => setOpenNav(false)}></div>
-      <Menu></Menu>
+      {/* <div className="overlay" onClick={() => setOpenNav(false)}></div> */}
       {/* hero img */}
       <AutoplaySlider
           className="heroSlider"
@@ -595,7 +584,7 @@ function Home() {
             },
             {
               source: `${a4}`,
-            },
+            }
           ]}
       >
       
@@ -639,7 +628,7 @@ function Home() {
       {/* row Smart phone & watch*/}
       <Row>
         <div className="rowTitle">
-          <h3>Smart phone and watch</h3> <a href="#">See all</a>
+          <h3>Smart phone and watch</h3> <a href="/smartphoneandwatch">See all</a>
         </div>
         {/* <div className="rowContainer"> */}
             <Carousel 
@@ -647,25 +636,9 @@ function Home() {
             responsive={responsiveSetting}
             className="slider"
             >
-              { data && data.smartphoneandwatch.items.map((item, i) => {
+              { data && data.smartphoneandwatch.items.slice(0, 10).map((item, i) => {
                 return (
-                  <div className="rowItem" key={i}>
-                    { item.discount? (
-                      <div className="discountItem">-{ item.discount }%</div>
-                    ): (null)}
-                    <div className="imgContainer">
-                      <img src={item.image.url} alt={item.name}/>
-                    </div>
-                    <div className="itemInfo">
-                      <p className="itemTitle">{ item.name }</p>
-                      <p className="itemDes">{ stringCutter(item.descriptions) }</p>
-                      { item.discount? (
-                        <p><small className="itemDiscount">{ item.price } Kyats</small> <small>{ Math.floor(item.price - (item.price * (item.discount / 100)))} Kyats</small></p>
-                      ): (
-                        <small>{ item.price } Kyats</small>
-                      )}
-                    </div>
-                  </div>
+                  <Item key={i} item={item}></Item>
                 )
               })}
             </Carousel>
@@ -688,7 +661,7 @@ function Home() {
        {/* row Accessories */}
        <Row>
         <div className="rowTitle">
-          <h3>Accessories</h3> <a href="#">See all</a>
+          <h3>Accessories</h3> <a href="accessories">See all</a>
         </div>
         <Carousel 
             swipeable
@@ -698,23 +671,7 @@ function Home() {
             >
           { data && data.accessories.items.map((item, i) => {
             return (
-              <div className="rowItem" key={i}>
-                 { item.discount? (
-                      <div className="discountItem">-{ item.discount }%</div>
-                    ): (null)}
-                <div className="imgContainer">
-                  <img src={item.image.url} alt={item.name}/>
-                </div>
-                <div className="itemInfo">
-                  <p className="itemTitle">{ item.name }</p>
-                  <p className="itemDes">{ stringCutter(item.descriptions) }</p>
-                  { item.discount? (
-                      <p><small className="itemDiscount">{ item.price } Kyats</small> <small>{ Math.floor(item.price - (item.price * (item.discount / 100)))} Kyats</small></p>
-                    ): (
-                      <small>{ item.price } Kyats</small>
-                    )}
-                </div>
-              </div>
+              <Item key={i} item={item}></Item>
             )
           })}
         </Carousel>
@@ -723,7 +680,7 @@ function Home() {
        {/* row Smart TV */}
        <Row>
         <div className="rowTitle">
-          <h3>Smart TV</h3> <a href="#">See all</a>
+          <h3>Smart TV</h3> <a href="smarttv">See all</a>
         </div>
         <Carousel 
             swipeable
@@ -733,23 +690,7 @@ function Home() {
             >
           { data && data.tv.items.map((item, i) => {
             return (
-              <div className="rowItem" key={i}>
-                 { item.discount? (
-                      <div className="discountItem">-{ item.discount }%</div>
-                    ): (null)}
-                <div className="imgContainer">
-                  <img src={item.image.url} alt={item.name}/>
-                </div>
-                <div className="itemInfo">
-                  <p className="itemTitle">{ item.name }</p>
-                  <p className="itemDes">{ stringCutter(item.descriptions) }</p>
-                  { item.discount? (
-                      <p><small className="itemDiscount">{ item.price } Kyats</small> <small>{ Math.floor(item.price - (item.price * (item.discount / 100)))} Kyats</small></p>
-                    ): (
-                      <small>{ item.price } Kyats</small>
-                    )}
-                </div>
-              </div>
+                <Item key={i} item={item}></Item>
             )
           })}
         </Carousel>
@@ -757,7 +698,7 @@ function Home() {
        {/* row  Electronics */}
        <Row>
         <div className="rowTitle">
-          <h3>Electronics</h3> <a href="#">See all</a>
+          <h3>Electronics</h3> <a href="electronics">See all</a>
         </div>
         <Carousel 
             swipeable
@@ -767,23 +708,7 @@ function Home() {
             >
           { data && data.electronics.items.map((item, i) => {
             return (
-              <div className="rowItem" key={i}>
-                { item.discount? (
-                      <div className="discountItem">-{ item.discount }%</div>
-                    ): (null)}
-                <div className="imgContainer">
-                  <img src={item.image.url} alt={item.name}/>
-                </div>
-                <div className="itemInfo">
-                  <p className="itemTitle">{ item.name }</p>
-                  <p className="itemDes">{ stringCutter(item.descriptions) }</p>
-                  { item.discount? (
-                      <p><small className="itemDiscount">{ item.price } Kyats</small> <small>{ Math.floor(item.price - (item.price * (item.discount / 100)))} Kyats</small></p>
-                    ): (
-                      <small>{ item.price } Kyats</small>
-                    )}
-                </div>
-              </div>
+              <Item key={i} item={item}></Item>
             )
           })}
         </Carousel>

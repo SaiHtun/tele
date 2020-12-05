@@ -1,115 +1,82 @@
 import { gql } from '@apollo/client';
 
-// const GET_All_FIELDS = gql`
-//   fragment getAllFields on itemsCollection {
-//       items {
-//         name
-//         colors
-//         category
-//         id
-//         size
-//         image {
-//           url
-//         }
-//         descriptions
-//         price
-//         discount
-//         betsseller
-//       }
-//   }
 
-// `;
+const Fields = gql`
+  fragment getAllFields on Items {
+    name
+    colors
+    category
+    id
+    size
+    image {
+      url
+    }
+    descriptions
+    price
+    discount
+    bestseller
+  }
+`;
 
 
 const GET_ITEMS = gql`
+
   query {
     allItems: itemsCollection {
       items {
-        name
-        colors
-        category
-        id
-        size
-        image {
-          url
-        }
-        descriptions
-        price
-        discount
-        bestseller
+        ...getAllFields
       }
     }
     smartphoneandwatch: itemsCollection (where: { category: "smartphoneandwatch"}) {
       items {
-        name
-        colors
-        category
-        id
-        size
-        image {
-          url
-        }
-        descriptions
-        price
-        discount
-        bestseller
+        ...getAllFields
       }
     }
-    tv: itemsCollection(where:{ category :"tv"}) {
+    tv: itemsCollection(where:{ category :"smarttv"}) {
       items {
-        name
-        colors
-        category
-        id
-        size
-        image {
-          url
-        }
-        descriptions
-        price
-        discount
-        bestseller
+        ...getAllFields
       }
     }
     accessories: itemsCollection(where:{ category :"accessories"}) {
       items {
-        name
-        colors
-        category
-        id
-        size
-        image {
-          url
-        }
-        descriptions
-        price
-        discount
-        bestseller
+        ...getAllFields
       }
     }
     electronics: itemsCollection(where:{ category :"electronics"}) {
       items {
-        name
-        colors
-        category
-        id
-        size
-        image {
-          url
-        }
-        descriptions
-        price
-        discount
-        bestseller
+        ...getAllFields
       }
     }
   }
+  ${Fields}
+`;
 
+
+const GET_ITEM = gql`
+  query($itemId: String!) {
+    items ( id: $itemId ){
+        ...getAllFields
+    }
+  }
+  ${Fields}
+`;
+
+const GET_SPECIFIC_ITEMS = gql`
+  query($items: String! ) {
+    itemsCollection (where: { category: $items}) {
+      items {
+        ...getAllFields
+      }
+    }
+  }
+  ${Fields}
 `;
 
 
 
 
 export {
-  GET_ITEMS
+  GET_ITEMS,
+  GET_SPECIFIC_ITEMS,
+  GET_ITEM
 }

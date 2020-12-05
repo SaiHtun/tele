@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
 import styled, { css } from 'styled-components';
+import { useHistory } from 'react-router-dom';
 import { color } from '../constants/variables';
 import { NavContext } from '../context/NavContext';
 import { FaFacebookSquare, FaInstagram, FaGlobeAfrica } from 'react-icons/fa';
@@ -28,15 +29,34 @@ const MenuContainer = styled.div`
         font-weight: bold;
         letter-spacing: 1.2px;
 
-        li:hover {
+        li:not(:first-child):hover {
             color: #807f7f;
         }
 
         li:first-child {
             width: 100%;
-            color: #d3697b;
-            cursor: pointer;
-            text-align: right;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            /* :hover {
+                color: black !important;
+            } */
+
+            .telemart {
+                font-size: 1.3em;
+                cursor: pointer;
+
+                p {
+                    color: ${color.lightBlue};
+                    display: inline-block;
+                }
+            }
+
+            .close {
+                color: #eb425e;
+                cursor: pointer;
+            }
         }
 
        
@@ -84,11 +104,17 @@ const MenuContainer = styled.div`
 
 function Menu() {
     const { openNav, setOpenNav } = useContext(NavContext);
+    const history = useHistory();
+
+    const home = () => {
+        setOpenNav(false);
+        history.push('/');
+    }
 
     return (
         <MenuContainer open={openNav} >
             <ul>
-                <li onClick={() => setOpenNav(false)} > X Close</li>
+                <li><span className="telemart" onClick={() => home()} ><p>T</p>elemart</span>  <span className="close" onClick={() => setOpenNav(false)}>X Close</span> </li>
                 <li>Deals</li>
                 <li>Best Seller</li>
                 <li>Phone and Watch</li>
