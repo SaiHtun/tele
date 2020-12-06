@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 // components
 import Item from "../components/Item";
 // assets
@@ -11,10 +11,8 @@ import a4 from '../assets/a4.jpg';
 import sps from '../assets/sps.JPG';
 import ads from '../assets/ads.JPG';
 import { AiFillAlipayCircle, AiFillAndroid, AiFillCloud, AiFillGooglePlusSquare } from 'react-icons/ai';
-import { BiUpArrow } from 'react-icons/bi';
 import { color, fontSize } from '../constants/variables';
 import { GET_ITEMS } from '../queries/query';
-import BackToTop from 'react-back-to-top-button';
 import { NavContext } from '../context/NavContext';
 // functions
 import { stringCutter } from '../utility/functions';
@@ -54,9 +52,14 @@ const Hero = styled.div`
   width: 100vw;
   max-width: 1450px;
   margin: 0 auto;
-  height: 60vh;
+  min-height: 80vh;
   font-family: 'Roboto', sans-serif;
   z-index: -10;
+
+  ${(props) => props.open && css`
+      max-height: 80vh;
+      overflow-y: hidden;
+  `}
 
   .heroSlider {
     height: 70vh;
@@ -410,29 +413,6 @@ const Features = styled.div`
   }
 `;
 
-// ###################################### back to top ######################################
-const GoTop = styled.div`
-  /* width: 80vw;
-  margin: 0 auto;
-  height: 80px; */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 10;
-
- .circle {
-   width: 50px;
-   height: 50px;
-   border-radius: 50%;
-   display: flex;
-   justify-content: center;
-   align-items: center;
-   box-shadow: 2px 1px 2px 2px rgba(0,0,0,0.5);
-   z-index: 10;
-   /* box-shadow: 0 0.5em 1em -0.125em rgba(10,10,10,1.2), 0 0 0 1px rgba(10,10,10,.02); */
-  }
-  
-`;
 
 // ###################################### Footer ######################################
 const Footer = styled.div`
@@ -514,7 +494,13 @@ const info = {
   
 
 
-
+const StyledError = styled.div`
+    width: 100%;
+    height: 80vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+`;
 
 
 function Home() {
@@ -531,8 +517,10 @@ function Home() {
   );
   abortController.abort();
 
+  const { openNav } = useContext(NavContext);
+  
+  if(loading ) return <StyledError><h3>Loading..</h3> </StyledError>
 
-  const { openNav, setOpenNav } = useContext(NavContext);
 
     // grid items
   const gridItems =  (name) => {
@@ -554,7 +542,6 @@ function Home() {
    
   }
 
-  if(loading) return <p>it's loading</p>;
   if(error) console.log(error);
   
   return (
@@ -715,7 +702,7 @@ function Home() {
        
       </Row>
       {/* Back to Top */}
-      <GoTop>
+      {/* <GoTop>
         <BackToTop
            showOnScrollUp
            showAt={100}
@@ -727,7 +714,7 @@ function Home() {
             <BiUpArrow style={{ color: lightBlue, fontSize: "30px"}}></BiUpArrow>
           </div>
         </BackToTop>
-      </GoTop>
+      </GoTop> */}
       {/* Footer */}
       <Footer>
         <h3 className="footerTitleOne"><span>Telemartmyanmar</span> is the subsidiaries of <span>SPS Business Group</span> </h3>

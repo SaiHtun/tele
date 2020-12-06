@@ -16,7 +16,6 @@ const OverlayContainer = styled.div`
     ${(props) => props.open && css `
         height: 100vh;
         overflow-y: hidden;
-
         position: fixed;
         width: 100vw;
         height: 100vh;

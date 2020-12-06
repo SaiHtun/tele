@@ -97,7 +97,7 @@ const MenuContainer = styled.div`
             font-size: 13px;
         }
 
-        height: 80vh;
+        height: 100vh;
     }
 `;
 

@@ -1,16 +1,22 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import styled, { css } from 'styled-components';
 import { useQuery } from '@apollo/client';
 import { GET_ITEM } from '../queries/query';
 import { useParams, Link } from 'react-router-dom';
+import { NavContext } from '../context/NavContext';
 //  variables
 import { color, fontSize } from '../constants/variables';
 
 const ItemsContainer = styled.div`
     width: 100%;
-    min-height: 100vh;
+    min-height: 80vh;
     height: max-content;
     background-color: white;
+
+    ${(props) => props.open && css`
+        max-height: 80vh;
+        overflow-y: hidden;
+    `}
  
     .container {
         width: 80vw;
@@ -80,6 +86,15 @@ const ItemsContainer = styled.div`
     
 `;
 
+const StyledError = styled.div`
+    width: 100%;
+    height: 80vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+`;
+
+
 
 const getHeader = (i) => {
     if(i === "smartphoneandwatch") {
@@ -94,29 +109,36 @@ const getHeader = (i) => {
 }
 
 function Item() {
+    const { openNav } = useContext(NavContext);
     const { category, itemId } = useParams();
     const { loading, error, data } = useQuery(GET_ITEM, { variables: { itemId: itemId }});
 
-    console.log(data);
+    if(error) return <div>{ error.message }</div>
 
     return (
-        <ItemsContainer>
-            <div className="container">
-                <h3 className="header"><Link to={`/${category}`}><span className="category">{ getHeader(data?.items.category) } </span>  </Link> <small> {">"} </small> <span>{ data?.items.name }</span></h3>
-                <h3 className="itemName">{data?.items.name}</h3>
-                <div className="item">
-                    <img className="itemImg" src={`${data?.items.image.url}`} alt={`${data?.items.name}`}/>
-                    <div className="itemInfo"> 
-                        <p> Lorem ipsum dolor sit amet consectetur adipisicing elit. Cum numquam tenetur totam quas? Omnis nesciunt sed repudiandae pariatur in assumenda! </p>
-                        <ul className="itemMoreInfo">
-                            <li>Discount: {`${data?.items.discount? data.items.discount + "%": "No"}`}</li>
-                            <li>Best Seller: {`${data?.items.bestseller? "Yes": "No"}`}</li>
-                            <li>Price: {`${data?.items.price}`} Kyats</li>
-                        </ul>
+        <>
+            { data?.items? (
+                <ItemsContainer open={ openNav }>
+                    <div className="container">
+                        <h3 className="header"><Link to={`/${category}`}><span className="category">{ getHeader(data?.items.category) } </span>  </Link> <small> {">"} </small> <span>{ data?.items.name }</span></h3>
+                        <h3 className="itemName">{data?.items.name}</h3>
+                        <div className="item">
+                            <img className="itemImg" src={`${data?.items.image.url}`} alt={`${data?.items.name}`}/>
+                            <div className="itemInfo"> 
+                                <p> Lorem ipsum dolor sit amet consectetur adipisicing elit. Cum numquam tenetur totam quas? Omnis nesciunt sed repudiandae pariatur in assumenda! </p>
+                                <ul className="itemMoreInfo">
+                                    <li>Discount: {`${data?.items.discount? data.items.discount + "%": "No"}`}</li>
+                                    <li>Best Seller: {`${data?.items.bestseller? "Yes": "No"}`}</li>
+                                    <li>Price: {`${data?.items.price}`} Kyats</li>
+                                </ul>
+                            </div>
+                        </div>
                     </div>
-                </div>
-            </div>
-        </ItemsContainer>
+                </ItemsContainer>
+            ) : (
+                <StyledError > <h3>you are lost, go back <Link to="/">Home</Link></h3> </StyledError>
+            )}
+        </>
     )
 }
 

@@ -1,8 +1,9 @@
-import React from 'react';
-import styled from 'styled-components';
-import { useParams } from 'react-router-dom';
+import React, { useContext } from 'react';
+import styled, { css } from 'styled-components';
+import { useParams, Link } from 'react-router-dom';
 import { useQuery } from '@apollo/client';
 import { GET_SPECIFIC_ITEMS } from '../queries/query';
+import { NavContext } from '../context/NavContext';
 //  variables
 import { color, fontSize } from '../constants/variables';
 // components
@@ -10,8 +11,14 @@ import Item from '../components/Item';
 
 const ItemsContainer = styled.div`
     width: 100%;
+    min-height: 80vh;
     height: max-content;
     background-color: white;
+
+    ${(props) => props.open && css`
+        max-height: 80vh;
+        overflow-y: hidden;
+    `}
 
     .container {
         width: 80vw;
@@ -69,6 +76,14 @@ const ItemsContainer = styled.div`
     }
 `;
 
+const StyledError = styled.div`
+    width: 100%;
+    height: 80vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+`;
+
 const getHeader = (i) => {
     if(i === "smartphoneandwatch") {
         return "Smart phone and watch"
@@ -82,10 +97,12 @@ const getHeader = (i) => {
 }
 
 function Items() {
+    const { openNav } = useContext(NavContext);
     const { items } = useParams();
     const { loading, error, data } = useQuery(GET_SPECIFIC_ITEMS, { variables: { items: items}});
     
-    // console.log(data);
+    if(error) return <div>{ error.message }</div>
+
 
     const allItems = () => {
         if(loading ) {
@@ -104,15 +121,22 @@ function Items() {
     }
 
     return (
-        <ItemsContainer>
-            <div className="ads"></div>
-            <div className="container">
-                <h3 className="title">{ data && getHeader(items)}</h3>
-                <div className="itemList">
-                    { allItems() }
-                </div>
-            </div>
-        </ItemsContainer>
+        <>
+            { data?.itemsCollection.items.length > 0 ? (
+                <ItemsContainer open={ openNav }>
+                    <div className="ads"></div>
+                    <div className="container">
+                        <h3 className="title">{ data && getHeader(items)}</h3>
+                        <div className="itemList">
+                            { allItems() }
+                        </div>
+                    </div>
+                </ItemsContainer>
+
+            ) : (
+                <StyledError > <h3>you are lost, go back <Link to="/">Home</Link></h3> </StyledError>
+            )}
+        </>
     )
 }
 

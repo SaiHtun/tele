@@ -4,6 +4,7 @@ import { Switch, Route } from 'react-router-dom';
 import Home from './pages/Home';
 import Items from './pages/Items';
 import Item from './pages/Item';
+import Error from './pages/Error';
 // components
 import Menu from './components/Menu';
 import Overlay from './components/Overlay';
@@ -39,6 +40,9 @@ function App() {
             </Route>
             <Route  path="/:items">
               <Items></Items>
+            </Route>
+            <Route  path="*">
+              <Error />
             </Route>
           </Switch>
         </div>
