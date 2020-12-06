@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import styled, { css } from 'styled-components';
-import { useHistory } from 'react-router-dom';
+import { useHistory, Link } from 'react-router-dom';
 import { color } from '../constants/variables';
 import { NavContext } from '../context/NavContext';
 import { FaFacebookSquare, FaInstagram, FaGlobeAfrica } from 'react-icons/fa';
@@ -31,11 +31,16 @@ const MenuContainer = styled.div`
         font-weight: bold;
         letter-spacing: 1.2px;
 
-        li:not(:first-child):hover {
-            color: #807f7f;
+        a {
+            color: black;
+            font-weight: 400;
         }
 
-        li:first-child {
+        a:not(:first-child):hover {
+            color: ${color.lightBlue};
+        }
+
+        .brand {
             width: 100%;
             display: flex;
             justify-content: space-between;
@@ -97,7 +102,7 @@ const MenuContainer = styled.div`
             font-size: 13px;
         }
 
-        height: 100vh;
+        height: 80vh;
     }
 `;
 
@@ -116,14 +121,14 @@ function Menu() {
     return (
         <MenuContainer open={openNav} >
             <ul>
-                <li><span className="telemart" onClick={() => home()} ><p>T</p>elemart</span>  <span className="close" onClick={() => setOpenNav(false)}>X Close</span> </li>
-                <li>Deals</li>
-                <li>Best Seller</li>
-                <li>Phone and Watch</li>
-                <li>Gadget and Accessories</li>
-                <li>Smart Tv</li>
-                <li>Electronics</li>
-            </ul>
+                <li className="brand"><span className="telemart" onClick={() => home()} ><p>T</p>elemart</span>  <span className="close" onClick={() => setOpenNav(false)}>X Close</span> </li>
+                <Link to="/"><li>Deals</li></Link>
+                <Link to="/"><li>Best Seller</li></Link>
+                <Link to="/smartphoneandwatch" onClick={() => setOpenNav(false)}><li>Phone and Watch</li></Link>
+                <Link to="/accessories" onClick={() => setOpenNav(false)}><li>Gadget and Accessories</li></Link>
+                <Link to="/smarttv" onClick={() => setOpenNav(false)}><li>Smart Tv</li></Link> 
+                <Link to="/electronics" onClick={() => setOpenNav(false)}><li>Electronics</li></Link>
+            </ul> 
             <div className="info">
                 <p className="social"><FaFacebookSquare className="fb" /> <FaInstagram className="in"/> <FaGlobeAfrica className="web"/></p>
                 <p> +415 345 9879</p>

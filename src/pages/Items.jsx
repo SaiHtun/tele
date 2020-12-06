@@ -64,9 +64,9 @@ const ItemsContainer = styled.div`
     }
 
     .itemList {
-        margin: 0px 30px;
+        margin: 0px 15px;
         display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(200px, 220px));
+        grid-template-columns: repeat(auto-fill, minmax(220px, 250px));
         justify-items: center;
 
         @media only screen and (max-width: 500px) {

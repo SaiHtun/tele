@@ -63,7 +63,10 @@ const Hero = styled.div`
 
   .heroSlider {
     height: 70vh;
+    margin-top: -6px;
     margin-bottom: -150px;
+
+   
 
     .awssld__bullets {
       position: absolute;
@@ -518,7 +521,7 @@ function Home() {
   abortController.abort();
 
   const { openNav } = useContext(NavContext);
-  
+
   if(loading ) return <StyledError><h3>Loading..</h3> </StyledError>
 
 

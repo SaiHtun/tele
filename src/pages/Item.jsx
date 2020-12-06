@@ -59,6 +59,12 @@ const ItemsContainer = styled.div`
         flex-wrap: wrap;
         margin: 30px 0px;
 
+        @media only screen and (max-width: 500px) {
+            margin: 0px 0px 20px 0px;
+        }
+
+
+
         .itemImg {
             /* flex: 1; */
             width: 400px;
@@ -108,11 +114,20 @@ const getHeader = (i) => {
     }
 }
 
+const Loading = styled.div`
+    width: 100%;
+    height: 80vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+`;
+
 function Item() {
     const { openNav } = useContext(NavContext);
     const { category, itemId } = useParams();
     const { loading, error, data } = useQuery(GET_ITEM, { variables: { itemId: itemId }});
 
+    if(loading) return <Loading>Loading..</Loading>
     if(error) return <div>{ error.message }</div>
 
     return (
