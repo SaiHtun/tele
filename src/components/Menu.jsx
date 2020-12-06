@@ -18,7 +18,8 @@ const MenuContainer = styled.div`
     left: 0;
     z-index: 100;
     transform: translateX(-400px);
-    transition: transform 0.5s ease-in;    
+    transition: transform 0.5s ease-in;
+    overflow-y: hidden;    
     
     ul {
         margin-top: 50px;
@@ -70,7 +71,7 @@ const MenuContainer = styled.div`
         
     }
     .info {
-        height: 100px;
+        height: 150px;
         text-align: center;
         .social {
             width: 100%;
@@ -102,7 +103,6 @@ const MenuContainer = styled.div`
             font-size: 13px;
         }
 
-        height: 80vh;
     }
 `;
 

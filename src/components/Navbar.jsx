@@ -122,7 +122,7 @@ const Humberger = styled.div`
   }
   @media only screen  and (max-width: 500px) {
     position: absolute;
-    left: 15px;
+    left: 20px;
     width: 30px;
     height: 10px;
     display: inline-block;
