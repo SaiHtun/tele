@@ -66,7 +66,9 @@ const Hero = styled.div`
     margin-top: -6px;
     margin-bottom: -150px;
 
-   
+    @media only screen and (max-width: 500px) {
+      margin-bottom: -220px;
+    }
 
     .awssld__bullets {
       position: absolute;

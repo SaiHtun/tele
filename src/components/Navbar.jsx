@@ -167,6 +167,10 @@ const SemiNav = styled.div`
   div {
     width: 80vw;
     margin: 0 auto;
+
+    @media only screen and (max-width: 500px) {
+      width: 90vw;
+    }
   }
 `;
 
