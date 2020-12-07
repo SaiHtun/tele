@@ -18,12 +18,12 @@ const MenuContainer = styled.div`
     left: 0;
     z-index: 100;
     transform: translateX(-400px);
-    transition: transform 0.5s ease-in;
+    transition: transform 0.3s ease-in;
     overflow-y: hidden;    
     
     ul {
         margin-top: 50px;
-        height: 60%;
+        height: 70%;
         display: flex;
         flex-direction: column;
         justify-content: space-around;
@@ -39,6 +39,10 @@ const MenuContainer = styled.div`
 
         a:not(:first-child):hover {
             color: ${color.lightBlue};
+        }
+
+        .lastLi {
+            margin-bottom: 20px;
         }
 
         .brand {
@@ -71,7 +75,7 @@ const MenuContainer = styled.div`
         
     }
     .info {
-        height: 150px;
+        width: 100%;
         text-align: center;
         .social {
             width: 100%;
@@ -127,12 +131,12 @@ function Menu() {
                 <Link to="/smartphoneandwatch" onClick={() => setOpenNav(false)}><li>Phone and Watch</li></Link>
                 <Link to="/accessories" onClick={() => setOpenNav(false)}><li>Gadget and Accessories</li></Link>
                 <Link to="/smarttv" onClick={() => setOpenNav(false)}><li>Smart Tv</li></Link> 
-                <Link to="/electronics" onClick={() => setOpenNav(false)}><li>Electronics</li></Link>
+                <Link className="lastLi" to="/electronics" onClick={() => setOpenNav(false)}><li>Electronics</li></Link>
+                <li className="info">
+                    <p className="social"><FaFacebookSquare className="fb" /> <FaInstagram className="in"/> <FaGlobeAfrica className="web"/></p>
+                    <p> +415 345 9879</p>
+                </li>
             </ul> 
-            <div className="info">
-                <p className="social"><FaFacebookSquare className="fb" /> <FaInstagram className="in"/> <FaGlobeAfrica className="web"/></p>
-                <p> +415 345 9879</p>
-            </div>
         </MenuContainer>
     )
 }

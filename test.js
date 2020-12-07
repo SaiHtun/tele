@@ -1,15 +1,7 @@
 
-const cars = ['bmw', 'honda', 'toyota', 'honda', 'mercedez', 'mazda'];
+const cars = ['bmw', 'honda', 'toyota', 'honda', 'honda','mercedez', 'mazda'];
+const oldCars = ['laybane', 'sitecar'];
 
-const async = () => {
-  let array = ['bmw', 'honda', 'toyota', 'honda', 'mercedez', 'mazda'];
-  for(let i = array.length - 1; i > 0; i--){
-      const j = Math.floor(Math.random() * i)
-      const temp = array[i]
-      array[i] = array[j]
-      array[j] = temp
-    }
-  console.log(array);
-}
+const array = new Set(cars.map((car) => car));
 
-async();
+["siteCar", ...array].map((car) => console.log(car));

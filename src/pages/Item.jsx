@@ -9,7 +9,7 @@ import { color, fontSize } from '../constants/variables';
 
 const ItemsContainer = styled.div`
     width: 100%;
-    min-height: 80vh;
+    min-height: 100vh;
     height: max-content;
     background-color: white;
 

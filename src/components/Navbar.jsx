@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { FaSearch } from "react-icons/fa";
 import { color } from '../constants/variables';
 import { NavContext } from '../context/NavContext';
@@ -15,6 +15,10 @@ const Nav = styled.div`
   color: #ffff;
   position: relative;
   z-index: 10;
+
+  ${(props) => props.open && css`
+    position: absolute;
+  `}
 
 `
 
@@ -146,7 +150,24 @@ const Humberger = styled.div`
     width: 60%;
   }
 
- 
+`;
+
+const SemiNav = styled.div`
+  width: 100%;
+  height: 20px;
+  background-color: slateblue;
+  text-align: right;
+  font-size: 12px;
+  line-height: 20px;
+  @media only screen and (max-width: 500px) {
+    font-size: 10px;
+    text-align: center;
+  }
+
+  div {
+    width: 80vw;
+    margin: 0 auto;
+  }
 `;
 
 function Navbar() {
@@ -156,7 +177,7 @@ function Navbar() {
   const history = useHistory();
 
   return (
-    <Nav>
+    <Nav open={openNav}>
       <Container>
         <Humberger onClick={() => setOpenNav(!openNav)}>
           <div className="line one"></div>
@@ -178,6 +199,11 @@ function Navbar() {
           </ul>
         </Menu>
       </Container>
+      <SemiNav>
+        <div>
+          <p>📍 Yangon, Myanmar | telemartmyanmar@gmail.com | +415 678 3465</p>
+        </div>
+      </SemiNav>
     </Nav>
   )
 }

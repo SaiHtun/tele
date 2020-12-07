@@ -57,7 +57,7 @@ const Hero = styled.div`
   z-index: -10;
 
   ${(props) => props.open && css`
-      max-height: 80vh;
+      max-height: 90vh;
       overflow-y: hidden;
   `}
 
@@ -197,6 +197,10 @@ const ShowcaseItem = styled.div`
   @media only screen and (max-width: 900px) {
     min-width: 280px;
     margin-bottom: 10px;
+
+    ${(props) => props.giftItem && css`
+       display: none;
+    `}
 
   }
   @media only screen and (max-width: 600px) {
@@ -601,7 +605,7 @@ function Home() {
         </ShowcaseItem>
 
         {/* gift items */}
-        <ShowcaseItem >
+        <ShowcaseItem  giftItem="true">
           <h3>Gift items</h3>
           <div className="showcaseGrid">
             { info.img.map((e, i) => {

@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import styled, { css } from 'styled-components';
 import { useParams, Link } from 'react-router-dom';
 import { useQuery } from '@apollo/client';
@@ -16,7 +16,7 @@ const ItemsContainer = styled.div`
     background-color: white;
 
     ${(props) => props.open && css`
-        max-height: 80vh;
+        max-height: 90vh;
         overflow-y: hidden;
     `}
 
@@ -76,6 +76,18 @@ const ItemsContainer = styled.div`
     }
 `;
 
+const Filter = styled.div`
+    width: 300px;
+
+    .form {
+        width: 100%;
+
+        select {
+            width: 100%;
+        }
+    }
+`;
+
 const StyledError = styled.div`
     width: 100%;
     height: 80vh;
@@ -97,12 +109,27 @@ const getHeader = (i) => {
 }
 
 function Items() {
+    const [ array, setArray ] = useState([]);
+    const [ brand, setBrand ] = useState("all");
     const { openNav } = useContext(NavContext);
     const { items } = useParams();
-    const { loading, error, data } = useQuery(GET_SPECIFIC_ITEMS, { variables: { items: items}});
+
+    // const abortController = new AbortController();
+
+    const { loading, error, data } = useQuery(GET_SPECIFIC_ITEMS, { variables: { items: items} });
+
+   
+
+    useEffect(() => {
+        setArray(data?.itemsCollection.items)
+    }, [data])
+
+    
     
     if(error) return <div>{ error.message }</div>
 
+
+   
 
     const allItems = () => {
         if(loading ) {
@@ -112,7 +139,7 @@ function Items() {
         }else if(error) {
             console.error(error.message)
         }else {
-            return data.itemsCollection.items.map((item) => {
+            return array.length > 0 && array.map((item) => {
                 return (
                     <Item key={item.id} item={item}></Item>
                 )
@@ -120,13 +147,45 @@ function Items() {
         }
     }
 
+    const getUnique = (category) => {
+        return new Set(data?.itemsCollection.items.map((item) => item[category]));
+    }
+
+
+    let brands =  getUnique("brand");
+
+    let AllBrands = ["all", ...brands].map((item, index) => {
+        return (
+            <option value={item} key={index}> { item } </option>
+        )
+    })
+
+    // handle change for "select brand filter"
+    const handleChange = (e) => {
+        setBrand(e.target.value);
+        let temp = [...data?.itemsCollection.items];
+        if(e.target.value !== "all") {
+            temp = temp.filter((item) => item.brand === e.target.value);
+            setArray(temp);
+        }
+        setArray(temp);
+    }
+
+
     return (
         <>
-            { data?.itemsCollection.items.length > 0 ? (
+            { array && array.length  ? (
                 <ItemsContainer open={ openNav }>
                     <div className="ads"></div>
                     <div className="container">
-                        <h3 className="title">{ data && getHeader(items)}</h3>
+                        <h3 className="title">{ array && getHeader(items)}</h3>
+                        <Filter>
+                            <form className="form">
+                                <select name="brand" value={brand} onChange={(e) => handleChange(e) }>
+                                    { AllBrands }
+                                </select>
+                            </form>
+                        </Filter>
                         <div className="itemList">
                             { allItems() }
                         </div>
