@@ -1,4 +1,5 @@
 import React, { useContext } from "react";
+import { Link } from "react-router-dom";
 import styled, { css } from "styled-components";
 // components
 import Item from "../components/Item";
@@ -556,14 +557,14 @@ function Home() {
         <ShowcaseItem>
           <h3>Deals</h3>
           <div className="showcaseGrid">{data && gridItems("discount")}</div>
-          <a href="#">Discover More</a>
+          <Link to="#">Discover More</Link>
         </ShowcaseItem>
 
         {/* best sellers */}
         <ShowcaseItem>
           <h3>Best Seller</h3>
           <div className="showcaseGrid">{data && gridItems("bestseller")}</div>
-          <a href="#">Discover More</a>
+          <Link to="#">Discover More</Link>
         </ShowcaseItem>
 
         {/* gift items */}
@@ -574,7 +575,7 @@ function Home() {
               return <img src={e} alt="gg" key={i} />;
             })}
           </div>
-          <a href="#">Discover More</a>
+          <Link to="#">Discover More</Link>
         </ShowcaseItem>
       </Showcase>
       {/* ads */}
@@ -583,7 +584,7 @@ function Home() {
       <Row>
         <div className="rowTitle">
           <h3>Smart phone and watch</h3>{" "}
-          <a href="/smartphoneandwatch">See all</a>
+          <Link to="/smartphoneandwatch">See all</Link>
         </div>
         {/* <div className="rowContainer"> */}
         <Carousel
@@ -606,7 +607,7 @@ function Home() {
             <div className="feature" key={i}>
               {feature.icon}
               <p>{stringCutter(feature.blog)}</p>
-              <a href="#">More</a>
+              <Link to="#">More</Link>
             </div>
           );
         })}
@@ -614,7 +615,7 @@ function Home() {
       {/* row Accessories */}
       <Row>
         <div className="rowTitle">
-          <h3>Accessories</h3> <a href="accessories">See all</a>
+          <h3>Accessories</h3> <Link to="/accessories">See all</Link>
         </div>
         <Carousel
           swipeable
@@ -631,7 +632,7 @@ function Home() {
       {/* row Smart TV */}
       <Row>
         <div className="rowTitle">
-          <h3>Smart TV</h3> <a href="smarttv">See all</a>
+          <h3>Smart TV</h3> <Link to="/smarttv">See all</Link>
         </div>
         <Carousel
           swipeable
@@ -648,7 +649,7 @@ function Home() {
       {/* row  Electronics */}
       <Row>
         <div className="rowTitle">
-          <h3>Electronics</h3> <a href="electronics">See all</a>
+          <h3>Electronics</h3> <Link to="/electronics">See all</Link>
         </div>
         <Carousel
           swipeable
