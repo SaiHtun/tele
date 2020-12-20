@@ -4,6 +4,7 @@ import { gql } from '@apollo/client';
 const Fields = gql`
   fragment getAllFields on Items {
     name
+    brand
     colors
     category
     id
