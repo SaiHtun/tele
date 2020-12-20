@@ -1,5 +1,6 @@
 import React, { useState, useContext } from "react";
 import styled, { css } from "styled-components";
+
 import { FaSearch } from "react-icons/fa";
 import { color } from "../constants/variables";
 import { NavContext } from "../context/NavContext";

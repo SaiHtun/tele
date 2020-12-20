@@ -4,6 +4,7 @@ import { useParams, Link } from "react-router-dom";
 import { useQuery } from "@apollo/client";
 import { GET_SPECIFIC_ITEMS } from "../queries/query";
 import { NavContext } from "../context/NavContext";
+
 //  variables
 import { color, fontSize } from "../constants/variables";
 // components
@@ -177,12 +178,13 @@ function Items() {
           <div className="container">
             <h3 className="title">{array && getHeader(items)}</h3>
             {/* <Filter>
-                            <form className="form">
-                                <select name="brand" value={brand} onChange={(e) => handleChange(e) }>
-                                    { AllBrands }
-                                </select>
-                            </form>
-                        </Filter> */}
+
+                <form className="form">
+                    <select name="brand" value={brand} onChange={(e) => handleChange(e) }>
+                        { AllBrands }
+                    </select>
+                </form>
+            </Filter> */}
             <div className="itemList">{allItems()}</div>
           </div>
         </ItemsContainer>

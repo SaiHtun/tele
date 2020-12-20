@@ -1,55 +1,61 @@
-import React, { useContext } from 'react';
-import styled, { css } from 'styled-components';
+import React, { useContext } from "react";
+import styled, { css } from "styled-components";
 // components
 import Item from "../components/Item";
 // assets
-import TeleImg from '../assets/telesky.JPG';
-import a1 from '../assets/a1.jpg';
-import a2 from '../assets/a2.jpg';
-import a3 from '../assets/a3.png';
-import a4 from '../assets/a4.jpg';
-import sps from '../assets/sps.JPG';
-import ads from '../assets/ads.JPG';
-import { AiFillAlipayCircle, AiFillAndroid, AiFillCloud, AiFillGooglePlusSquare } from 'react-icons/ai';
-import { color, fontSize } from '../constants/variables';
-import { GET_ITEMS } from '../queries/query';
-import { NavContext } from '../context/NavContext';
+import TeleImg from "../assets/telesky.JPG";
+import a1 from "../assets/a1.jpg";
+import a2 from "../assets/a2.jpg";
+import a3 from "../assets/a3.png";
+import a4 from "../assets/a4.jpg";
+import sps from "../assets/sps.JPG";
+import ads from "../assets/ads.JPG";
+import {
+  AiFillAlipayCircle,
+  AiFillAndroid,
+  AiFillCloud,
+  AiFillGooglePlusSquare,
+} from "react-icons/ai";
+import { color, fontSize } from "../constants/variables";
+import { GET_ITEMS } from "../queries/query";
+import { NavContext } from "../context/NavContext";
 // functions
-import { stringCutter } from '../utility/functions';
+import { stringCutter } from "../utility/functions";
 // Carousel
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 // ads carousel
-import AwesomeSlider from 'react-awesome-slider';
-import 'react-awesome-slider/dist/styles.css';
-import withAutoplay from 'react-awesome-slider/dist/autoplay';
+import AwesomeSlider from "react-awesome-slider";
+import "react-awesome-slider/dist/styles.css";
+import withAutoplay from "react-awesome-slider/dist/autoplay";
 // carousel setting
-import responsiveSetting from '../constants/carousel';
+import responsiveSetting from "../constants/carousel";
 
-import { useQuery } from '@apollo/client';
+import { useQuery } from "@apollo/client";
 
 //  autoplay slider
-const AutoplaySlider = withAutoplay(AwesomeSlider)
+const AutoplaySlider = withAutoplay(AwesomeSlider);
 
 // Variables
-const {lightBlue, darkBlue} = color;
+const { lightBlue, darkBlue } = color;
 const { cardTitleText, linkText, desText } = fontSize;
 // eslint-disable-next-line
-
-
 
 const Hero = styled.div`
   width: 100vw;
   max-width: 1450px;
   margin: 0 auto;
   min-height: 80vh;
-  font-family: 'Roboto', sans-serif;
+  font-family: "Roboto", sans-serif;
   z-index: -10;
 
-  ${(props) => props.open && css`
+  ${(props) =>
+    props.open &&
+    css`
       max-height: 100vh;
+      max-height: 90vh;
       overflow-y: hidden;
-  `}
+    `}
 
   .heroSlider {
     height: 70vh;
@@ -67,26 +73,20 @@ const Hero = styled.div`
       height: 10px;
       background-color: white;
     }
-
   }
 
   a {
-    color: ${lightBlue}
+    color: ${lightBlue};
   }
 
   ::-webkit-scrollbar {
     background-color: red;
   }
 
-
-
   @media only screen and (max-width: 600px) {
     height: 100vh;
   }
-  
-
 `;
-
 
 // ###################################### Showcase ######################################
 const Showcase = styled.div`
@@ -99,9 +99,8 @@ const Showcase = styled.div`
   overflow-y: hidden;
 
   ::-webkit-scrollbar {
-      height: 5px;
-    }
-
+    height: 5px;
+  }
 
   ::-webkit-scrollbar-track {
     background-color: #d4d3d3;
@@ -109,9 +108,7 @@ const Showcase = styled.div`
 
   ::-webkit-scrollbar-thumb {
     background-color: ${lightBlue};
-
   }
-
 
   @media only screen and (max-width: 1200px) {
     justify-content: flex-start;
@@ -123,14 +120,14 @@ const Showcase = styled.div`
     height: auto;
     margin-bottom: 5px;
     :hover {
-     overflow-x: hidden;
+      overflow-x: hidden;
     }
   }
- 
+
   @media only screen and (max-width: 500px) {
     margin: 0 0;
     :hover {
-     overflow-x: hidden;
+      overflow-x: hidden;
     }
   }
 `;
@@ -143,7 +140,8 @@ const ShowcaseItem = styled.div`
   margin: 10px;
   padding: 15px;
   background-color: white;
-  box-shadow: 0 0.5em 1em -0.125em rgba(10,10,10,.10), 0 0 0 1px rgba(10,10,10,.02);
+  box-shadow: 0 0.5em 1em -0.125em rgba(10, 10, 10, 0.1),
+    0 0 0 1px rgba(10, 10, 10, 0.02);
   height: max-content;
   z-index: 10;
 
@@ -167,16 +165,13 @@ const ShowcaseItem = styled.div`
     img {
       width: 100%;
       height: 100%;
-      transition: transform .3s ease-out;
+      transition: transform 0.3s ease-out;
       object-fit: cover;
     }
 
     img:hover {
-      transform: scale(1.1)
+      transform: scale(1.1);
     }
-
-    
-
   }
 
   @media only screen and (max-width: 1000px) {
@@ -186,15 +181,15 @@ const ShowcaseItem = styled.div`
     min-width: 280px;
     margin-bottom: 10px;
 
-    ${(props) => props.giftItem && css`
-       display: none;
-    `}
-
+    ${(props) =>
+      props.giftItem &&
+      css`
+        display: none;
+      `}
   }
   @media only screen and (max-width: 600px) {
-      margin-bottom: 5px;
+    margin-bottom: 5px;
   }
- 
 `;
 
 // ###################################### Ads ######################################
@@ -211,7 +206,7 @@ const Ads = styled.img`
 `;
 
 Ads.defaultProps = {
-  src: ads
+  src: ads,
 };
 
 // ###################################### row ######################################
@@ -224,16 +219,12 @@ const Row = styled.div`
   margin-bottom: 15px;
 
   .slider {
-    
-    
     ul {
       margin-top: 30px;
 
-     
-
       li {
         min-width: 250px !important;
-        max-width: 280px; 
+        max-width: 280px;
         height: max-content;
         margin: 0px 5px;
 
@@ -242,27 +233,19 @@ const Row = styled.div`
         }
         @media only screen and (max-width: 500px) {
           margin: 0px 10px;
-
         }
-       
-
       }
-     
     }
   }
- 
+
   @media only screen and (max-width: 800px) {
-     margin: 0px;
-     margin-bottom: 5px;
+    margin: 0px;
+    margin-bottom: 5px;
   }
   @media only screen and (max-width: 500px) {
-     padding: 30px 15px;
-     margin-bottom: 5px;
+    padding: 30px 15px;
+    margin-bottom: 5px;
   }
-
-  
-
- 
 
   .rowTitle {
     width: 100%;
@@ -270,33 +253,30 @@ const Row = styled.div`
     justify-content: space-between;
     align-items: center;
 
-    
     h3 {
-      position: relative; 
+      position: relative;
 
       ::after {
         position: absolute;
-        content: '';
+        content: "";
         height: 3px;
-        bottom: -6px; 
+        bottom: -6px;
         margin: 0;
         left: 0;
         right: 0;
         width: 50%;
         background: ${lightBlue};
-		  -o-transition:.5s;
-  		  -ms-transition:.5s;
-        -moz-transition:.5s;
-        -webkit-transition:.5s;
-        transition:.5s;
+        -o-transition: 0.5s;
+        -ms-transition: 0.5s;
+        -moz-transition: 0.5s;
+        -webkit-transition: 0.5s;
+        transition: 0.5s;
       }
 
       :hover::after {
         width: 100%;
       }
     }
-    
-
   }
 
   .rowItem {
@@ -329,7 +309,6 @@ const Row = styled.div`
     @media only screen and (max-width: 500px) {
       margin: 5px;
       text-align: left;
-
     }
 
     .imgContainer {
@@ -338,7 +317,7 @@ const Row = styled.div`
       transition: all 0.5s ease-out;
 
       :hover {
-        transform: scale(1.1)
+        transform: scale(1.1);
       }
 
       @media only screen and (max-width: 500px) {
@@ -398,7 +377,8 @@ const Features = styled.div`
     align-items: center;
     line-height: 20px;
 
-    a, p {
+    a,
+    p {
       font-size: 14px !important;
     }
   }
@@ -407,7 +387,6 @@ const Features = styled.div`
     display: none;
   }
 `;
-
 
 // ###################################### Footer ######################################
 const Footer = styled.div`
@@ -444,7 +423,6 @@ const Footer = styled.div`
     flex-wrap: wrap;
     text-align: left;
 
-
     .storeLocation {
       display: flex;
       flex-direction: column;
@@ -470,14 +448,19 @@ const Footer = styled.div`
     border-top: 1px solid ${lightBlue};
     span {
       font-weight: bold !important;
-    } 
+    }
   }
-
-  
 `;
 
-const features = [{ icon: <AiFillAlipayCircle/>, blog: "lorem asdf awrshyg qwtr hswre awet"}, { icon: <AiFillAndroid/>, blog: "lorem asdf awrshyg qwtr hswre awet"},
-{ icon: <AiFillCloud/>, blog: "lorem asdf awrshyg qwtr hswre awet"},{ icon: <AiFillGooglePlusSquare/>, blog: "lorem asdf awrshyg qwtr hswre awet"} ];
+const features = [
+  { icon: <AiFillAlipayCircle />, blog: "lorem asdf awrshyg qwtr hswre awet" },
+  { icon: <AiFillAndroid />, blog: "lorem asdf awrshyg qwtr hswre awet" },
+  { icon: <AiFillCloud />, blog: "lorem asdf awrshyg qwtr hswre awet" },
+  {
+    icon: <AiFillGooglePlusSquare />,
+    blog: "lorem asdf awrshyg qwtr hswre awet",
+  },
+];
 
 const info = {
   name: "Samsung",
@@ -485,121 +468,110 @@ const info = {
   img: [sps, sps, sps, sps],
 };
 
-
-  
-
-
 const StyledError = styled.div`
-    width: 100%;
-    height: 80vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  width: 100%;
+  height: 80vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
-
 function Home() {
-
   // query with async cancellation.
   const abortController = new AbortController();
-  const { loading, error, data } = useQuery(GET_ITEMS, 
-     { context: {
-        fetchOptions: {
-          signal: abortController.singal
-        }
-      }
-     }
-  );
+  const { loading, error, data } = useQuery(GET_ITEMS, {
+    context: {
+      fetchOptions: {
+        signal: abortController.singal,
+      },
+    },
+  });
   abortController.abort();
 
   const { openNav } = useContext(NavContext);
 
-  if(loading ) return <StyledError><h3>Loading..</h3> </StyledError>
+  if (loading)
+    return (
+      <StyledError>
+        <h3>Loading..</h3>{" "}
+      </StyledError>
+    );
 
-
-    // grid items
-  const gridItems =  (name) => {
-
+  // grid items
+  const gridItems = (name) => {
     let array = data && [...data.allItems.items];
 
+    return array
+      .sort(() => Math.random() - 0.5)
+      .filter((item) => {
+        if (item[name]) {
+          return item;
+        }
+      })
+      .slice(0, 4)
+      .map((e, i) => {
+        return (
+          <div key={i}>
+            <img src={e.image.url} alt="gg" />
+          </div>
+        );
+      });
+  };
 
-    return array.sort(() => Math.random() - 0.5 ).filter((item) => {
-      if(item[name]) {
-        return item;
-      }
-    }).slice(0,4).map((e, i) => {
-      return (
-        <div key={i}>
-          <img src={e.image.url} alt="gg" />
-        </div>
-      )
-    })
-   
-  }
+  if (error) console.log(error);
 
-  if(error) console.log(error);
-  
   return (
     <Hero open={openNav}>
       {/* Overlay */}
       {/* <div className="overlay" onClick={() => setOpenNav(false)}></div> */}
       {/* hero img */}
       <AutoplaySlider
-          className="heroSlider"
-          play={true}
-          cancelOnInteraction={false}
-          interval={6000}
-          organicArrows={true}
-          bullets={true}
-          media={[
-            {
-              source: `${TeleImg}`,
-            },
-            {
-              source: `${a1}`,
-            },
-            {
-              source: `${a2}`,
-            },
-            {
-              source: `${a3}`,
-            },
-            {
-              source: `${a4}`,
-            }
-          ]}
-      >
-      
-      </AutoplaySlider>
+        className="heroSlider"
+        play={true}
+        cancelOnInteraction={false}
+        interval={6000}
+        organicArrows={true}
+        bullets={true}
+        media={[
+          {
+            source: `${TeleImg}`,
+          },
+          {
+            source: `${a1}`,
+          },
+          {
+            source: `${a2}`,
+          },
+          {
+            source: `${a3}`,
+          },
+          {
+            source: `${a4}`,
+          },
+        ]}
+      ></AutoplaySlider>
       {/* showcase */}
       <Showcase>
-
         {/* Deals */}
-        <ShowcaseItem >
+        <ShowcaseItem>
           <h3>Deals</h3>
-          <div className="showcaseGrid">
-            { data && gridItems("discount")}
-          </div>
+          <div className="showcaseGrid">{data && gridItems("discount")}</div>
           <a href="#">Discover More</a>
         </ShowcaseItem>
 
         {/* best sellers */}
-        <ShowcaseItem >
+        <ShowcaseItem>
           <h3>Best Seller</h3>
-          <div className="showcaseGrid">
-            { data && gridItems("bestseller")}
-          </div>
+          <div className="showcaseGrid">{data && gridItems("bestseller")}</div>
           <a href="#">Discover More</a>
         </ShowcaseItem>
 
         {/* gift items */}
-        <ShowcaseItem  giftItem="true">
+        <ShowcaseItem giftItem="true">
           <h3>Gift items</h3>
           <div className="showcaseGrid">
-            { info.img.map((e, i) => {
-              return (
-                <img src={e} alt="gg" key={i}/>
-              )
+            {info.img.map((e, i) => {
+              return <img src={e} alt="gg" key={i} />;
             })}
           </div>
           <a href="#">Discover More</a>
@@ -610,91 +582,85 @@ function Home() {
       {/* row Smart phone & watch*/}
       <Row>
         <div className="rowTitle">
-          <h3>Smart phone and watch</h3> <a href="/smartphoneandwatch">See all</a>
+          <h3>Smart phone and watch</h3>{" "}
+          <a href="/smartphoneandwatch">See all</a>
         </div>
         {/* <div className="rowContainer"> */}
-            <Carousel 
-            partialVisible
-            responsive={responsiveSetting}
-            className="slider"
-            >
-              { data && data.smartphoneandwatch.items.slice(0, 10).map((item, i) => {
-                return (
-                  <Item key={i} item={item}></Item>
-                )
-              })}
-            </Carousel>
+        <Carousel
+          partialVisible
+          responsive={responsiveSetting}
+          className="slider"
+        >
+          {data &&
+            data.smartphoneandwatch.items.slice(0, 10).map((item, i) => {
+              return <Item key={i} item={item}></Item>;
+            })}
+        </Carousel>
 
         {/* </div> */}
-       
       </Row>
       {/* New Tech News & Features */}
       <Features>
-        { features.map((feature, i) => {
+        {features.map((feature, i) => {
           return (
             <div className="feature" key={i}>
-              { feature.icon }
-              <p>{ stringCutter(feature.blog) }</p>
+              {feature.icon}
+              <p>{stringCutter(feature.blog)}</p>
               <a href="#">More</a>
             </div>
-          )
+          );
         })}
       </Features>
-       {/* row Accessories */}
-       <Row>
+      {/* row Accessories */}
+      <Row>
         <div className="rowTitle">
           <h3>Accessories</h3> <a href="accessories">See all</a>
         </div>
-        <Carousel 
-            swipeable
-            partialVisible
-            responsive={responsiveSetting}
-            className="slider"
-            >
-          { data && data.accessories.items.map((item, i) => {
-            return (
-              <Item key={i} item={item}></Item>
-            )
-          })}
+        <Carousel
+          swipeable
+          partialVisible
+          responsive={responsiveSetting}
+          className="slider"
+        >
+          {data &&
+            data.accessories.items.map((item, i) => {
+              return <Item key={i} item={item}></Item>;
+            })}
         </Carousel>
-       
       </Row>
-       {/* row Smart TV */}
-       <Row>
+      {/* row Smart TV */}
+      <Row>
         <div className="rowTitle">
           <h3>Smart TV</h3> <a href="smarttv">See all</a>
         </div>
-        <Carousel 
-            swipeable
-            partialVisible
-            responsive={responsiveSetting}
-            className="slider"
-            >
-          { data && data.tv.items.map((item, i) => {
-            return (
-                <Item key={i} item={item}></Item>
-            )
-          })}
+        <Carousel
+          swipeable
+          partialVisible
+          responsive={responsiveSetting}
+          className="slider"
+        >
+          {data &&
+            data.tv.items.map((item, i) => {
+              return <Item key={i} item={item}></Item>;
+            })}
         </Carousel>
       </Row>
-       {/* row  Electronics */}
-       <Row>
+      {/* row  Electronics */}
+      <Row>
         <div className="rowTitle">
           <h3>Electronics</h3> <a href="electronics">See all</a>
         </div>
-        <Carousel 
-            swipeable
-            partialVisible
-            responsive={responsiveSetting}
-            className="slider"
-            >
-          { data && data.electronics.items.map((item, i) => {
-            return (
-              <Item key={i} item={item}></Item>
-            )
-          })}
+        <Carousel
+          swipeable
+          partialVisible
+          responsive={responsiveSetting}
+          className="slider"
+        >
+          {data &&
+            data.electronics.items.map((item, i) => {
+              return <Item key={i} item={item}></Item>;
+            })}
         </Carousel>
-       
       </Row>
       {/* Back to Top */}
       {/* <GoTop>
@@ -712,32 +678,33 @@ function Home() {
       </GoTop> */}
       {/* Footer */}
       <Footer>
-        <h3 className="footerTitleOne"><span>Telemartmyanmar</span> is the subsidiaries of <span>SPS Business Group</span> </h3>
+        <h3 className="footerTitleOne">
+          <span>Telemartmyanmar</span> is the subsidiaries of{" "}
+          <span>SPS Business Group</span>{" "}
+        </h3>
         <div className="locations">
           {/* address 1 */}
           <div className="storeLocation">
             <h4>Store Location</h4>
             <p className="storeName">Shwe Pyi San Mobile</p>
-            <p className="sotreAddress">
-              1 Belmont Dr, Daly City,
-            </p>
+            <p className="sotreAddress">1 Belmont Dr, Daly City,</p>
             <p>CA, 94015</p>
           </div>
           {/* address 2 */}
           <div className="storeLocation">
             <h4>Store Location</h4>
             <p className="storeName">Shwe Pyi San Mobile</p>
-            <p className="sotreAddress">
-              1 Belmont Dr, Daly City, 
-            </p>
+            <p className="sotreAddress">1 Belmont Dr, Daly City,</p>
             <p>CA, 94015</p>
           </div>
-         
         </div>
-        <h3 className="footerTitleTwo"><span> © 2020, Telemartmyanmar </span><span>Powered by VoilaSoft</span> </h3>
+        <h3 className="footerTitleTwo">
+          <span> © 2020, Telemartmyanmar </span>
+          <span>Powered by VoilaSoft</span>{" "}
+        </h3>
       </Footer>
     </Hero>
-  )
+  );
 }
 
-export default Home
+export default Home;
