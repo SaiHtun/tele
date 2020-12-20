@@ -47,6 +47,7 @@ const Brand = styled.h2`
   @media only screen and (max-width: 780px) {
     text-align: center;
     flex: 4;
+    max-width: 130px;
   } ;
 `;
 
