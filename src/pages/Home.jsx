@@ -1,8 +1,9 @@
 import React, { useContext } from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import styled, { css } from "styled-components";
 // components
 import Item from "../components/Item";
+import Footer from "../components/Footer";
 // assets
 import TeleImg from "../assets/telesky.JPG";
 import a1 from "../assets/a1.jpg";
@@ -11,17 +12,9 @@ import a3 from "../assets/a3.png";
 import a4 from "../assets/a4.jpg";
 import sps from "../assets/sps.JPG";
 import ads from "../assets/ads.JPG";
-import {
-  AiFillAlipayCircle,
-  AiFillAndroid,
-  AiFillCloud,
-  AiFillGooglePlusSquare,
-} from "react-icons/ai";
 import { color, fontSize } from "../constants/variables";
 import { GET_ITEMS } from "../queries/query";
 import { NavContext } from "../context/NavContext";
-// functions
-import { stringCutter } from "../utility/functions";
 // Carousel
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
@@ -356,113 +349,6 @@ const Row = styled.div`
   }
 `;
 
-// ###################################### Features & News ######################################
-const Features = styled.div`
-  width: 70%;
-  height: 250px;
-  margin: 20px;
-  margin: 0 auto;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  .feature {
-    width: 200px;
-    height: 200px;
-    text-align: center;
-    font-size: 2em;
-    padding: 5px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    line-height: 20px;
-
-    a,
-    p {
-      font-size: 14px !important;
-    }
-  }
-
-  @media only screen and (max-width: 800px) {
-    display: none;
-  }
-`;
-
-// ###################################### Footer ######################################
-const Footer = styled.div`
-  width: 100%;
-  height: 500px;
-  background: ${darkBlue};
-  color: white;
-  position: relative;
-  z-index: -1;
-
-  @media only screen and (max-width: 500px) {
-    font-size: 14px;
-  }
-
-  h3 {
-    width: 100%;
-    padding: 15px 0;
-    text-align: center;
-    font-size: 13px;
-    line-height: 15px;
-    font-weight: 300;
-
-    span {
-      font-weight: 500;
-    }
-  }
-
-  .locations {
-    width: 100%;
-    height: 400px;
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    flex-wrap: wrap;
-    text-align: left;
-
-    .storeLocation {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: flex-start;
-    }
-  }
-
-  .footerTitleOne {
-    background-color: ${lightBlue};
-    border-bottom: 1px solid #515151;
-  }
-
-  .footerTitleTwo {
-    position: absolute;
-    font-style: italic;
-    line-height: 15px;
-    left: 0;
-    bottom: 0;
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    border-top: 1px solid ${lightBlue};
-    span {
-      font-weight: bold !important;
-    }
-  }
-`;
-
-const features = [
-  { icon: <AiFillAlipayCircle />, blog: "lorem asdf awrshyg qwtr hswre awet" },
-  { icon: <AiFillAndroid />, blog: "lorem asdf awrshyg qwtr hswre awet" },
-  { icon: <AiFillCloud />, blog: "lorem asdf awrshyg qwtr hswre awet" },
-  {
-    icon: <AiFillGooglePlusSquare />,
-    blog: "lorem asdf awrshyg qwtr hswre awet",
-  },
-];
-
 const info = {
   name: "Samsung",
   title: "Smart phone and watch",
@@ -477,7 +363,10 @@ const StyledError = styled.div`
   align-items: center;
 `;
 
+// ###################################### Home Component ######################################
+
 function Home() {
+  const history = useHistory();
   // query with async cancellation.
   const abortController = new AbortController();
   const { loading, error, data } = useQuery(GET_ITEMS, {
@@ -512,7 +401,7 @@ function Home() {
       .slice(0, 4)
       .map((e, i) => {
         return (
-          <div key={i}>
+          <div key={i} onClick={() => history.push(`/${e.category}/${e.id}`)}>
             <img src={e.image.url} alt="gg" />
           </div>
         );
@@ -523,9 +412,6 @@ function Home() {
 
   return (
     <Hero open={openNav}>
-      {/* Overlay */}
-      {/* <div className="overlay" onClick={() => setOpenNav(false)}></div> */}
-      {/* hero img */}
       <AutoplaySlider
         className="heroSlider"
         play={true}
@@ -557,14 +443,14 @@ function Home() {
         <ShowcaseItem>
           <h3>Deals</h3>
           <div className="showcaseGrid">{data && gridItems("discount")}</div>
-          <Link to="#">Discover More</Link>
+          <Link to="/deals">Discover More</Link>
         </ShowcaseItem>
 
         {/* best sellers */}
         <ShowcaseItem>
           <h3>Best Seller</h3>
           <div className="showcaseGrid">{data && gridItems("bestseller")}</div>
-          <Link to="#">Discover More</Link>
+          <Link to="/bestseller">Discover More</Link>
         </ShowcaseItem>
 
         {/* gift items */}
@@ -600,19 +486,6 @@ function Home() {
 
         {/* </div> */}
       </Row>
-      {/* New Tech News & Features */}
-      <Features>
-        {features.map((feature, i) => {
-          return (
-            <div className="feature" key={i}>
-              {feature.icon}
-              <p>{stringCutter(feature.blog)}</p>
-              <Link to="#">More</Link>
-            </div>
-          );
-        })}
-      </Features>
-      {/* row Accessories */}
       <Row>
         <div className="rowTitle">
           <h3>Accessories</h3> <Link to="/accessories">See all</Link>
@@ -663,47 +536,7 @@ function Home() {
             })}
         </Carousel>
       </Row>
-      {/* Back to Top */}
-      {/* <GoTop>
-        <BackToTop
-           showOnScrollUp
-           showAt={100}
-           speed={1500}
-           easing="easeInOutQuint"
-           className="goTop"
-        >
-          <div className="circle">
-            <BiUpArrow style={{ color: lightBlue, fontSize: "30px"}}></BiUpArrow>
-          </div>
-        </BackToTop>
-      </GoTop> */}
-      {/* Footer */}
-      <Footer>
-        <h3 className="footerTitleOne">
-          <span>Telemartmyanmar</span> is the subsidiaries of{" "}
-          <span>SPS Business Group</span>{" "}
-        </h3>
-        <div className="locations">
-          {/* address 1 */}
-          <div className="storeLocation">
-            <h4>Store Location</h4>
-            <p className="storeName">Shwe Pyi San Mobile</p>
-            <p className="sotreAddress">1 Belmont Dr, Daly City,</p>
-            <p>CA, 94015</p>
-          </div>
-          {/* address 2 */}
-          <div className="storeLocation">
-            <h4>Store Location</h4>
-            <p className="storeName">Shwe Pyi San Mobile</p>
-            <p className="sotreAddress">1 Belmont Dr, Daly City,</p>
-            <p>CA, 94015</p>
-          </div>
-        </div>
-        <h3 className="footerTitleTwo">
-          <span> © 2020, Telemartmyanmar </span>
-          <span>Powered by VoilaSoft</span>{" "}
-        </h3>
-      </Footer>
+      <Footer></Footer>
     </Hero>
   );
 }

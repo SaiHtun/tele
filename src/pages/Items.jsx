@@ -1,14 +1,21 @@
 import React, { useContext, useEffect, useState } from "react";
 import styled, { css } from "styled-components";
-import { useParams, Link } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useQuery } from "@apollo/client";
-import { GET_SPECIFIC_ITEMS } from "../queries/query";
+import {
+  GET_SPECIFIC_ITEMS,
+  GET_DISCOUNT_ITEMS,
+  GET_BESTSELLER_ITEMS,
+} from "../queries/query";
 import { NavContext } from "../context/NavContext";
 
 //  variables
 import { color, fontSize } from "../constants/variables";
 // components
 import Item from "../components/Item";
+import Footer from "../components/Footer";
+// utility functions
+import { currencyFormatter } from "../utility/functions";
 
 const ItemsContainer = styled.div`
   width: 100%;
@@ -51,7 +58,7 @@ const ItemsContainer = styled.div`
       left: 0;
       right: 0;
       height: 3px;
-      width: 100px;
+      width: 100%;
       background-color: ${color.lightBlue};
       transition: all 0.5s ease-in-out;
     }
@@ -67,7 +74,7 @@ const ItemsContainer = styled.div`
   }
 
   .itemList {
-    margin: 0px 15px;
+    /* margin: 0px 15px; */
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(220px, 250px));
     justify-items: center;
@@ -80,23 +87,62 @@ const ItemsContainer = styled.div`
 `;
 
 const Filter = styled.div`
-  width: 300px;
+  width: 630px;
   font-size: 14px;
   margin-bottom: 20px;
 
-  @media only screen and (max-width: 500px) {
-    margin: 15px 0px 20px 15px;
-  }
-
   .form {
     width: 100%;
+    display: flex;
+    align-items: center;
 
     select {
+      flex: 1;
       width: 100%;
       font-size: 100%;
+      margin-right: 30px;
+      padding: 5px 10px;
+
+      option {
+        font-size: 100%;
+      }
     }
-    input[type="range"] {
+
+    .range {
+      width: 100%;
+      flex: 1;
       margin: 5px;
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+
+      input[type="range"] {
+        width: 70%;
+      }
+
+      span {
+        margin-left: 5px;
+      }
+    }
+  }
+
+  @media only screen and (max-width: 500px) {
+    margin: 15px 0px 20px 15px;
+    width: 330px;
+
+    .form {
+      flex-direction: column;
+
+      select {
+        margin-bottom: 10px;
+        margin-left: 30px;
+      }
+
+      .range {
+        span {
+          margin-left: 0px;
+        }
+      }
     }
   }
 `;
@@ -116,8 +162,12 @@ const getHeader = (i) => {
     return "Accessories";
   } else if (i === "smarttv") {
     return "Smart TV";
-  } else {
+  } else if (i === "electronics") {
     return "Electronics";
+  } else if (i === "deals") {
+    return "Deals";
+  } else {
+    return "Best Seller";
   }
 };
 
@@ -130,11 +180,27 @@ function Items() {
   const { openNav } = useContext(NavContext);
   const { items } = useParams();
 
+  console.log(useParams());
   // const abortController = new AbortController();
+  let whatToQuery = () => {
+    if (items !== "deals" && items !== "bestseller") {
+      return GET_SPECIFIC_ITEMS;
+    } else if (items === "deals") {
+      return GET_DISCOUNT_ITEMS;
+    } else if (items === "bestseller") {
+      return GET_BESTSELLER_ITEMS;
+    }
+  };
 
-  const { loading, error, data } = useQuery(GET_SPECIFIC_ITEMS, {
-    variables: { items: items },
-  });
+  let whatVariable = () => {
+    if (items !== "deals" && items !== "bestseller") {
+      return { variables: { items: items } };
+    }
+    return;
+  };
+
+  const { loading, error, data } = useQuery(whatToQuery(), whatVariable());
+  console.log(data ? data : "no data yet");
 
   useEffect(() => {
     setArray(data?.itemsCollection.items);
@@ -222,37 +288,45 @@ function Items() {
   };
 
   return (
-    <ItemsContainer open={openNav}>
-      <div className="ads"></div>
-      <div className="container">
-        <h3 className="title">{array && getHeader(items)}</h3>
-        <Filter>
-          <form className="form">
-            <select
-              name="brand"
-              value={brand}
-              onChange={(e) => handleChange(e)}
-            >
-              {AllBrands}
-            </select>
-            <input
-              type="range"
-              name="price"
-              min={`${minPrice}`}
-              max={`${maxPrice}`}
-              value={`${price}`}
-              onChange={(e) => handleChange(e)}
-            />{" "}
-            <span>{price}</span>
-          </form>
-        </Filter>
-        {array && array.length > 0 ? (
-          <div className="itemList">{allItems()}</div>
-        ) : (
-          <div>No items</div>
-        )}
-      </div>
-    </ItemsContainer>
+    <>
+      <ItemsContainer open={openNav}>
+        <div className="ads"></div>
+        <div className="container">
+          <h3 className="title">{array && getHeader(items)}</h3>
+          <Filter>
+            <form className="form">
+              <select
+                name="brand"
+                value={brand}
+                onChange={(e) => handleChange(e)}
+              >
+                {AllBrands}
+              </select>
+              <div className="range">
+                <input
+                  type="range"
+                  name="price"
+                  min={`${minPrice}`}
+                  max={`${maxPrice}`}
+                  value={`${price}`}
+                  onChange={(e) => handleChange(e)}
+                />{" "}
+                <span>{currencyFormatter(price)} Kyats</span>
+              </div>
+            </form>
+          </Filter>
+          {array && array.length > 0 ? (
+            <div className="itemList">{allItems()}</div>
+          ) : (
+            <div>No items</div>
+          )}
+        </div>
+      </ItemsContainer>
+      <div
+        style={{ width: "100%", height: "100px", backgroundColor: "white" }}
+      ></div>
+      <Footer></Footer>
+    </>
   );
 }
 

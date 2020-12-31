@@ -1,7 +1,8 @@
-
-const cars = ['bmw', 'honda', 'toyota', 'honda', 'honda','mercedez', 'mazda'];
-const oldCars = ['laybane', 'sitecar'];
-
-const array = new Set(cars.map((car) => car));
-
-["siteCar", ...array].map((car) => console.log(car));
+let number = 2500;
+console.log(
+  new Intl.NumberFormat("en-In", {
+    styled: "currency",
+    maximumSignificantDigits: 3,
+  }).format(number)
+);
+console.log(number);
