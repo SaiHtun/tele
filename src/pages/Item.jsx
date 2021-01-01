@@ -154,6 +154,8 @@ function Item() {
                   color: "black",
                   display: "flex",
                   alignItems: "center",
+                  width: "80px",
+                  marginBottom: "15px",
                 }}
                 onClick={handleGoBack}
               >
@@ -175,12 +177,7 @@ function Item() {
                 alt={`${data?.items.name}`}
               />
               <div className="itemInfo">
-                <p>
-                  {" "}
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Cum
-                  numquam tenetur totam quas? Omnis nesciunt sed repudiandae
-                  pariatur in assumenda!{" "}
-                </p>
+                <p> {data.items.descriptions} </p>
                 <ul className="itemMoreInfo">
                   <li>
                     <span>Discount</span>:{" "}

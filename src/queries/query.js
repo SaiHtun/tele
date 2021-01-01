@@ -51,6 +51,17 @@ const GET_ITEMS = gql`
   ${Fields}
 `;
 
+const GET_SEARCH_ITEMS = gql`
+  query {
+    allItems: itemsCollection {
+      items {
+        ...getAllFields
+      }
+    }
+  }
+  ${Fields}
+`;
+
 const GET_ITEM = gql`
   query($itemId: String!) {
     items(id: $itemId) {
@@ -81,7 +92,7 @@ const GET_DISCOUNT_ITEMS = gql`
   }
   ${Fields}
 `;
-const GET_BESTSELLER_ITEMS = gql`
+const GET_BESTSELLERS_ITEMS = gql`
   query {
     itemsCollection(where: { bestseller_exists: true }) {
       items {
@@ -97,5 +108,6 @@ export {
   GET_SPECIFIC_ITEMS,
   GET_ITEM,
   GET_DISCOUNT_ITEMS,
-  GET_BESTSELLER_ITEMS,
+  GET_BESTSELLERS_ITEMS,
+  GET_SEARCH_ITEMS,
 };

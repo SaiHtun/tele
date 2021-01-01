@@ -65,7 +65,7 @@ const StyledItem = styled.div`
 
   .discountItem {
     position: absolute;
-    z-index: 10;
+    z-index: 2;
     top: 15px;
     right: 20px;
     width: 35px;
@@ -143,7 +143,7 @@ function Item({ item }) {
       </div>
       <div className="itemInfo">
         <p className="itemTitle">{item.name}</p>
-        <p className="itemDes">{stringCutter(item.descriptions)}</p>
+        <p className="itemDes">{stringCutter(item.descriptions, 60)}</p>
         {item.discount ? (
           <p>
             <small className="itemDiscount">

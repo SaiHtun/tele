@@ -1,6 +1,6 @@
-const stringCutter = (str) => {
-  if (str.length > 60) {
-    return str.substr(0, 54) + "...";
+const stringCutter = (str, number) => {
+  if (str.length > number) {
+    return str.substr(0, number - 6) + "...";
   }
   return str;
 };

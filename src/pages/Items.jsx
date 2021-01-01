@@ -5,12 +5,12 @@ import { useQuery } from "@apollo/client";
 import {
   GET_SPECIFIC_ITEMS,
   GET_DISCOUNT_ITEMS,
-  GET_BESTSELLER_ITEMS,
+  GET_BESTSELLERS_ITEMS,
 } from "../queries/query";
 import { NavContext } from "../context/NavContext";
 
 //  variables
-import { color, fontSize } from "../constants/variables";
+import { color } from "../constants/variables";
 // components
 import Item from "../components/Item";
 import Footer from "../components/Footer";
@@ -97,11 +97,15 @@ const Filter = styled.div`
     align-items: center;
 
     select {
-      flex: 1;
-      width: 100%;
+      width: 300px;
       font-size: 100%;
       margin-right: 30px;
       padding: 5px 10px;
+
+      &:focus {
+        min-width: 300px;
+        width: auto;
+      }
 
       option {
         font-size: 100%;
@@ -135,7 +139,7 @@ const Filter = styled.div`
 
       select {
         margin-bottom: 10px;
-        margin-left: 30px;
+        margin-left: 15px;
       }
 
       .range {
@@ -180,15 +184,14 @@ function Items() {
   const { openNav } = useContext(NavContext);
   const { items } = useParams();
 
-  console.log(useParams());
   // const abortController = new AbortController();
   let whatToQuery = () => {
-    if (items !== "deals" && items !== "bestseller") {
+    if (items !== "deals" && items !== "bestsellers") {
       return GET_SPECIFIC_ITEMS;
     } else if (items === "deals") {
       return GET_DISCOUNT_ITEMS;
-    } else if (items === "bestseller") {
-      return GET_BESTSELLER_ITEMS;
+    } else if (items === "bestsellers") {
+      return GET_BESTSELLERS_ITEMS;
     }
   };
 
@@ -200,7 +203,6 @@ function Items() {
   };
 
   const { loading, error, data } = useQuery(whatToQuery(), whatVariable());
-  console.log(data ? data : "no data yet");
 
   useEffect(() => {
     setArray(data?.itemsCollection.items);
@@ -233,11 +235,6 @@ function Items() {
     return new Set(data?.itemsCollection.items.map((item) => item[property]));
   };
 
-  // get min and max price;
-  // let priceArray = data?.itemsCollection.items.map((item) => item.price);
-  // let minPrice = data ? Math.min(...priceArray) : null;
-  // let maxPrice = data ? Math.min(...priceArray) : null;
-
   let brands = getUnique("brand");
 
   let AllBrands = ["all", ...brands].map((item, index) => {
@@ -261,11 +258,7 @@ function Items() {
       setArray(temp);
     } else if (e.target.name === "price") {
       setPrice(Number(e.target.value));
-      // console.log(
-      //   "input value",
-      //   typeof Number(e.target.value) === typeof price
-      // );
-      // console.log(typeof price);
+
       if (Number(e.target.value) !== price) {
         if (brand !== "all") {
           temp = temp.filter(
@@ -278,13 +271,6 @@ function Items() {
       }
       setArray(temp);
     }
-
-    // let temp = [...data?.itemsCollection.items];
-    // if (e.target.value !== "all") {
-    //   temp = temp.filter((item) => item.brand === e.target.value);
-    //   setArray(temp);
-    // }
-    // setArray(temp);
   };
 
   return (
@@ -318,7 +304,7 @@ function Items() {
           {array && array.length > 0 ? (
             <div className="itemList">{allItems()}</div>
           ) : (
-            <div>No items</div>
+            <Error>No items...</Error>
           )}
         </div>
       </ItemsContainer>
@@ -329,5 +315,11 @@ function Items() {
     </>
   );
 }
+
+const Error = styled.div`
+  @media only screen and (max-width: 500px) {
+    margin-left: 25px;
+  }
+`;
 
 export default Items;

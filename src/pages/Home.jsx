@@ -137,7 +137,7 @@ const ShowcaseItem = styled.div`
   box-shadow: 0 0.5em 1em -0.125em rgba(10, 10, 10, 0.1),
     0 0 0 1px rgba(10, 10, 10, 0.02);
   height: max-content;
-  z-index: 10;
+  z-index: 2;
 
   h3 {
     font-size: ${cardTitleText};
@@ -450,7 +450,7 @@ function Home() {
         <ShowcaseItem>
           <h3>Best Seller</h3>
           <div className="showcaseGrid">{data && gridItems("bestseller")}</div>
-          <Link to="/bestseller">Discover More</Link>
+          <Link to="/bestsellers">Discover More</Link>
         </ShowcaseItem>
 
         {/* gift items */}
@@ -461,7 +461,7 @@ function Home() {
               return <img src={e} alt="gg" key={i} />;
             })}
           </div>
-          <Link to="#">Discover More</Link>
+          <Link to="bestsellers">Discover More</Link>
         </ShowcaseItem>
       </Showcase>
       {/* ads */}

@@ -5,11 +5,13 @@ import Home from "./pages/Home";
 import Items from "./pages/Items";
 import Item from "./pages/Item";
 import Error from "./pages/Error";
+import Root from "./pages/Root";
 // components
 import Menu from "./components/Menu";
 import Overlay from "./components/Overlay";
 import { ApolloProvider, ApolloClient, InMemoryCache } from "@apollo/client";
 import NavContextProvider from "./context/NavContext.jsx";
+import ItemsContextProvider from "./context/ItemsContext";
 
 const { REACT_APP_SPACEID: SPACEID, REACT_APP_ATOKEN: ATOKEN } = process.env;
 
@@ -21,27 +23,31 @@ const client = new ApolloClient({
 function App() {
   return (
     <ApolloProvider client={client}>
-      <NavContextProvider>
-        <div className="App">
-          <Overlay />
-          <Navbar />
-          <Menu />
-          <Switch>
-            <Route exact path="/">
-              <Home></Home>
-            </Route>
-            <Route path="/:category/:itemId">
-              <Item></Item>
-            </Route>
-            <Route path="/:items">
-              <Items></Items>
-            </Route>
-            <Route path="*">
-              <Error />
-            </Route>
-          </Switch>
-        </div>
-      </NavContextProvider>
+      <ItemsContextProvider>
+        <NavContextProvider>
+          <div className="App">
+            <Root>
+              <Overlay />
+              <Navbar />
+              <Menu />
+              <Switch>
+                <Route exact path="/">
+                  <Home></Home>
+                </Route>
+                <Route path="/:category/:itemId">
+                  <Item></Item>
+                </Route>
+                <Route path="/:items">
+                  <Items></Items>
+                </Route>
+                <Route path="*">
+                  <Error />
+                </Route>
+              </Switch>
+            </Root>
+          </div>
+        </NavContextProvider>
+      </ItemsContextProvider>
     </ApolloProvider>
   );
 }

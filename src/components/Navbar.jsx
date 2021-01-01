@@ -1,10 +1,14 @@
 import React, { useState, useContext } from "react";
-import styled, { css } from "styled-components";
+import styled from "styled-components";
 
 import { FaSearch } from "react-icons/fa";
 import { color } from "../constants/variables";
 import { NavContext } from "../context/NavContext";
-import { useHistory } from "react-router-dom";
+import { useHistory, Link } from "react-router-dom";
+//  context api
+import { ItemsContext } from "../context/ItemsContext";
+// helper functions
+import { stringCutter } from "../utility/functions";
 
 const { lightBlue, darkBlue } = color;
 
@@ -57,27 +61,60 @@ const Search = styled.div`
   justify-content: center;
   align-items: center;
   position: relative;
-  .form input {
+  .form {
     width: 100%;
-    padding: 8px 25px;
-    border-radius: 5px;
-    border: none;
+    height: 60px;
+    font-size: 13px;
+
+    .input {
+      width: 100%;
+      padding: 8px 25px;
+      border-radius: 5px;
+      border: none;
+      font-size: 100%;
+    }
 
     :focus {
       outline: none !important;
       border: 2px solid ${lightBlue};
     }
   }
-  .form {
-    width: 100%;
-    height: 60px;
-  }
+
   .searchIcon {
     position: absolute;
     top: 23px;
     right: 15px;
     color: ${darkBlue};
     cursor: pointer;
+  }
+
+  .searchList {
+    position: absolute;
+    top: 50px;
+    background-color: white;
+    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.15);
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    width: 100%;
+    height: max-content;
+    font-size: 13px;
+    color: grey;
+    z-index: 100;
+    overflow: hidden;
+
+    .item {
+      height: 30px;
+      line-height: 30px;
+      padding-left: 25px;
+      border-bottom: 1px solid #d6d6d6;
+      cursor: pointer;
+      z-index: 100;
+
+      &:hover {
+        background-color: ${color.lightBlue};
+        color: white;
+      }
+    }
   }
 
   @media only screen and (max-width: 850px) {
@@ -94,6 +131,10 @@ const Menu = styled.div`
     align-items: center;
     font-size: 0.8em;
     letter-spacing: 1px;
+
+    a {
+      color: white;
+    }
   }
   @media only screen and (max-width: 820px) {
     display: none;
@@ -109,7 +150,7 @@ const Humberger = styled.div`
   justify-content: space-around;
   align-items: center;
   display: none;
-  z-index: 100;
+  z-index: 1000;
   cursor: pointer;
   @media only screen and (max-width: 820px) {
     width: 30px;
@@ -165,8 +206,33 @@ const SemiNav = styled.div`
 
 function Navbar() {
   const [search, setSearch] = useState("");
+  const [filtered, setFiltered] = useState([]);
   const { openNav, setOpenNav } = useContext(NavContext);
+  const { data, showSearch, setShowSearch } = useContext(ItemsContext);
   const history = useHistory();
+
+  const handleClick = (item) => {
+    history.push(`/${item.category}/${item.id}`);
+    setShowSearch(false);
+  };
+
+  const handleChange = (value) => {
+    setShowSearch(true);
+    let array = data.allItems.items.filter((item) =>
+      item.descriptions.toLowerCase().includes(value.toLowerCase())
+    );
+    setFiltered(array);
+  };
+
+  let searchItems =
+    filtered.length &&
+    filtered.map((item, i) => {
+      return (
+        <div className="item" key={i} onClick={() => handleClick(item)}>
+          {stringCutter(item.descriptions, 40)}
+        </div>
+      );
+    });
 
   return (
     <Nav open={openNav}>
@@ -180,23 +246,37 @@ function Navbar() {
           <span>T</span>elemart
         </Brand>
         <Search>
-          <form className="form">
+          <form className="form" autoComplete="on">
             <input
+              className="input"
+              autoComplete="on"
+              value={search}
               type="text"
               placeholder="Search here"
               onChange={(e) => {
-                setSearch(e.value);
+                setSearch(e.target.value);
+                handleChange(e.target.value);
               }}
-              value={search}
+              onFocus={(e) => handleChange(e.target.value)}
             />
             <FaSearch className="searchIcon" />
           </form>
+          {/* search box */}
+          {showSearch && search ? (
+            <div className="searchList">{searchItems ? searchItems : null}</div>
+          ) : null}
         </Search>
         <Menu>
           <ul>
-            <li>Deals</li>
-            <li>Best Sellers</li>
-            <li>Customer Service</li>
+            <Link to="/deals">
+              <li>Deals</li>
+            </Link>
+            <Link to="/bestsellers">
+              <li>Best Sellers</li>
+            </Link>
+            <Link to="/customerservices">
+              <li>Customer Service</li>
+            </Link>
           </ul>
         </Menu>
       </Container>
