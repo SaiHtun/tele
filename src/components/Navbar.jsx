@@ -1,14 +1,15 @@
-import React, { useState, useContext } from "react";
+import React, { useContext } from "react";
 import styled from "styled-components";
 
-import { FaSearch } from "react-icons/fa";
 import { color } from "../constants/variables";
 import { NavContext } from "../context/NavContext";
-import { useHistory, Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
+// components
+import SearchBox from "./SearchBox";
 //  context api
-import { ItemsContext } from "../context/ItemsContext";
+// import { ItemsContext } from "../context/ItemsContext";
 // helper functions
-import { stringCutter } from "../utility/functions";
+// import { stringCutter } from "../utility/functions";
 
 const { lightBlue, darkBlue } = color;
 
@@ -53,73 +54,6 @@ const Brand = styled.h2`
     flex: 4;
     max-width: 130px;
   } ;
-`;
-
-const Search = styled.div`
-  width: 30%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: relative;
-  .form {
-    width: 100%;
-    height: 60px;
-    font-size: 13px;
-
-    .input {
-      width: 100%;
-      padding: 8px 25px;
-      border-radius: 5px;
-      border: none;
-      font-size: 100%;
-    }
-
-    :focus {
-      outline: none !important;
-      border: 2px solid ${lightBlue};
-    }
-  }
-
-  .searchIcon {
-    position: absolute;
-    top: 23px;
-    right: 15px;
-    color: ${darkBlue};
-    cursor: pointer;
-  }
-
-  .searchList {
-    position: absolute;
-    top: 50px;
-    background-color: white;
-    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.15);
-    border-bottom-left-radius: 10px;
-    border-bottom-right-radius: 10px;
-    width: 100%;
-    height: max-content;
-    font-size: 13px;
-    color: grey;
-    z-index: 100;
-    overflow: hidden;
-
-    .item {
-      height: 30px;
-      line-height: 30px;
-      padding-left: 25px;
-      border-bottom: 1px solid #d6d6d6;
-      cursor: pointer;
-      z-index: 100;
-
-      &:hover {
-        background-color: ${color.lightBlue};
-        color: white;
-      }
-    }
-  }
-
-  @media only screen and (max-width: 850px) {
-    display: none;
-  }
 `;
 
 const Menu = styled.div`
@@ -205,34 +139,8 @@ const SemiNav = styled.div`
 `;
 
 function Navbar() {
-  const [search, setSearch] = useState("");
-  const [filtered, setFiltered] = useState([]);
   const { openNav, setOpenNav } = useContext(NavContext);
-  const { data, showSearch, setShowSearch } = useContext(ItemsContext);
   const history = useHistory();
-
-  const handleClick = (item) => {
-    history.push(`/${item.category}/${item.id}`);
-    setShowSearch(false);
-  };
-
-  const handleChange = (value) => {
-    setShowSearch(true);
-    let array = data.allItems.items.filter((item) =>
-      item.descriptions.toLowerCase().includes(value.toLowerCase())
-    );
-    setFiltered(array);
-  };
-
-  let searchItems =
-    filtered.length &&
-    filtered.map((item, i) => {
-      return (
-        <div className="item" key={i} onClick={() => handleClick(item)}>
-          {stringCutter(item.descriptions, 40)}
-        </div>
-      );
-    });
 
   return (
     <Nav open={openNav}>
@@ -245,27 +153,7 @@ function Navbar() {
         <Brand onClick={() => history.push("/")}>
           <span>T</span>elemart
         </Brand>
-        <Search>
-          <form className="form" autoComplete="on">
-            <input
-              className="input"
-              autoComplete="on"
-              value={search}
-              type="text"
-              placeholder="Search here"
-              onChange={(e) => {
-                setSearch(e.target.value);
-                handleChange(e.target.value);
-              }}
-              onFocus={(e) => handleChange(e.target.value)}
-            />
-            <FaSearch className="searchIcon" />
-          </form>
-          {/* search box */}
-          {showSearch && search ? (
-            <div className="searchList">{searchItems ? searchItems : null}</div>
-          ) : null}
-        </Search>
+        <SearchBox></SearchBox>
         <Menu>
           <ul>
             <Link to="/deals">

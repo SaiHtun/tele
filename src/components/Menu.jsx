@@ -4,6 +4,8 @@ import { useHistory, Link } from "react-router-dom";
 import { color } from "../constants/variables";
 import { NavContext } from "../context/NavContext";
 import { FaFacebookSquare, FaInstagram, FaGlobeAfrica } from "react-icons/fa";
+// components
+import SearchBox from "../components/SearchBox";
 
 const MenuContainer = styled.div`
   width: 350px;
@@ -33,6 +35,7 @@ const MenuContainer = styled.div`
     list-style: none;
     font-weight: bold;
     letter-spacing: 1.2px;
+    position: relative;
 
     a {
       color: #888888;
@@ -52,7 +55,6 @@ const MenuContainer = styled.div`
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 50px;
 
       /* :hover {
                 color: black !important;
@@ -129,6 +131,7 @@ function Menu() {
             X Close
           </span>{" "}
         </li>
+        <SearchBox show="true"></SearchBox>
         <Link to="/deals" onClick={() => setOpenNav(false)}>
           <li>Deals</li>
         </Link>
