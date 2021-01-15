@@ -12,7 +12,6 @@ import { currencyFormatter } from "../utility/functions";
 import { FaArrowCircleLeft } from "react-icons/fa";
 // components
 import Footer from "../components/Footer";
-import Messenger from "../components/Messenger";
 
 function Item() {
   const { openNav } = useContext(NavContext);
@@ -54,7 +53,6 @@ function Item() {
 
   return (
     <div style={{ backgroundColor: "white" }}>
-      <Messenger />
       {data?.items ? (
         <ItemsContainer open={openNav}>
           <div className="container">

@@ -4,7 +4,6 @@ import styled, { css } from "styled-components";
 // components
 import Item from "../components/Item";
 import Footer from "../components/Footer";
-import Messenger from "../components/Messenger";
 // assets
 import a1 from "../assets/hero6.jpg";
 import a2 from "../assets/hero1.png";
@@ -72,7 +71,6 @@ function Home() {
 
   return (
     <Hero open={openNav}>
-      <Messenger />
       <AutoplaySlider
         className="heroSlider"
         play={true}
