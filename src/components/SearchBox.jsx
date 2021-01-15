@@ -116,17 +116,22 @@ const Search = styled.div`
     overflow: hidden;
 
     .item {
-      height: 30px;
-      line-height: 30px;
-      padding-left: 25px;
+      height: 40px;
+      line-height: 40px;
+      padding-left: 30px;
       border-bottom: 1px solid #d6d6d6;
       cursor: pointer;
       z-index: 100;
+      font-weight: 400;
 
       &:hover {
         background-color: ${color.lightBlue};
         color: white;
       }
+    }
+
+    @media only screen and (max-width: 900px) {
+      top: 35px;
     }
   }
 

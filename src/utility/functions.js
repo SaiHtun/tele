@@ -6,10 +6,7 @@ const stringCutter = (str, number) => {
 };
 
 const currencyFormatter = (number) => {
-  return new Intl.NumberFormat("en-In", {
-    styled: "currency",
-    maximumSignificantDigits: 3,
-  }).format(number);
+  return new Intl.NumberFormat().format(number);
 };
 
 export { stringCutter, currencyFormatter };

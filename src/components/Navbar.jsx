@@ -168,11 +168,11 @@ function Navbar() {
           </ul>
         </Menu>
       </Container>
-      <SemiNav>
+      {/* <SemiNav>
         <div>
           <p>📍 Yangon, Myanmar | telemartmyanmar@gmail.com | +415 678 3465</p>
         </div>
-      </SemiNav>
+      </SemiNav> */}
     </Nav>
   );
 }

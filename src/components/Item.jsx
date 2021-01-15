@@ -139,7 +139,7 @@ function Item({ item }) {
         <div className="discountItem">-{item.discount}%</div>
       ) : null}
       <div className="imgContainer">
-        <img src={item.image.url} alt={item.name} />
+        <img src={item.imagesCollection.items[0].url} alt={item.name} />
       </div>
       <div className="itemInfo">
         <p className="itemTitle">{item.name}</p>
@@ -157,7 +157,7 @@ function Item({ item }) {
             </small>
           </p>
         ) : (
-          <small>{item.price} Kyats</small>
+          <small>{currencyFormatter(item.price)} Kyats</small>
         )}
       </div>
     </StyledItem>

@@ -17,164 +17,6 @@ import Footer from "../components/Footer";
 // utility functions
 import { currencyFormatter } from "../utility/functions";
 
-const ItemsContainer = styled.div`
-  width: 100%;
-  min-height: 80vh;
-  height: max-content;
-  background-color: white;
-
-  ${(props) =>
-    props.open &&
-    css`
-      min-height: 90vh;
-      overflow-y: hidden;
-    `}
-
-  .container {
-    width: 80vw;
-    margin: auto;
-
-    @media only screen and (max-width: 500px) {
-      width: 100vw;
-    }
-  }
-
-  .ads {
-    width: 100%;
-    height: 300px;
-    background-color: salmon;
-    position: relative;
-  }
-
-  .title {
-    display: inline-block;
-    position: relative;
-    margin: 30px 0px;
-
-    ::after {
-      content: "";
-      position: absolute;
-      bottom: -7px;
-      left: 0;
-      right: 0;
-      height: 3px;
-      width: 100%;
-      background-color: ${color.lightBlue};
-      transition: all 0.5s ease-in-out;
-    }
-
-    :hover::after {
-      width: 100%;
-    }
-
-    @media only screen and (max-width: 500px) {
-      margin: 15px;
-      font-size: 16px;
-    }
-  }
-
-  .itemList {
-    /* margin: 0px 15px; */
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(220px, 250px));
-    justify-items: center;
-
-    @media only screen and (max-width: 500px) {
-      grid-template-columns: repeat(auto-fit, minmax(170px, 172px));
-      margin: 0 15px;
-    }
-  }
-`;
-
-const Filter = styled.div`
-  width: 630px;
-  font-size: 14px;
-  margin-bottom: 20px;
-
-  .form {
-    width: 100%;
-    display: flex;
-    align-items: center;
-
-    select {
-      width: 300px;
-      font-size: 100%;
-      margin-right: 30px;
-      padding: 5px 10px;
-
-      &:focus {
-        min-width: 300px;
-        width: auto;
-      }
-
-      option {
-        font-size: 100%;
-      }
-    }
-
-    .range {
-      width: 100%;
-      flex: 1;
-      margin: 5px;
-      display: flex;
-      justify-content: space-around;
-      align-items: center;
-
-      input[type="range"] {
-        width: 70%;
-      }
-
-      span {
-        margin-left: 5px;
-      }
-    }
-  }
-
-  @media only screen and (max-width: 500px) {
-    margin: 15px 0px 20px 15px;
-    width: 330px;
-
-    .form {
-      flex-direction: column;
-
-      select {
-        margin-bottom: 10px;
-        margin-left: 15px;
-      }
-
-      .range {
-        span {
-          margin-left: 0px;
-        }
-      }
-    }
-  }
-`;
-
-const StyledError = styled.div`
-  width: 100%;
-  height: 80vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
-
-const getHeader = (i) => {
-  if (i === "smartphoneandwatch") {
-    return "Smart phone and watch";
-  } else if (i === "accessories") {
-    return "Accessories";
-  } else if (i === "smarttv") {
-    return "Smart TV";
-  } else if (i === "electronics") {
-    return "Electronics";
-  } else if (i === "deals") {
-    return "Deals";
-  } else {
-    return "Best Seller";
-  }
-};
-
 function Items() {
   const [array, setArray] = useState([]);
   const [brand, setBrand] = useState("all");
@@ -315,6 +157,157 @@ function Items() {
     </>
   );
 }
+
+const ItemsContainer = styled.div`
+  width: 100%;
+  min-height: 80vh;
+  height: max-content;
+  background-color: white;
+
+  ${(props) =>
+    props.open &&
+    css`
+      min-height: 90vh;
+      overflow-y: hidden;
+    `}
+
+  .container {
+    width: 80vw;
+    margin: auto;
+
+    @media only screen and (max-width: 500px) {
+      width: 100vw;
+    }
+  }
+
+  .ads {
+    width: 100%;
+    height: 300px;
+    background-color: salmon;
+    position: relative;
+  }
+
+  .title {
+    display: inline-block;
+    position: relative;
+    margin: 30px 0px;
+
+    ::after {
+      content: "";
+      position: absolute;
+      bottom: -7px;
+      left: 0;
+      right: 0;
+      height: 3px;
+      width: 100%;
+      background-color: ${color.lightBlue};
+      transition: all 0.5s ease-in-out;
+    }
+
+    :hover::after {
+      width: 100%;
+    }
+
+    @media only screen and (max-width: 500px) {
+      margin: 15px;
+      font-size: 16px;
+    }
+  }
+
+  .itemList {
+    /* margin: 0px 15px; */
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 250px));
+    justify-items: center;
+
+    @media only screen and (max-width: 500px) {
+      grid-template-columns: repeat(auto-fit, minmax(170px, 172px));
+      margin: 0 15px;
+    }
+  }
+`;
+
+const Filter = styled.div`
+  width: 630px;
+  font-size: 14px;
+  margin-bottom: 20px;
+
+  .form {
+    width: 100%;
+    display: flex;
+    align-items: center;
+
+    select {
+      width: 300px;
+      font-size: 100%;
+      margin-right: 30px;
+      padding: 5px 10px;
+
+      &:focus {
+        min-width: 300px;
+        width: auto;
+      }
+
+      option {
+        font-size: 100%;
+      }
+    }
+
+    .range {
+      width: 100%;
+      flex: 1;
+      margin: 5px;
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+
+      input[type="range"] {
+        width: 60%;
+      }
+
+      span {
+        width: 100px;
+        margin-left: 15px;
+      }
+    }
+  }
+
+  @media only screen and (max-width: 500px) {
+    margin: 15px 0px 20px 15px;
+    width: 330px;
+
+    .form {
+      flex-direction: column;
+
+      select {
+        margin-bottom: 10px;
+        margin-left: 15px;
+      }
+
+      .range {
+        span {
+          margin-left: 0px;
+        }
+      }
+    }
+  }
+`;
+
+const getHeader = (i) => {
+  if (i === "smartphoneandwatch") {
+    return "Smart phone and watch";
+  } else if (i === "accessories") {
+    return "Accessories";
+  } else if (i === "smarttv") {
+    return "Smart TV";
+  } else if (i === "electronics") {
+    return "Electronics";
+  } else if (i === "deals") {
+    return "Deals";
+  } else {
+    return "Best Seller";
+  }
+};
 
 const Error = styled.div`
   @media only screen and (max-width: 500px) {

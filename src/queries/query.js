@@ -8,13 +8,17 @@ const Fields = gql`
     category
     id
     size
-    image {
-      url
-    }
     descriptions
     price
     discount
     bestseller
+    specs
+    instock
+    imagesCollection {
+      items {
+        url
+      }
+    }
   }
 `;
 

@@ -5,15 +5,15 @@ import styled, { css } from "styled-components";
 import Item from "../components/Item";
 import Footer from "../components/Footer";
 // assets
-import TeleImg from "../assets/telesky.JPG";
-import a1 from "../assets/a1.jpg";
-import a2 from "../assets/a2.jpg";
-import a3 from "../assets/a3.png";
-import a4 from "../assets/a4.jpg";
-import sps from "../assets/sps.JPG";
-import ads from "../assets/ads.JPG";
+import a1 from "../assets/hero6.jpg";
+import a2 from "../assets/hero1.png";
+import a3 from "../assets/hero2.png";
+import a4 from "../assets/hero3.png";
+import sps from "../assets/gift.jpg";
+import ads from "../assets/hero5.png";
 import { color, fontSize } from "../constants/variables";
-import { GET_ITEMS } from "../queries/query";
+// context
+import { ItemsContext } from "../context/ItemsContext";
 import { NavContext } from "../context/NavContext";
 // Carousel
 import Carousel from "react-multi-carousel";
@@ -25,15 +25,172 @@ import withAutoplay from "react-awesome-slider/dist/autoplay";
 // carousel setting
 import responsiveSetting from "../constants/carousel";
 
-import { useQuery } from "@apollo/client";
-
 //  autoplay slider
 const AutoplaySlider = withAutoplay(AwesomeSlider);
 
 // Variables
-const { lightBlue, darkBlue } = color;
+const { lightBlue } = color;
 const { cardTitleText, linkText, desText } = fontSize;
 // eslint-disable-next-line
+
+function Home() {
+  const history = useHistory();
+  // query with async cancellation.
+
+  const { data } = useContext(ItemsContext);
+  console.log(data);
+
+  const { openNav } = useContext(NavContext);
+
+  // grid Four items
+  const gridFourItems = (name) => {
+    let array = data && [...data.allItems.items];
+
+    return array
+      .sort(() => Math.random() - 0.5)
+      .filter((item) => item[name])
+      .slice(0, 4)
+      .map((e, i) => {
+        return (
+          <div key={i} onClick={() => history.push(`/${e.category}/${e.id}`)}>
+            <img src={e.imagesCollection.items[0].url} alt="gg" />
+          </div>
+        );
+      });
+  };
+  // grid items
+  const gridItems = (name) => {
+    let array = data && [...data.allItems.items];
+
+    return array
+      .filter((item) => item.category === name)
+      .map((e, i) => {
+        return <Item key={i} item={e}></Item>;
+      });
+  };
+
+  return (
+    <Hero open={openNav}>
+      <AutoplaySlider
+        className="heroSlider"
+        play={true}
+        cancelOnInteraction={false}
+        interval={6000}
+        organicArrows={true}
+        bullets={true}
+        media={[
+          {
+            source: `${ads}`,
+          },
+          {
+            source: `${a1}`,
+          },
+          {
+            source: `${a2}`,
+          },
+          {
+            source: `${a3}`,
+          },
+          {
+            source: `${a4}`,
+          },
+        ]}
+      ></AutoplaySlider>
+      {/* showcase */}
+      <Showcase>
+        {/* Deals */}
+        <ShowcaseItem>
+          <h3>Deals</h3>
+          <div className="showcaseGrid">
+            {data && gridFourItems("discount")}
+          </div>
+          <Link to="/deals">Discover More</Link>
+        </ShowcaseItem>
+
+        {/* best sellers */}
+        <ShowcaseItem>
+          <h3>Best Seller</h3>
+          <div className="showcaseGrid">
+            {data && gridFourItems("bestseller")}
+          </div>
+          <Link to="/bestsellers">Discover More</Link>
+        </ShowcaseItem>
+
+        {/* gift items */}
+        <ShowcaseItem giftItem="true">
+          <h3>Gift items</h3>
+          <div className="showcaseGrid">
+            {info.img.map((e, i) => {
+              return <img src={e} alt="gg" key={i} />;
+            })}
+          </div>
+          <Link to="bestsellers">Discover More</Link>
+        </ShowcaseItem>
+      </Showcase>
+      {/* ads */}
+      <Ads></Ads>
+      {/* row Smart phone & watch*/}
+      <Row>
+        <div className="rowTitle">
+          <h3>Smart phone and watch</h3>{" "}
+          <Link to="/smartphoneandwatch">See all</Link>
+        </div>
+        {/* <div className="rowContainer"> */}
+        <Carousel
+          partialVisible
+          responsive={responsiveSetting}
+          className="slider"
+        >
+          {gridItems("smartphoneandwatch")}
+        </Carousel>
+
+        {/* </div> */}
+      </Row>
+      <Row>
+        <div className="rowTitle">
+          <h3>Accessories</h3> <Link to="/accessories">See all</Link>
+        </div>
+        <Carousel
+          swipeable
+          partialVisible
+          responsive={responsiveSetting}
+          className="slider"
+        >
+          {gridItems("accessories")}
+        </Carousel>
+      </Row>
+      {/* row Smart TV */}
+      <Row>
+        <div className="rowTitle">
+          <h3>Smart TV</h3> <Link to="/smarttv">See all</Link>
+        </div>
+        <Carousel
+          swipeable
+          partialVisible
+          responsive={responsiveSetting}
+          className="slider"
+        >
+          {gridItems("smarttv")}
+        </Carousel>
+      </Row>
+      {/* row  Electronics */}
+      <Row>
+        <div className="rowTitle">
+          <h3>Electronics</h3> <Link to="/electronics">See all</Link>
+        </div>
+        <Carousel
+          swipeable
+          partialVisible
+          responsive={responsiveSetting}
+          className="slider"
+        >
+          {gridItems("electronics")}
+        </Carousel>
+      </Row>
+      <Footer></Footer>
+    </Hero>
+  );
+}
 
 const Hero = styled.div`
   width: 100vw;
@@ -354,191 +511,5 @@ const info = {
   title: "Smart phone and watch",
   img: [sps, sps, sps, sps],
 };
-
-const StyledError = styled.div`
-  width: 100%;
-  height: 80vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
-
-// ###################################### Home Component ######################################
-
-function Home() {
-  const history = useHistory();
-  // query with async cancellation.
-  const abortController = new AbortController();
-  const { loading, error, data } = useQuery(GET_ITEMS, {
-    context: {
-      fetchOptions: {
-        signal: abortController.singal,
-      },
-    },
-  });
-  abortController.abort();
-
-  const { openNav } = useContext(NavContext);
-
-  if (loading)
-    return (
-      <StyledError>
-        <h3>Loading..</h3>{" "}
-      </StyledError>
-    );
-
-  // grid items
-  const gridItems = (name) => {
-    let array = data && [...data.allItems.items];
-
-    return array
-      .sort(() => Math.random() - 0.5)
-      .filter((item) => {
-        if (item[name]) {
-          return item;
-        }
-      })
-      .slice(0, 4)
-      .map((e, i) => {
-        return (
-          <div key={i} onClick={() => history.push(`/${e.category}/${e.id}`)}>
-            <img src={e.image.url} alt="gg" />
-          </div>
-        );
-      });
-  };
-
-  if (error) console.log(error);
-
-  return (
-    <Hero open={openNav}>
-      <AutoplaySlider
-        className="heroSlider"
-        play={true}
-        cancelOnInteraction={false}
-        interval={6000}
-        organicArrows={true}
-        bullets={true}
-        media={[
-          {
-            source: `${TeleImg}`,
-          },
-          {
-            source: `${a1}`,
-          },
-          {
-            source: `${a2}`,
-          },
-          {
-            source: `${a3}`,
-          },
-          {
-            source: `${a4}`,
-          },
-        ]}
-      ></AutoplaySlider>
-      {/* showcase */}
-      <Showcase>
-        {/* Deals */}
-        <ShowcaseItem>
-          <h3>Deals</h3>
-          <div className="showcaseGrid">{data && gridItems("discount")}</div>
-          <Link to="/deals">Discover More</Link>
-        </ShowcaseItem>
-
-        {/* best sellers */}
-        <ShowcaseItem>
-          <h3>Best Seller</h3>
-          <div className="showcaseGrid">{data && gridItems("bestseller")}</div>
-          <Link to="/bestsellers">Discover More</Link>
-        </ShowcaseItem>
-
-        {/* gift items */}
-        <ShowcaseItem giftItem="true">
-          <h3>Gift items</h3>
-          <div className="showcaseGrid">
-            {info.img.map((e, i) => {
-              return <img src={e} alt="gg" key={i} />;
-            })}
-          </div>
-          <Link to="bestsellers">Discover More</Link>
-        </ShowcaseItem>
-      </Showcase>
-      {/* ads */}
-      <Ads></Ads>
-      {/* row Smart phone & watch*/}
-      <Row>
-        <div className="rowTitle">
-          <h3>Smart phone and watch</h3>{" "}
-          <Link to="/smartphoneandwatch">See all</Link>
-        </div>
-        {/* <div className="rowContainer"> */}
-        <Carousel
-          partialVisible
-          responsive={responsiveSetting}
-          className="slider"
-        >
-          {data &&
-            data.smartphoneandwatch.items.slice(0, 10).map((item, i) => {
-              return <Item key={i} item={item}></Item>;
-            })}
-        </Carousel>
-
-        {/* </div> */}
-      </Row>
-      <Row>
-        <div className="rowTitle">
-          <h3>Accessories</h3> <Link to="/accessories">See all</Link>
-        </div>
-        <Carousel
-          swipeable
-          partialVisible
-          responsive={responsiveSetting}
-          className="slider"
-        >
-          {data &&
-            data.accessories.items.map((item, i) => {
-              return <Item key={i} item={item}></Item>;
-            })}
-        </Carousel>
-      </Row>
-      {/* row Smart TV */}
-      <Row>
-        <div className="rowTitle">
-          <h3>Smart TV</h3> <Link to="/smarttv">See all</Link>
-        </div>
-        <Carousel
-          swipeable
-          partialVisible
-          responsive={responsiveSetting}
-          className="slider"
-        >
-          {data &&
-            data.tv.items.map((item, i) => {
-              return <Item key={i} item={item}></Item>;
-            })}
-        </Carousel>
-      </Row>
-      {/* row  Electronics */}
-      <Row>
-        <div className="rowTitle">
-          <h3>Electronics</h3> <Link to="/electronics">See all</Link>
-        </div>
-        <Carousel
-          swipeable
-          partialVisible
-          responsive={responsiveSetting}
-          className="slider"
-        >
-          {data &&
-            data.electronics.items.map((item, i) => {
-              return <Item key={i} item={item}></Item>;
-            })}
-        </Carousel>
-      </Row>
-      <Footer></Footer>
-    </Hero>
-  );
-}
 
 export default Home;

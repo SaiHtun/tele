@@ -7,110 +7,6 @@ import { FaFacebookSquare, FaInstagram, FaGlobeAfrica } from "react-icons/fa";
 // components
 import SearchBox from "../components/SearchBox";
 
-const MenuContainer = styled.div`
-  width: 350px;
-  height: 100vh;
-  background-color: white;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: 100;
-  transform: translateX(-400px);
-  transition: transform 0.3s ease-in;
-  overflow-y: hidden;
-
-  ul {
-    margin-top: 50px;
-    width: 100%;
-    height: 70%;
-    padding: 0px 30px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-    align-items: flex-start;
-    list-style: none;
-    font-weight: bold;
-    letter-spacing: 1.2px;
-    position: relative;
-
-    a {
-      color: #888888;
-      font-weight: 400;
-    }
-
-    a:not(:first-child):hover {
-      color: ${color.lightBlue};
-    }
-
-    .lastLi {
-      margin-bottom: 20px;
-    }
-
-    .brand {
-      width: 100%;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-
-      /* :hover {
-                color: black !important;
-            } */
-
-      .telemart {
-        font-size: 1.3em;
-        cursor: pointer;
-
-        p {
-          color: ${color.lightBlue};
-          display: inline-block;
-        }
-      }
-
-      .close {
-        color: #eb425e;
-        cursor: pointer;
-      }
-    }
-  }
-  .info {
-    width: 100%;
-    text-align: center;
-    .social {
-      margin-top: 30px;
-      width: 100%;
-      font-size: 1.3em;
-
-      .fb {
-        color: #3b5998;
-      }
-      .in {
-        color: #8a3ab9;
-      }
-      .web {
-        color: grey;
-      }
-    }
-  }
-
-  ${(props) =>
-    props.open &&
-    css`
-      transform: translateX(0px);
-    `}
-
-  @media only screen and (max-width: 500px) {
-    width: 280px;
-
-    ul {
-      font-size: 13px;
-    }
-  }
-`;
-
 function Menu() {
   const { openNav, setOpenNav } = useContext(NavContext);
   const history = useHistory();
@@ -165,5 +61,110 @@ function Menu() {
     </MenuContainer>
   );
 }
+
+const MenuContainer = styled.div`
+  width: 350px;
+  height: 100vh;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 100;
+  transform: translateX(-400px);
+  transition: transform 0.3s ease-in;
+  overflow-y: hidden;
+
+  ul {
+    margin-top: 50px;
+    width: 100%;
+    height: 70%;
+    padding: 0px 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: flex-start;
+    list-style: none;
+    font-weight: bold;
+    letter-spacing: 1.2px;
+    position: relative;
+
+    a {
+      color: #636363;
+      font-weight: 400;
+      font-size: 17px;
+    }
+
+    a:not(:first-child):hover {
+      color: ${color.lightBlue};
+    }
+
+    .lastLi {
+      margin-bottom: 20px;
+    }
+
+    .brand {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      /* :hover {
+                color: black !important;
+            } */
+
+      .telemart {
+        font-size: 1.5em;
+        cursor: pointer;
+
+        p {
+          color: ${color.lightBlue};
+          display: inline-block;
+        }
+      }
+
+      .close {
+        color: #eb425e;
+        cursor: pointer;
+      }
+    }
+  }
+  .info {
+    width: 100%;
+    text-align: center;
+    .social {
+      margin-top: 30px;
+      width: 100%;
+      font-size: 1.3em;
+
+      .fb {
+        color: #3b5998;
+      }
+      .in {
+        color: #8a3ab9;
+      }
+      .web {
+        color: grey;
+      }
+    }
+  }
+
+  ${(props) =>
+    props.open &&
+    css`
+      transform: translateX(0px);
+    `}
+
+  @media only screen and (max-width: 500px) {
+    width: 280px;
+
+    ul {
+      font-size: 13px;
+    }
+  }
+`;
 
 export default Menu;
