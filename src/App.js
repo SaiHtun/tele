@@ -12,6 +12,7 @@ import Overlay from "./components/Overlay";
 import { ApolloProvider, ApolloClient, InMemoryCache } from "@apollo/client";
 import NavContextProvider from "./context/NavContext.jsx";
 import ItemsContextProvider from "./context/ItemsContext";
+import ScrollTop from "./components/ScrollTop";
 
 const { REACT_APP_SPACEID: SPACEID, REACT_APP_ATOKEN: ATOKEN } = process.env;
 
@@ -30,6 +31,7 @@ function App() {
               <Overlay />
               <Navbar />
               <Menu />
+              <ScrollTop />
               <Switch>
                 <Route exact path="/">
                   <Home></Home>

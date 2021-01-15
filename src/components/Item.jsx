@@ -111,11 +111,17 @@ const StyledItem = styled.div`
     line-height: 20px;
     z-index: 10;
     margin-top: 5px;
+    min-width: 170px;
+    min-height: 100px;
+    max-height: 110px;
+
     .itemTitle {
       font-weight: 500;
+      width: 100%;
     }
 
     .itemDes {
+      width: 100%;
       font-size: ${fontSize.desText};
       color: #676767;
     }
@@ -147,7 +153,7 @@ function Item({ item }) {
         {item.discount ? (
           <p>
             <small className="itemDiscount">
-              {currencyFormatter(item.price)} Kyats
+              {currencyFormatter(item.price)}
             </small>{" "}
             <small>
               {currencyFormatter(

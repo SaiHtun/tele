@@ -4,6 +4,7 @@ import styled, { css } from "styled-components";
 // components
 import Item from "../components/Item";
 import Footer from "../components/Footer";
+import Messenger from "../components/Messenger";
 // assets
 import a1 from "../assets/hero6.jpg";
 import a2 from "../assets/hero1.png";
@@ -71,6 +72,7 @@ function Home() {
 
   return (
     <Hero open={openNav}>
+      <Messenger />
       <AutoplaySlider
         className="heroSlider"
         play={true}
@@ -132,7 +134,9 @@ function Home() {
       {/* row Smart phone & watch*/}
       <Row>
         <div className="rowTitle">
-          <h3>Smart phone and watch</h3>{" "}
+          <Link to="/smartphoneandwatch">
+            <h3>Smart phone and watch</h3>
+          </Link>{" "}
           <Link to="/smartphoneandwatch">See all</Link>
         </div>
         {/* <div className="rowContainer"> */}
@@ -148,7 +152,10 @@ function Home() {
       </Row>
       <Row>
         <div className="rowTitle">
-          <h3>Accessories</h3> <Link to="/accessories">See all</Link>
+          <Link to="/accessories">
+            <h3>Accessories</h3>
+          </Link>{" "}
+          <Link to="/accessories">See all</Link>
         </div>
         <Carousel
           swipeable
@@ -162,7 +169,10 @@ function Home() {
       {/* row Smart TV */}
       <Row>
         <div className="rowTitle">
-          <h3>Smart TV</h3> <Link to="/smarttv">See all</Link>
+          <Link to="/smarttv">
+            <h3>Smart TV</h3>{" "}
+          </Link>
+          <Link to="/smarttv">See all</Link>
         </div>
         <Carousel
           swipeable
@@ -176,7 +186,11 @@ function Home() {
       {/* row  Electronics */}
       <Row>
         <div className="rowTitle">
-          <h3>Electronics</h3> <Link to="/electronics">See all</Link>
+          <Link to="/electronics">
+            {" "}
+            <h3>Electronics</h3>{" "}
+          </Link>
+          <Link to="/electronics">See all</Link>
         </div>
         <Carousel
           swipeable
@@ -217,6 +231,26 @@ const Hero = styled.div`
       position: absolute;
       top: 30%;
       z-index: 2;
+    }
+
+    .awssld__content {
+      position: relative;
+
+      ::before {
+        content: "";
+        position: absolute;
+        z-index: 10;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 200px;
+        background-image: linear-gradient(
+          to top,
+          rgba(239, 239, 239, 255),
+          rgba(239, 239, 239, 0)
+        );
+      }
     }
 
     .awssld__bullets button {
@@ -406,6 +440,7 @@ const Row = styled.div`
 
     h3 {
       position: relative;
+      color: black;
 
       ::after {
         position: absolute;

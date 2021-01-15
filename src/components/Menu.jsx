@@ -95,7 +95,7 @@ const MenuContainer = styled.div`
     a {
       color: #636363;
       font-weight: 400;
-      font-size: 17px;
+      font-size: 16px;
     }
 
     a:not(:first-child):hover {
@@ -117,7 +117,7 @@ const MenuContainer = styled.div`
             } */
 
       .telemart {
-        font-size: 1.5em;
+        font-size: 1.8em;
         cursor: pointer;
 
         p {
@@ -129,6 +129,7 @@ const MenuContainer = styled.div`
       .close {
         color: #eb425e;
         cursor: pointer;
+        font-size: 12px;
       }
     }
   }

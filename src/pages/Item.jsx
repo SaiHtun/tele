@@ -12,6 +12,7 @@ import { currencyFormatter } from "../utility/functions";
 import { FaArrowCircleLeft } from "react-icons/fa";
 // components
 import Footer from "../components/Footer";
+import Messenger from "../components/Messenger";
 
 function Item() {
   const { openNav } = useContext(NavContext);
@@ -44,8 +45,16 @@ function Item() {
     setImgData({ name, url });
   };
 
+  const discount = data?.items.discount && (
+    <span>
+      Discount :{" "}
+      <span style={{ fontWeight: 400 }}>{data?.items.discount}%</span>
+    </span>
+  );
+
   return (
     <div style={{ backgroundColor: "white" }}>
+      <Messenger />
       {data?.items ? (
         <ItemsContainer open={openNav}>
           <div className="container">
@@ -104,12 +113,7 @@ function Item() {
                   })}
                 </ItemSpec>
                 <ul className="itemMoreInfo">
-                  <li>
-                    <span>Discount</span>:{" "}
-                    {`${
-                      data?.items.discount ? data.items.discount + "%" : "No"
-                    }`}
-                  </li>
+                  <li>{discount}</li>
                   {data?.items.bestseller && (
                     <li>
                       <span>Best Seller : </span> Yes{" "}
@@ -205,6 +209,8 @@ const ItemsContainer = styled.div`
 
     @media only screen and (max-width: 550px) {
       font-size: 15px;
+      padding-top: 40px;
+      margin-bottom: 30px;
     }
   }
 
@@ -294,6 +300,9 @@ const ImgArrayContainer = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  ::-webkit-scrollbar {
+    display: none;
+  }
 
   @media only screen and (max-width: 500px) {
     flex-direction: row;
@@ -305,7 +314,7 @@ const ImgArrayContainer = styled.div`
     justify-content: flex-start;
 
     ::-webkit-scrollbar {
-      display: none;
+      display: block;
     }
   }
 `;
