@@ -13,9 +13,44 @@ import SearchBox from "./SearchBox";
 
 const { lightBlue, darkBlue } = color;
 
+export default function Navbar() {
+  const { openNav, setOpenNav } = useContext(NavContext);
+  const history = useHistory();
+
+  return (
+    <Nav open={openNav}>
+      <Container>
+        <Humberger onClick={() => setOpenNav(!openNav)}>
+          <div className="line one"></div>
+          <div className="line two"></div>
+          <div className="line three"></div>
+        </Humberger>
+        <Brand onClick={() => history.push("/")}>
+          <span>T</span>elemart
+        </Brand>
+        <SearchBox></SearchBox>
+        <Menu>
+          <ul>
+            <Link to="/deals">
+              <li>Deals</li>
+            </Link>
+            <Link to="/bestsellers">
+              <li>Best Sellers</li>
+            </Link>
+            <Link to="/customerservices">
+              <li>Customer Service</li>
+            </Link>
+          </ul>
+        </Menu>
+      </Container>
+    </Nav>
+  );
+}
+
 const Nav = styled.div`
   width: 100vw;
   height: 70px;
+  line-height: 70px;
   background-color: ${darkBlue};
   color: #ffff;
   position: relative;
@@ -24,6 +59,7 @@ const Nav = styled.div`
 
 const Container = styled.div`
   width: 90vw;
+  height: 100%;
   margin: 0 auto;
   line-height: 60px;
   display: flex;
@@ -43,6 +79,7 @@ const Container = styled.div`
 
 const Brand = styled.h2`
   cursor: pointer;
+  height: 100%;
 
   span {
     color: ${lightBlue};
@@ -58,13 +95,15 @@ const Brand = styled.h2`
 
 const Menu = styled.div`
   width: 400px;
+  height: 100%;
+
   ul {
     list-style: none;
     display: flex;
     justify-content: space-around;
     align-items: center;
-    font-size: 0.8em;
-    letter-spacing: 1px;
+    font-size: 1em;
+    height: 100%;
 
     a {
       color: white;
@@ -115,66 +154,3 @@ const Humberger = styled.div`
     width: 60%;
   }
 `;
-
-const SemiNav = styled.div`
-  width: 100%;
-  height: 20px;
-  background-color: slateblue;
-  text-align: right;
-  font-size: 12px;
-  line-height: 20px;
-  @media only screen and (max-width: 500px) {
-    font-size: 10px;
-    text-align: center;
-  }
-
-  div {
-    width: 80vw;
-    margin: 0 auto;
-
-    @media only screen and (max-width: 500px) {
-      width: 90vw;
-    }
-  }
-`;
-
-function Navbar() {
-  const { openNav, setOpenNav } = useContext(NavContext);
-  const history = useHistory();
-
-  return (
-    <Nav open={openNav}>
-      <Container>
-        <Humberger onClick={() => setOpenNav(!openNav)}>
-          <div className="line one"></div>
-          <div className="line two"></div>
-          <div className="line three"></div>
-        </Humberger>
-        <Brand onClick={() => history.push("/")}>
-          <span>T</span>elemart
-        </Brand>
-        <SearchBox></SearchBox>
-        <Menu>
-          <ul>
-            <Link to="/deals">
-              <li>Deals</li>
-            </Link>
-            <Link to="/bestsellers">
-              <li>Best Sellers</li>
-            </Link>
-            <Link to="/customerservices">
-              <li>Customer Service</li>
-            </Link>
-          </ul>
-        </Menu>
-      </Container>
-      {/* <SemiNav>
-        <div>
-          <p>📍 Yangon, Myanmar | telemartmyanmar@gmail.com | +415 678 3465</p>
-        </div>
-      </SemiNav> */}
-    </Nav>
-  );
-}
-
-export default Navbar;

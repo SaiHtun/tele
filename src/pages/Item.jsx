@@ -12,6 +12,7 @@ import { currencyFormatter } from "../utility/functions";
 import { FaArrowCircleLeft } from "react-icons/fa";
 // components
 import Footer from "../components/Footer";
+import { ReactComponent as Loading } from '../assets/loading.svg';
 
 function Item() {
   const { openNav } = useContext(NavContext);
@@ -37,7 +38,12 @@ function Item() {
     };
   }, [data]);
 
-  if (loading) return <Loading>Loading..</Loading>;
+  if(loading) return (
+    <LoadingWrapper>
+      <Loading style={{ width: "50px", height: "50px", marginTop: "200px" }}></Loading>
+    </LoadingWrapper>
+  )
+
   if (error) return <div>{error.message}</div>;
 
   const handleClick = (url, name) => {
@@ -162,6 +168,16 @@ function Item() {
   );
 }
 
+const LoadingWrapper = styled.div`
+  width: 100vw;
+  height: 100vh;
+  z-index: 1000;
+  display: flex;
+  background-color: white;
+  justify-content: center;
+  align-items: flex-start;
+`;
+
 const ItemsContainer = styled.div`
   width: 100%;
   min-height: 100vh;
@@ -250,6 +266,8 @@ const ItemsContainer = styled.div`
 
       p {
         text-indent: 50px;
+        font-size: 15px;
+        opacity: 0.7;
       }
 
       .itemMoreInfo {
@@ -284,13 +302,13 @@ const getHeader = (i) => {
   }
 };
 
-const Loading = styled.div`
-  width: 100%;
-  height: 80vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
+// const Loading = styled.div`
+//   width: 100%;
+//   height: 80vh;
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+// `;
 
 const ImgArrayContainer = styled.div`
   width: 100%;
@@ -351,7 +369,7 @@ const MarginDiv = styled.div`
 
 const ItemSpec = styled.ul`
   list-style: none;
-  margin-top: 10px;
+  margin-top: 20px;
 `;
 
 export default Item;

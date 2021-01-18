@@ -14,6 +14,7 @@ import { color } from "../constants/variables";
 // components
 import Item from "../components/Item";
 import Footer from "../components/Footer";
+import { ReactComponent as Loading } from '../assets/loading.svg';
 // utility functions
 import { currencyFormatter } from "../utility/functions";
 
@@ -60,7 +61,11 @@ function Items() {
 
   const allItems = () => {
     if (loading) {
-      return <div className="loading">Loading...</div>;
+      return (
+        <LoadingWrapper>
+          <Loading style={{ width: "50px", height: "50px", marginTop: "200px" }}></Loading>
+        </LoadingWrapper>
+      )
     } else if (error) {
       console.error(error.message);
     } else {
@@ -157,6 +162,17 @@ function Items() {
     </>
   );
 }
+
+const LoadingWrapper = styled.div`
+  width: 100vw;
+  height: 100vh;
+  z-index: 1000;
+  display: flex;
+  background-color: white;
+  justify-content: center;
+  align-items: flex-start;
+`;
+
 
 const ItemsContainer = styled.div`
   width: 100%;
@@ -294,10 +310,10 @@ const Filter = styled.div`
 `;
 
 const getHeader = (i) => {
-  if (i === "smartphoneandwatch") {
-    return "Smart phone and watch";
-  } else if (i === "accessories") {
-    return "Accessories";
+  if (i === "smartphones") {
+    return "Smart phones";
+  } else if (i === "watchesandaccessories") {
+    return "Watches and Accessories";
   } else if (i === "smarttv") {
     return "Smart TV";
   } else if (i === "electronics") {

@@ -31,14 +31,14 @@ function Menu() {
         <Link to="/deals" onClick={() => setOpenNav(false)}>
           <li>Deals</li>
         </Link>
-        <Link to="/bestseller" onClick={() => setOpenNav(false)}>
-          <li>Best Seller</li>
+        <Link to="/bestsellers" onClick={() => setOpenNav(false)}>
+          <li>Best Sellers</li>
         </Link>
-        <Link to="/smartphoneandwatch" onClick={() => setOpenNav(false)}>
-          <li>Phone and Watch</li>
+        <Link to="/smartphones" onClick={() => setOpenNav(false)}>
+          <li>Smart Phones</li>
         </Link>
-        <Link to="/accessories" onClick={() => setOpenNav(false)}>
-          <li>Gadget and Accessories</li>
+        <Link to="/watchesandaccessories" onClick={() => setOpenNav(false)}>
+          <li>Watches and Accessories</li>
         </Link>
         <Link to="/smarttv" onClick={() => setOpenNav(false)}>
           <li>Smart Tv</li>

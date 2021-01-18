@@ -11,6 +11,7 @@ import a3 from "../assets/hero2.png";
 import a4 from "../assets/hero3.png";
 import sps from "../assets/gift.jpg";
 import ads from "../assets/hero5.png";
+import { ReactComponent as Loading } from '../assets/loading.svg';
 import { color, fontSize } from "../constants/variables";
 // context
 import { ItemsContext } from "../context/ItemsContext";
@@ -38,7 +39,6 @@ function Home() {
   // query with async cancellation.
 
   const { data } = useContext(ItemsContext);
-  console.log(data);
 
   const { openNav } = useContext(NavContext);
 
@@ -63,14 +63,23 @@ function Home() {
     let array = data && [...data.allItems.items];
 
     return array
+      .sort(() => Math.random() - 0.5)
       .filter((item) => item.category === name)
       .map((e, i) => {
         return <Item key={i} item={e}></Item>;
       });
   };
 
+  const loading = data?.allItems.items.length < 1 && (
+    <LoadingWrapper>
+      <Loading style={{ width: "50px", height: "50px", marginTop: "200px"}}></Loading>
+    </LoadingWrapper>
+  )
+
   return (
     <Hero open={openNav}>
+      { loading }
+     
       <AutoplaySlider
         className="heroSlider"
         play={true}
@@ -96,6 +105,8 @@ function Home() {
           },
         ]}
       ></AutoplaySlider>
+      
+     
       {/* showcase */}
       <Showcase>
         {/* Deals */}
@@ -132,10 +143,10 @@ function Home() {
       {/* row Smart phone & watch*/}
       <Row>
         <div className="rowTitle">
-          <Link to="/smartphoneandwatch">
-            <h3>Smart phone and watch</h3>
+          <Link to="/smartphones">
+            <h3>Smart phones</h3>
           </Link>{" "}
-          <Link to="/smartphoneandwatch">See all</Link>
+          <Link to="/smartphones">See all</Link>
         </div>
         {/* <div className="rowContainer"> */}
         <Carousel
@@ -143,17 +154,17 @@ function Home() {
           responsive={responsiveSetting}
           className="slider"
         >
-          {gridItems("smartphoneandwatch")}
+          {gridItems("smartphones")}
         </Carousel>
 
         {/* </div> */}
       </Row>
       <Row>
         <div className="rowTitle">
-          <Link to="/accessories">
-            <h3>Accessories</h3>
+          <Link to="/watchesandaccessories">
+            <h3>Watches and Accessories</h3>
           </Link>{" "}
-          <Link to="/accessories">See all</Link>
+          <Link to="/watchesandaccessories">See all</Link>
         </div>
         <Carousel
           swipeable
@@ -161,7 +172,7 @@ function Home() {
           responsive={responsiveSetting}
           className="slider"
         >
-          {gridItems("accessories")}
+          {gridItems("watchesandaccessories")}
         </Carousel>
       </Row>
       {/* row Smart TV */}
@@ -202,7 +213,19 @@ function Home() {
       <Footer></Footer>
     </Hero>
   );
+
+  
 }
+
+const LoadingWrapper = styled.div`
+  width: 100vw;
+  height: 100vh;
+  z-index: 1000;
+  display: flex;
+  background-color: white;
+  justify-content: center;
+  align-items: flex-start;
+`;
 
 const Hero = styled.div`
   width: 100vw;
