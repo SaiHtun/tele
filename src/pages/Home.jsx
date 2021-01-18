@@ -34,7 +34,7 @@ const { lightBlue } = color;
 const { cardTitleText, linkText, desText } = fontSize;
 // eslint-disable-next-line
 
-function Home() {
+export default function Home() {
   const history = useHistory();
   // query with async cancellation.
 
